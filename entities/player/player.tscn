@@ -1,6 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://devdbqxq7swqd"]
 
 [ext_resource type="Script" uid="uid://c5lomk3h5a1xr" path="res://entities/player/player.gd" id="1_symyc"]
+[ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://hud/crosshair.tscn" id="2_abrql"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sfv1e"]
 
@@ -9,45 +10,6 @@ albedo_color = Color(0.317647, 0.662745, 0.552941, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_symyc"]
 material = SubResource("StandardMaterial3D_sfv1e")
-
-[sub_resource type="Animation" id="Animation_symyc"]
-resource_name = "crouch"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape3D:shape:height")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [2.0, 1.5]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape3D:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 1, 0), Vector3(0, 0.75, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("CameraController:position")
-tracks/2/interp = 2
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 1.5, 0), Vector3(0, 1, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_abrql"]
 length = 0.001
@@ -88,6 +50,45 @@ tracks/2/keys = {
 "values": [Vector3(0, 1.5, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_symyc"]
+resource_name = "crouch"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 1.5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1, 0), Vector3(0, 0.75, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CameraController:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1.5, 0), Vector3(0, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sglur"]
 _data = {
 &"RESET": SubResource("Animation_abrql"),
@@ -95,43 +96,6 @@ _data = {
 }
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_symyc"]
-
-[sub_resource type="GDScript" id="GDScript_symyc"]
-resource_name = "reticle"
-script/source = "extends CenterContainer
-
-@export var RETICLE_LINES: Array[Line2D]
-@export var PLAYER_CONTROLLER: CharacterBody3D
-@export var RETICLE_SPEED: float = 0.25
-@export var RETICLE_DISTANCE: float = 2.0
-@export var DOT_RADIUS: float = 1.0
-@export var DOT_COLOR: Color = Color.WHITE
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	queue_redraw()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	adjust_reticle_lines()
-
-
-func _draw():
-	draw_circle(Vector2(0, 0), DOT_RADIUS, DOT_COLOR)
-
-
-func adjust_reticle_lines():
-	var player_velocity = PLAYER_CONTROLLER.get_real_velocity()
-	var origin = Vector3(0, 0, 0)
-	var position = Vector2(0, 0)
-	var speed = origin.distance_to(player_velocity)
-	
-	RETICLE_LINES[0].position = lerp(RETICLE_LINES[0].position, position + Vector2(0, -speed * RETICLE_DISTANCE), RETICLE_SPEED)
-	RETICLE_LINES[1].position = lerp(RETICLE_LINES[1].position, position + Vector2(speed * RETICLE_DISTANCE, 0), RETICLE_SPEED)
-	RETICLE_LINES[2].position = lerp(RETICLE_LINES[2].position, position + Vector2(0, speed * RETICLE_DISTANCE), RETICLE_SPEED)
-	RETICLE_LINES[3].position = lerp(RETICLE_LINES[3].position, position + Vector2(-speed * RETICLE_DISTANCE, 0), RETICLE_SPEED)
-"
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CAMERA_CONTROLLER", "ANIMATIONPLAYER", "CROUCH_SHAPECAST")]
 script = ExtResource("1_symyc")
@@ -165,46 +129,6 @@ shape = SubResource("SphereShape3D_symyc")
 target_position = Vector3(0, 0.5, 0)
 debug_shape_custom_color = Color(0, 1, 0, 1)
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-
-[node name="Reticle" type="CenterContainer" parent="Control" node_paths=PackedStringArray("RETICLE_LINES", "PLAYER_CONTROLLER")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-script = SubResource("GDScript_symyc")
-RETICLE_LINES = [NodePath("Top"), NodePath("Right"), NodePath("Bottom"), NodePath("Left")]
-PLAYER_CONTROLLER = NodePath("../..")
-
-[node name="Top" type="Line2D" parent="Control/Reticle"]
-points = PackedVector2Array(0, -5, 0, -15)
-width = 2.0
-
-[node name="Right" type="Line2D" parent="Control/Reticle"]
-points = PackedVector2Array(5, 0, 15, 0)
-width = 2.0
-
-[node name="Bottom" type="Line2D" parent="Control/Reticle"]
-points = PackedVector2Array(0, 5, 0, 15)
-width = 2.0
-
-[node name="Left" type="Line2D" parent="Control/Reticle"]
-points = PackedVector2Array(-5, 0, -15, 0)
-width = 2.0
+[node name="Crosshair" parent="." instance=ExtResource("2_abrql")]
 
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]

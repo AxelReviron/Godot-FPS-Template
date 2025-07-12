@@ -15,7 +15,7 @@ var player_rotation: Vector3
 var camera_rotation: Vector3
 
 
-func update_camera(delta):
+func _update_camera(delta):
 	# Get mouse rotation (limit it on X axis)
 	mouse_rotation.x += tilt_input * delta
 	mouse_rotation.x = clamp(mouse_rotation.x, TILT_LOWER_LIMIT, TILT_UPPER_LIMIT)
@@ -38,11 +38,11 @@ func update_camera(delta):
 	tilt_input = 0.0
 
 
-func toggle_crouch():
+func _toggle_crouch():
 	if PlayerState.is_crouching and !CROUCH_SHAPECAST.is_colliding():
-		ANIMATIONPLAYER.play('crouch', -1, -PlayerVariables.CROUCH_SPEED, true)
+		ANIMATIONPLAYER.play('crouch', -1, -Constants.PLAYER_CROUCH_SPEED, true)
 	elif !PlayerState.is_crouching and !PlayerState.is_jumping:
-		ANIMATIONPLAYER.play('crouch', -1, PlayerVariables.CROUCH_SPEED)
+		ANIMATIONPLAYER.play('crouch', -1, Constants.PLAYER_CROUCH_SPEED)
 
 
 func _on_animation_player_animation_started(anim_name):
@@ -50,6 +50,8 @@ func _on_animation_player_animation_started(anim_name):
 
 
 func _ready():
+	# Register player node globally
+	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	# Add exception for the player to the crouch ShapeCast3D
 	CROUCH_SHAPECAST.add_exception($".")
@@ -65,7 +67,7 @@ func _unhandled_input(event):
 		get_tree().quit()
 	
 	if GlobalInput.is_crouching():
-		toggle_crouch()
+		_toggle_crouch()
 
 
 func _physics_process(delta):
@@ -73,11 +75,11 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	update_camera(delta)
+	_update_camera(delta)
 
 	# Handle Jump
 	if GlobalInput.is_jumping() and is_on_floor() and !PlayerState.is_crouching:
-		velocity.y = PlayerVariables.JUMP_VELOCITY
+		velocity.y = Constants.PLAYER_JUMP_VELOCITY
 		PlayerState.is_jumping = true
 	elif is_on_floor() and PlayerState.is_jumping:
 		PlayerState.is_jumping = false
@@ -87,11 +89,11 @@ func _physics_process(delta):
 
 	var current_speed: float
 	if GlobalInput.is_sprinting() and !PlayerState.is_crouching:
-		current_speed = PlayerVariables.SPRINT_SPEED
+		current_speed = Constants.PLAYER_SPRINT_SPEED
 	elif PlayerState.is_crouching:
-		current_speed = PlayerVariables.CROUCH_SPEED
+		current_speed = Constants.PLAYER_CROUCH_SPEED
 	else:
-		current_speed = PlayerVariables.SPEED
+		current_speed = Constants.PLAYER_SPEED
 
 	if direction:
 		velocity.x = direction.x * current_speed
