@@ -30,5 +30,9 @@ func is_exiting() -> bool:
 	return Input.is_action_pressed("exit")
 
 
+func is_debug() -> bool:
+	return Input.is_action_pressed("debug")
+
+
 func is_mouse_mode_captured() -> bool:
 	return Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED

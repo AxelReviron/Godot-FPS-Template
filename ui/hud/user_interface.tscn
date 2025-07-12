@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dy1a4pe5wyeeh"]
+[gd_scene load_steps=4 format=3 uid="uid://dy1a4pe5wyeeh"]
 
-[ext_resource type="Script" uid="uid://d1wwvxm65ltxc" path="res://hud/reticle.gd" id="1_khptx"]
+[ext_resource type="Script" uid="uid://d1wwvxm65ltxc" path="res://ui/hud/reticle.gd" id="1_khptx"]
+[ext_resource type="Theme" uid="uid://xo06b8irr4vi" path="res://ui/themes/debug.tres" id="2_8wkqy"]
+[ext_resource type="Script" uid="uid://bjhragyop8lm4" path="res://ui/hud/debug_panel.gd" id="3_02bek"]
 
-[node name="Crosshair" type="Control"]
+[node name="UserInterface" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -42,3 +44,20 @@ width = 2.0
 [node name="Left" type="Line2D" parent="Reticle"]
 points = PackedVector2Array(-5, 0, -15, 0)
 width = 2.0
+
+[node name="DebugPanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 50.0
+theme = ExtResource("2_8wkqy")
+script = ExtResource("3_02bek")
+
+[node name="MarginContainer" type="MarginContainer" parent="DebugPanel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2

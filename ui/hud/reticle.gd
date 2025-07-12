@@ -1,7 +1,6 @@
 extends CenterContainer
 
 @export var RETICLE_LINES: Array[Line2D]
-@export var PLAYER_CONTROLLER: CharacterBody3D
 @export var RETICLE_SPEED: float = 0.25
 @export var RETICLE_DISTANCE: float = 2.0
 @export var DOT_RADIUS: float = 1.0
@@ -10,20 +9,16 @@ extends CenterContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	call_deferred("_assign_player")
+	#call_deferred("_assign_player")
 	queue_redraw()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if !PLAYER_CONTROLLER:
+	if !Global.player:
 		return
 
 	_adjust_reticle_lines()
-
-
-func _assign_player():
-	PLAYER_CONTROLLER = Global.player
 
 
 func _draw():
@@ -31,7 +26,7 @@ func _draw():
 
 
 func _adjust_reticle_lines():
-	var player_velocity = PLAYER_CONTROLLER.get_real_velocity()
+	var player_velocity = Global.player.get_real_velocity()
 	var origin = Vector3(0, 0, 0)
 	var position = Vector2(0, 0)
 	var speed = origin.distance_to(player_velocity)

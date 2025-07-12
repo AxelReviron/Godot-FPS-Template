@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://devdbqxq7swqd"]
 
 [ext_resource type="Script" uid="uid://c5lomk3h5a1xr" path="res://entities/player/player.gd" id="1_symyc"]
-[ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://hud/crosshair.tscn" id="2_abrql"]
+[ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://ui/hud/user_interface.tscn" id="2_abrql"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sfv1e"]
 
@@ -129,6 +129,6 @@ shape = SubResource("SphereShape3D_symyc")
 target_position = Vector3(0, 0.5, 0)
 debug_shape_custom_color = Color(0, 1, 0, 1)
 
-[node name="Crosshair" parent="." instance=ExtResource("2_abrql")]
+[node name="UserInterface" parent="." instance=ExtResource("2_abrql")]
 
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
