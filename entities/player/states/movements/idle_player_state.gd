@@ -2,6 +2,9 @@ class_name IdlePlayerState extends PlayerMovementState
 
 
 func enter(previous_state: State) -> void:
+	if ANIMATION.is_playing() and ANIMATION.current_animation == "jump_end":
+		await ANIMATION.animation_finished
+	
 	ANIMATION.pause()
 
 

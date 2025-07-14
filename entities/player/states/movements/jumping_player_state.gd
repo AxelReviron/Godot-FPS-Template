@@ -5,7 +5,7 @@ var DOUBLE_JUMP: bool = false
 
 func enter(previous_state: State) -> void:
 	PLAYER.velocity.y += Constants.PLAYER_JUMP_VELOCITY
-	ANIMATION.pause()
+	ANIMATION.play("jump_start")
 
 
 func exit() -> void:
@@ -26,11 +26,6 @@ func update(delta):
 		DOUBLE_JUMP = true
 		PLAYER.velocity.y = Constants.PLAYER_JUMP_VELOCITY
 	
-	if PLAYER.is_on_floor() and PLAYER.velocity.length() == 0:
-		transition.emit("IdlePlayerState")
-	
-	if PLAYER.is_on_floor() and PLAYER.velocity.length() > 6:
-		transition.emit("SprintingPlayerState")
-	
 	if PLAYER.is_on_floor():
-		transition.emit("WalkingPlayerState")
+		ANIMATION.play("jump_end")
+		transition.emit("IdlePlayerState")
