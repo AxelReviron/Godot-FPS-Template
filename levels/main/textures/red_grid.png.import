@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdv3se0cqtb0p"
-path.s3tc="res://.godot/imported/ramp.png-a6e668c23f4df1ad53d251ff08a55703.s3tc.ctex"
+uid="uid://cmjmp46ww45gr"
+path.s3tc="res://.godot/imported/red_grid.png-d8751a532480948fb28a513e2b9451c1.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://levels/main/textures/ramp.png"
-dest_files=["res://.godot/imported/ramp.png-a6e668c23f4df1ad53d251ff08a55703.s3tc.ctex"]
+source_file="res://levels/main/textures/red_grid.png"
+dest_files=["res://.godot/imported/red_grid.png-d8751a532480948fb28a513e2b9451c1.s3tc.ctex"]
 
 [params]
 

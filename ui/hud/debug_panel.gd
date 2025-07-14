@@ -6,29 +6,27 @@ var debug_properties := {}
 
 
 func _ready():
-	add_debug_property("FPS")
-	add_debug_property("Player Position")
+	Global.debug = self
 
 
 func _process(delta):
 	if GlobalInput.is_debug():
 		visible = !visible
 
-	if !visible or !Global.player:
+	if !visible:
 		return
+	
+	add_property("FPS", Engine.get_frames_per_second(), 1)
+	add_property("speed", Global.player.speed, 2)
 
-	update_debug_property("FPS", "%.2f" % Engine.get_frames_per_second())
-	update_debug_property("Player Speed", "%.2f" % Global.player.get_real_velocity().length())
-	update_debug_property("Player Position", str(Global.player.global_position))
-
-
-func add_debug_property(title: String):
-	var label := Label.new()
-	label.name = title
-	property_container.add_child(label)
-	debug_properties[title] = label
-
-
-func update_debug_property(title: String, value: String):
-	if debug_properties.has(title):
-		debug_properties[title].text = title + ": " + value
+func add_property(title: String, value, order):
+	var target
+	target = property_container.find_child(title, true, false) # Find existing Label Node by name
+	if !target:# If it doesn't exist yet, create it
+		target = Label.new()
+		property_container.add_child(target)
+		target.name = title
+		target.text = target.name + ": " + str(value)
+	elif visible:# Else if debug is visible, update it
+		target.text = title + ": " + str(value)
+		property_container.move_child(target, order)

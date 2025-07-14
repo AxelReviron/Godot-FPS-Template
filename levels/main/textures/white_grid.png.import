@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmjmp46ww45gr"
-path.s3tc="res://.godot/imported/bridge.png-6565dc89a98ae3d4c0542c02f0172c2a.s3tc.ctex"
+uid="uid://diri7ec6thjcd"
+path.s3tc="res://.godot/imported/white_grid.png-2562af4c790829343ce429f996f98acc.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://levels/main/textures/bridge.png"
-dest_files=["res://.godot/imported/bridge.png-6565dc89a98ae3d4c0542c02f0172c2a.s3tc.ctex"]
+source_file="res://levels/main/textures/white_grid.png"
+dest_files=["res://.godot/imported/white_grid.png-2562af4c790829343ce429f996f98acc.s3tc.ctex"]
 
 [params]
 

@@ -22,6 +22,10 @@ func is_sprinting() -> bool:
 	return Input.is_action_pressed("sprint")
 
 
+func stop_sprinting() -> bool:
+	return Input.is_action_just_released("sprint")
+
+
 func is_crouching() -> bool:
 	return Input.is_action_just_pressed("crouch")
 

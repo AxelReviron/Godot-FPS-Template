@@ -13,7 +13,7 @@ var rotation_input: float
 var tilt_input: float
 var player_rotation: Vector3
 var camera_rotation: Vector3
-
+var speed: float = Constants.PLAYER_SPEED
 
 func _update_camera(delta):
 	# Get mouse rotation (limit it on X axis)
@@ -87,19 +87,23 @@ func _physics_process(delta):
 	var move_input = GlobalInput.get_move_vector()
 	var direction = (transform.basis * Vector3(move_input.x, 0, move_input.y)).normalized()
 
-	var current_speed: float
-	if GlobalInput.is_sprinting() and !PlayerState.is_crouching:
-		current_speed = Constants.PLAYER_SPRINT_SPEED
-	elif PlayerState.is_crouching:
-		current_speed = Constants.PLAYER_CROUCH_SPEED
-	else:
-		current_speed = Constants.PLAYER_SPEED
+	#var current_speed: float
+	#if GlobalInput.is_sprinting() and !PlayerState.is_crouching:
+		#current_speed = Constants.PLAYER_SPRINT_SPEED
+	#elif PlayerState.is_crouching:
+		#current_speed = Constants.PLAYER_CROUCH_SPEED
+	#else:
+		#current_speed = Constants.PLAYER_SPEED
 
 	if direction:
-		velocity.x = direction.x * current_speed
-		velocity.z = direction.z * current_speed
+		velocity.x = lerp(velocity.x, direction.x * speed, Constants.PLAYER_ACCELERATION)
+		velocity.z = lerp(velocity.z, direction.z * speed, Constants.PLAYER_ACCELERATION)
 	else:
-		velocity.x = move_toward(velocity.x, 0, current_speed)
-		velocity.z = move_toward(velocity.z, 0, current_speed)
+		velocity.x = move_toward(velocity.x, 0, Constants.PLAYER_DECELERATION)
+		velocity.z = move_toward(velocity.z, 0, Constants.PLAYER_DECELERATION)
 
 	move_and_slide()
+	
+	# Add Debug example
+	# Global.debug.add_property("MovementSpeed", speed, 1)
+	

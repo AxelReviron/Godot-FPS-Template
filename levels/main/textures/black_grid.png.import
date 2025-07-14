@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6w4imscq7xdj"
-path.s3tc="res://.godot/imported/box.png-fbd1ab3a063908338e9b6cfa21e038b4.s3tc.ctex"
+uid="uid://bodhtn0slo2lf"
+path.s3tc="res://.godot/imported/black_grid.png-dec809869f0cf1340d735677ad188e45.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://levels/main/textures/box.png"
-dest_files=["res://.godot/imported/box.png-fbd1ab3a063908338e9b6cfa21e038b4.s3tc.ctex"]
+source_file="res://levels/main/textures/black_grid.png"
+dest_files=["res://.godot/imported/black_grid.png-dec809869f0cf1340d735677ad188e45.s3tc.ctex"]
 
 [params]
 
