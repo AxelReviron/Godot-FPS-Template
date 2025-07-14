@@ -12,7 +12,7 @@ func exit() -> void:
 	ANIMATION.speed_scale = 1.0
 
 
-func update(delta):
+func update(delta: float):
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()
@@ -29,6 +29,9 @@ func update(delta):
 	
 	if GlobalInput.is_jumping() and PLAYER.is_on_floor():
 		transition.emit("JumpingPlayerState")
+	
+	if PLAYER.velocity.y < -3.0 and !PLAYER.is_on_floor():
+		transition.emit("FallingPlayerState")
 
 
 func set_animation_speed(speed):

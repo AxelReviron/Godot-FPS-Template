@@ -18,7 +18,7 @@ func exit() -> void:
 	RELEASED = false
 
 
-func update(delta):
+func update(delta: float):
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_CROUCH_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()
@@ -26,6 +26,9 @@ func update(delta):
 	if !GlobalInput.is_crouching() and !RELEASED:
 		RELEASED = true
 		uncrouch()
+	
+	if PLAYER.velocity.y < -3.0 and !PLAYER.is_on_floor():
+		transition.emit("FallingPlayerState")
 
 
 func uncrouch():
