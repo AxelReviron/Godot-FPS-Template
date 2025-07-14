@@ -1,6 +1,4 @@
-class_name IdlePlayerState extends State
-
-@export var ANIMATION: AnimationPlayer
+class_name IdlePlayerState extends PlayerMovementState
 
 
 func enter() -> void:
@@ -8,5 +6,12 @@ func enter() -> void:
 
 
 func update(delta):
-	if Global.player.velocity.length() > 0.0 and Global.player.is_on_floor():
+	PLAYER.update_gravity(delta)
+	PLAYER.update_input(Constants.PLAYER_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
+	PLAYER.update_velocity()
+	
+	if PLAYER.velocity.length() > 0.0 and PLAYER.is_on_floor():
 		transition.emit("WalkingPlayerState")
+
+	if GlobalInput.is_crouching() and PLAYER.is_on_floor():
+		transition.emit("CrouchingPlayerState")

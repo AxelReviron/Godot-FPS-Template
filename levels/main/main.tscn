@@ -67,3 +67,12 @@ material = ExtResource("3_gonaa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2, 4)
 size = Vector3(5, 4, 4)
 material = ExtResource("3_gonaa")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 2.25391, 8)
+size = Vector3(9, 1.49219, 4)
+material = ExtResource("3_gonaa")
+
+[node name="Label3D" type="Label3D" parent="CSGCombiner3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.03252)
+text = "Need to crouch"

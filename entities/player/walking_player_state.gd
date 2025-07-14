@@ -1,22 +1,28 @@
-class_name WalkingPlayerState extends State
-
-@export var ANIMATION: AnimationPlayer
+class_name WalkingPlayerState extends PlayerMovementState
 
 
 func enter() -> void:
 	ANIMATION.play("walking", -1.0, 1.0)
-	Global.player.speed = Constants.PLAYER_SPEED
+
+
+func exit() -> void:
+	ANIMATION.speed_scale = 1.0
 
 
 func update(delta):
-	set_animation_speed(Global.player.velocity.length())
-	if Global.player.velocity.length() == 0.0:
+	PLAYER.update_gravity(delta)
+	PLAYER.update_input(Constants.PLAYER_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
+	PLAYER.update_velocity()
+	
+	set_animation_speed(PLAYER.velocity.length())
+	if PLAYER.velocity.length() == 0.0:
 		transition.emit("IdlePlayerState")
-
-
-func physics_update(delta: float) -> void:
+	
 	if GlobalInput.is_sprinting():
 		transition.emit("SprintingPlayerState")
+	
+	if GlobalInput.is_crouching() and PLAYER.is_on_floor():
+		transition.emit("CrouchingPlayerState")
 
 
 func set_animation_speed(speed):

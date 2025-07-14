@@ -1,11 +1,11 @@
-extends CharacterBody3D
+class_name Player extends CharacterBody3D
 
 
 @export var TILT_LOWER_LIMIT: float = deg_to_rad(-90.0)
 @export var TILT_UPPER_LIMIT: float = deg_to_rad(90.0)
 @export var CAMERA_CONTROLLER: Camera3D
 @export var ANIMATIONPLAYER: AnimationPlayer
-@export var CROUCH_SHAPECAST: ShapeCast3D
+#@export var CROUCH_SHAPECAST: ShapeCast3D
 
 var mouse_input: bool = false
 var mouse_rotation: Vector3
@@ -13,7 +13,7 @@ var rotation_input: float
 var tilt_input: float
 var player_rotation: Vector3
 var camera_rotation: Vector3
-var speed: float = Constants.PLAYER_SPEED
+#var speed: float = Constants.PLAYER_SPEED
 
 func _update_camera(delta):
 	# Get mouse rotation (limit it on X axis)
@@ -38,15 +38,35 @@ func _update_camera(delta):
 	tilt_input = 0.0
 
 
-func _toggle_crouch():
-	if PlayerState.is_crouching and !CROUCH_SHAPECAST.is_colliding():
-		ANIMATIONPLAYER.play('crouch', -1, -Constants.PLAYER_CROUCH_SPEED, true)
-	elif !PlayerState.is_crouching and !PlayerState.is_jumping:
-		ANIMATIONPLAYER.play('crouch', -1, Constants.PLAYER_CROUCH_SPEED)
+#func _toggle_crouch():
+#	if PlayerState.is_crouching and !CROUCH_SHAPECAST.is_colliding():
+#		ANIMATIONPLAYER.play('crouch', -1, -Constants.PLAYER_CROUCH_SPEED, true)
+#	elif !PlayerState.is_crouching and !PlayerState.is_jumping:
+#		ANIMATIONPLAYER.play('crouch', -1, Constants.PLAYER_CROUCH_SPEED)
 
 
-func _on_animation_player_animation_started(anim_name):
-	PlayerState.is_crouching = !PlayerState.is_crouching
+#func _on_animation_player_animation_started(anim_name):
+#	PlayerState.is_crouching = !PlayerState.is_crouching
+
+
+func update_gravity(delta) -> void:
+	velocity += get_gravity() * delta
+
+
+func update_input(speed: float, acceleration: float, deceleration: float) -> void:
+	var move_input = GlobalInput.get_move_vector()
+	var direction = (transform.basis * Vector3(move_input.x, 0, move_input.y)).normalized()
+
+	if direction:
+		velocity.x = lerp(velocity.x, direction.x * speed, acceleration)
+		velocity.z = lerp(velocity.z, direction.z * speed, acceleration)
+	else:
+		velocity.x = move_toward(velocity.x, 0, deceleration)
+		velocity.z = move_toward(velocity.z, 0, deceleration)
+
+
+func update_velocity() -> void:
+	move_and_slide()
 
 
 func _ready():
@@ -54,7 +74,7 @@ func _ready():
 	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	# Add exception for the player to the crouch ShapeCast3D
-	CROUCH_SHAPECAST.add_exception($".")
+	#CROUCH_SHAPECAST.add_exception($".")
 
 
 func _unhandled_input(event):
@@ -66,26 +86,26 @@ func _unhandled_input(event):
 	if GlobalInput.is_exiting():
 		get_tree().quit()
 	
-	if GlobalInput.is_crouching():
-		_toggle_crouch()
+#	if GlobalInput.is_crouching():
+#		_toggle_crouch()
 
 
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	#if not is_on_floor():
+	#	velocity += get_gravity() * delta
 	
 	_update_camera(delta)
 
 	# Handle Jump
-	if GlobalInput.is_jumping() and is_on_floor() and !PlayerState.is_crouching:
-		velocity.y = Constants.PLAYER_JUMP_VELOCITY
-		PlayerState.is_jumping = true
-	elif is_on_floor() and PlayerState.is_jumping:
-		PlayerState.is_jumping = false
+	#if GlobalInput.is_jumping() and is_on_floor() and !PlayerState.is_crouching:
+	#	velocity.y = Constants.PLAYER_JUMP_VELOCITY
+	#	PlayerState.is_jumping = true
+	#elif is_on_floor() and PlayerState.is_jumping:
+	#	PlayerState.is_jumping = false
 
-	var move_input = GlobalInput.get_move_vector()
-	var direction = (transform.basis * Vector3(move_input.x, 0, move_input.y)).normalized()
+	#var move_input = GlobalInput.get_move_vector()
+	#var direction = (transform.basis * Vector3(move_input.x, 0, move_input.y)).normalized()
 
 	#var current_speed: float
 	#if GlobalInput.is_sprinting() and !PlayerState.is_crouching:
@@ -95,14 +115,14 @@ func _physics_process(delta):
 	#else:
 		#current_speed = Constants.PLAYER_SPEED
 
-	if direction:
-		velocity.x = lerp(velocity.x, direction.x * speed, Constants.PLAYER_ACCELERATION)
-		velocity.z = lerp(velocity.z, direction.z * speed, Constants.PLAYER_ACCELERATION)
-	else:
-		velocity.x = move_toward(velocity.x, 0, Constants.PLAYER_DECELERATION)
-		velocity.z = move_toward(velocity.z, 0, Constants.PLAYER_DECELERATION)
+	#if direction:
+		#velocity.x = lerp(velocity.x, direction.x * speed, Constants.PLAYER_ACCELERATION)
+		#velocity.z = lerp(velocity.z, direction.z * speed, Constants.PLAYER_ACCELERATION)
+	#else:
+		#velocity.x = move_toward(velocity.x, 0, Constants.PLAYER_DECELERATION)
+		#velocity.z = move_toward(velocity.z, 0, Constants.PLAYER_DECELERATION)
 
-	move_and_slide()
+	#move_and_slide()
 	
 	# Add Debug example
 	# Global.debug.add_property("MovementSpeed", speed, 1)

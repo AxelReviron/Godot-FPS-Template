@@ -17,7 +17,7 @@ func _process(delta):
 		return
 	
 	add_property("FPS", Engine.get_frames_per_second(), 1)
-	add_property("speed", Global.player.speed, 2)
+	#add_property("speed", Global.player.speed, 2)
 
 func add_property(title: String, value, order):
 	var target
