@@ -23,6 +23,9 @@ func update(delta):
 	if GlobalInput.is_crouching() and PLAYER.velocity.length() > 6:
 		transition.emit("SlidingPlayerState")
 
+	if GlobalInput.is_jumping() and PLAYER.is_on_floor():
+		transition.emit("JumpingPlayerState")
+
 
 func set_animation_speed(speed):
 	var alpha = remap(speed, 0.0, Constants.PLAYER_SPRINT_SPEED, 0.0, 1.0)

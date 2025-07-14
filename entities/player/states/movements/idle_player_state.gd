@@ -15,3 +15,6 @@ func update(delta):
 
 	if GlobalInput.is_crouching() and PLAYER.is_on_floor():
 		transition.emit("CrouchingPlayerState")
+	
+	if GlobalInput.is_jumping() and PLAYER.is_on_floor():
+		transition.emit("JumpingPlayerState")

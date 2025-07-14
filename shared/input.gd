@@ -27,7 +27,7 @@ func stop_sprinting() -> bool:
 
 
 func is_crouching() -> bool:
-	return Input.is_action_just_pressed("crouch")
+	return Input.is_action_pressed("crouch")
 
 
 func is_exiting() -> bool:

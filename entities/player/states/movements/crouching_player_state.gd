@@ -23,17 +23,14 @@ func update(delta):
 	PLAYER.update_input(Constants.PLAYER_CROUCH_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()
 	
-	if GlobalInput.is_crouching():
-		uncrouch()
-	# Run uncrunch() once
-	elif !GlobalInput.is_crouching() and !RELEASED:
+	if !GlobalInput.is_crouching() and !RELEASED:
 		RELEASED = true
 		uncrouch()
 
 
 func uncrouch():
 	if !CROUCH_SHAPECAST.is_colliding():
-		ANIMATION.play("crouching", -1.0, -Constants.PLAYER_CROUCH_SPEED * 1.5, true)
+		ANIMATION.play("crouching", -1.0, -Constants.PLAYER_CROUCH_SPEED, true)
 		await ANIMATION.animation_finished
 		# When animation is finished and player is not moving, he goes to idle State
 		if PLAYER.velocity.length() == 0:

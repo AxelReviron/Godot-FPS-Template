@@ -389,9 +389,8 @@ _data = {
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_symyc"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("STATE_MACHINE", "CAMERA_CONTROLLER", "ANIMATIONPLAYER")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CAMERA_CONTROLLER", "ANIMATIONPLAYER")]
 script = ExtResource("1_symyc")
-STATE_MACHINE = NodePath("PlayerStateMachine")
 CAMERA_CONTROLLER = NodePath("CameraController/Camera3D")
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
 
@@ -400,6 +399,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_sfv1e")
 
 [node name="PlaceholderMesh" type="MeshInstance3D" parent="CollisionShape3D"]
+visible = false
 mesh = SubResource("CapsuleMesh_symyc")
 
 [node name="CameraController" type="Node3D" parent="."]

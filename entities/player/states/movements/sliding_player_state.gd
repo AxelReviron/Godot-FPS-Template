@@ -5,6 +5,7 @@ class_name SlidingPlayerState extends PlayerMovementState
 
 
 func enter(previous_state: State) -> void:
+	PLAYER.slide_start_rotation_y = PLAYER.mouse_rotation.y
 	set_tilt(PLAYER.current_rotation)
 	ANIMATION.get_animation("sliding").track_set_key_value(4, 0, PLAYER.velocity.length())
 	ANIMATION.speed_scale = 1.0
@@ -13,9 +14,8 @@ func enter(previous_state: State) -> void:
 
 func update(delta):
 	PLAYER.update_gravity(delta)
-	#PLAYER.update_input(Constants.PLAYER_CROUCH_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION) # Disable to maintain direction while sliding
 	PLAYER.update_velocity()
-	
+
 
 func set_tilt(player_rotation) -> void:
 	var tilt = Vector3.ZERO
@@ -23,7 +23,7 @@ func set_tilt(player_rotation) -> void:
 	tilt.z = clamp(Constants.PLAYER_SLID_TILT_AMOUNT * player_rotation, -0.1, 0.1)
 	if tilt.z == 0.0:
 		tilt.z = 0.05
-	ANIMATION.get_animation("sliding").track_set_key_value(3, 1, tilt)# TODO: Test with 
+	ANIMATION.get_animation("sliding").track_set_key_value(3, 1, tilt)
 	ANIMATION.get_animation("sliding").track_set_key_value(3, 2, tilt)
 
 

@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody3D
 
+@export var STATE_MACHINE: StateMachine
 
 @export var TILT_LOWER_LIMIT: float = deg_to_rad(-90.0)
 @export var TILT_UPPER_LIMIT: float = deg_to_rad(90.0)
@@ -14,11 +15,18 @@ var player_rotation: Vector3
 var camera_rotation: Vector3
 var current_rotation: float
 
+var slide_start_rotation_y
+
 func _update_camera(delta):
 	current_rotation = rotation_input
 	# Get mouse rotation (limit it on X axis)
 	mouse_rotation.x += tilt_input * delta
 	mouse_rotation.x = clamp(mouse_rotation.x, TILT_LOWER_LIMIT, TILT_UPPER_LIMIT)
+	
+	# If player is sliding his rotation is limit on Y axis
+	if STATE_MACHINE.CURRENT_STATE is SlidingPlayerState:
+		mouse_rotation.y = clamp(mouse_rotation.y, slide_start_rotation_y - deg_to_rad(90), slide_start_rotation_y + deg_to_rad(90))
+	
 	mouse_rotation.y += rotation_input * delta
 	
 	# Get player rotation on Y axis
@@ -62,8 +70,6 @@ func _ready():
 	# Register player node globally
 	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	# Add exception for the player to the crouch ShapeCast3D
-	#CROUCH_SHAPECAST.add_exception($".")
 
 
 func _unhandled_input(event):
