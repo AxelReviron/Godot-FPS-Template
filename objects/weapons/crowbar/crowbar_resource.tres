@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Weapons" load_steps=3 format=3 uid="uid://gjexuayvn4xk"]
+
+[ext_resource type="ArrayMesh" uid="uid://ccqpsj68bdcf3" path="res://objects/weapons/crowbar/crowbar_mesh.res" id="1_64k1o"]
+[ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons.gd" id="1_oxnr3"]
+
+[resource]
+script = ExtResource("1_oxnr3")
+name = &""
+position = Vector3(0.33, -0.165, -0.4)
+rotation = Vector3(-89, 172, 15)
+mesh = ExtResource("1_64k1o")
+shadow = false
+metadata/_custom_type_script = "uid://tdc0pwp4voaw"

@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://devdbqxq7swqd"]
+[gd_scene load_steps=26 format=3 uid="uid://devdbqxq7swqd"]
 
 [ext_resource type="Script" uid="uid://c5lomk3h5a1xr" path="res://entities/player/player.gd" id="1_symyc"]
 [ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://ui/hud/user_interface.tscn" id="2_abrql"]
+[ext_resource type="PackedScene" uid="uid://cw81xctbb6bsy" path="res://objects/weapons/weapon.tscn" id="2_j3ovn"]
 [ext_resource type="Script" uid="uid://bl6rkvwvkaacl" path="res://entities/player/states/state_machine.gd" id="3_sglur"]
 [ext_resource type="Script" uid="uid://c563eujybct48" path="res://entities/player/states/movements/idle_player_state.gd" id="4_bls4j"]
 [ext_resource type="Script" uid="uid://0yyhqfbjnuf8" path="res://entities/player/states/movements/walking_player_state.gd" id="5_fkugw"]
@@ -10,6 +11,8 @@
 [ext_resource type="Script" uid="uid://c0dboxoqqmac1" path="res://entities/player/states/movements/sliding_player_state.gd" id="8_26q78"]
 [ext_resource type="Script" uid="uid://d3cv40bw2c48w" path="res://entities/player/states/movements/jumping_player_state.gd" id="9_bectd"]
 [ext_resource type="Script" uid="uid://c2yfsfm4rv7wm" path="res://entities/player/falling_player_state.gd" id="10_wvtmh"]
+[ext_resource type="Script" uid="uid://bs62542u3unhl" path="res://entities/player/sub_viewport.gd" id="12_a1qjk"]
+[ext_resource type="Script" uid="uid://bc7dtu8745goy" path="res://entities/player/weapon_camera.gd" id="13_j3ovn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sfv1e"]
 
@@ -475,10 +478,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.00283e-05, -0.000180834, 0)
+cull_mask = 1048573
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="CameraController/Camera3D"]
 update_mode = 1
 size = Vector3(100, 100, 100)
+
+[node name="WeaponRig" type="Node3D" parent="CameraController/Camera3D"]
+
+[node name="Weapon" parent="CameraController/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
+transform = Transform3D(-0.933267, 0.359183, 1.57004e-08, 0, -4.37114e-08, 1, 0.359183, 0.933267, 4.07944e-08, 0.380302, -0.198125, -0.746738)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -518,5 +527,23 @@ script = ExtResource("9_bectd")
 
 [node name="FallingPlayerState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("10_wvtmh")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("12_a1qjk")
+
+[node name="WeaponCamera" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("MAIN_CAMERA")]
+cull_mask = 1048574
+script = ExtResource("13_j3ovn")
+MAIN_CAMERA = NodePath("../../../CameraController/Camera3D/WeaponRig")
 
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
