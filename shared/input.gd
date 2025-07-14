@@ -18,6 +18,10 @@ func is_jumping() -> bool:
 	return Input.is_action_just_pressed("jump")
 
 
+func is_released_jump() -> bool:
+	return Input.is_action_just_released("jump")
+
+
 func is_sprinting() -> bool:
 	return Input.is_action_pressed("sprint")
 
