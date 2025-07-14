@@ -1,7 +1,7 @@
 class_name SprintingPlayerState extends PlayerMovementState
 
 
-func enter() -> void:
+func enter(previous_state: State) -> void:
 	ANIMATION.play("sprinting", 0.5, 1.0)
 
 
@@ -18,6 +18,10 @@ func update(delta):
 	
 	if GlobalInput.stop_sprinting():
 		transition.emit("WalkingPlayerState")
+	
+	# If player is crouching and has enought velocity he can slide
+	if GlobalInput.is_crouching() and PLAYER.velocity.length() > 6:
+		transition.emit("SlidingPlayerState")
 
 
 func set_animation_speed(speed):

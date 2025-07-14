@@ -1,7 +1,7 @@
 class_name IdlePlayerState extends PlayerMovementState
 
 
-func enter() -> void:
+func enter(previous_state: State) -> void:
 	ANIMATION.pause()
 
 

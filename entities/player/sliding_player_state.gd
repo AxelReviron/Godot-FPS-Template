@@ -1,0 +1,31 @@
+class_name SlidingPlayerState extends PlayerMovementState
+
+@onready var CROUCH_SHAPECAST: ShapeCast3D = %ShapeCast3D
+@export var ANIM_SPEED: float = Constants.MAX_PLAYER_SLIDING_ANIM_SPEED
+
+
+func enter(previous_state: State) -> void:
+	set_tilt(PLAYER.current_rotation)
+	ANIMATION.get_animation("sliding").track_set_key_value(4, 0, PLAYER.velocity.length())
+	ANIMATION.speed_scale = 1.0
+	ANIMATION.play("sliding", -1.0, Constants.MAX_PLAYER_SLIDING_ANIM_SPEED)
+
+
+func update(delta):
+	PLAYER.update_gravity(delta)
+	#PLAYER.update_input(Constants.PLAYER_CROUCH_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION) # Disable to maintain direction while sliding
+	PLAYER.update_velocity()
+	
+
+func set_tilt(player_rotation) -> void:
+	var tilt = Vector3.ZERO
+	# Define how the camera will tilt based on current_rotation
+	tilt.z = clamp(Constants.PLAYER_SLID_TILT_AMOUNT * player_rotation, -0.1, 0.1)
+	if tilt.z == 0.0:
+		tilt.z = 0.05
+	ANIMATION.get_animation("sliding").track_set_key_value(3, 1, tilt)# TODO: Test with 
+	ANIMATION.get_animation("sliding").track_set_key_value(3, 2, tilt)
+
+
+func finish():
+	transition.emit("CrouchingPlayerState")

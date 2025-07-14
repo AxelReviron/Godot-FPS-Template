@@ -1,7 +1,7 @@
 class_name WalkingPlayerState extends PlayerMovementState
 
 
-func enter() -> void:
+func enter(previous_state: State) -> void:
 	ANIMATION.play("walking", -1.0, 1.0)
 
 

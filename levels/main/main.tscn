@@ -75,4 +75,5 @@ material = ExtResource("3_gonaa")
 
 [node name="Label3D" type="Label3D" parent="CSGCombiner3D/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.03252)
+pixel_size = 0.015
 text = "Need to crouch"
