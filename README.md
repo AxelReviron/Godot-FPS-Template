@@ -1,4 +1,4 @@
-<p style="text-align: center;">
+<p align="center">
   <img src="https://img.shields.io/badge/Godot-4.4.1-blue?logo=godot-engine&logoColor=white" alt="godot-badge"/>
   <img src="https://img.shields.io/badge/status-work%20in%20progress-yellow" alt="Status badge" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License badge" />
@@ -7,7 +7,6 @@
 # Godot FPS Template
 A clean and modular First Person Shooter (FPS) template built with **Godot 4.4.1**, featuring a state-driven player system, modular weapons, and a debug interface — designed for rapid prototyping or as a base for FPS games.
 
----
 
 ## ✨ Features
 
@@ -26,7 +25,6 @@ A clean and modular First Person Shooter (FPS) template built with **Godot 4.4.1
 - **Debug Panel**  
   A customizable debug UI displays the current player state and runtime stats for easier testing and iteration.
 
----
 
 ## 🧠 Gameplay States
 
@@ -42,7 +40,6 @@ The player uses a finite state machine (`core/state.gd`) to handle core actions.
 
 States emit a `transition` signal to request moving from one state to another. Logic is modular and isolated, making behaviors easy to extend or override.
 
----
 
 ## 📁 Architecture
 ```
@@ -69,7 +66,6 @@ ui/
 
 All scripts under `shared/` are automatically loaded via **Autoload** (see `Project Settings → Autoload`).
 
----
 
 ## 🔫 Weapon System
 
@@ -89,7 +85,6 @@ To add a new weapon:
 
 Weapon will be modular, and it will be possible to define 
 
----
 
 ## Credits
 ### Assets
