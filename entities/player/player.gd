@@ -4,6 +4,7 @@ class_name Player extends CharacterBody3D
 
 @export var TILT_LOWER_LIMIT: float = deg_to_rad(-90.0)
 @export var TILT_UPPER_LIMIT: float = deg_to_rad(90.0)
+@export var SLIDE_ROTATION_LIMIT: float = deg_to_rad(90.0)
 @export var CAMERA_CONTROLLER: Camera3D
 @export var ANIMATIONPLAYER: AnimationPlayer
 
@@ -25,7 +26,7 @@ func _update_camera(delta):
 	
 	# If player is sliding his rotation is limit on Y axis
 	if STATE_MACHINE.CURRENT_STATE is SlidingPlayerState:
-		mouse_rotation.y = clamp(mouse_rotation.y, slide_start_rotation_y - deg_to_rad(90), slide_start_rotation_y + deg_to_rad(90))
+		mouse_rotation.y = clamp(mouse_rotation.y, slide_start_rotation_y - SLIDE_ROTATION_LIMIT, slide_start_rotation_y + SLIDE_ROTATION_LIMIT)
 	
 	mouse_rotation.y += rotation_input * delta
 	
