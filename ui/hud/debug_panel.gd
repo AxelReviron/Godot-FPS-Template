@@ -2,14 +2,14 @@ extends PanelContainer
 
 
 var debug_properties := {}
-@onready var property_container = %VBoxContainer
+@onready var property_container: VBoxContainer = %VBoxContainer
 
 
 func _ready():
 	Global.debug = self
 
 
-func _process(delta):
+func _process(delta: float) -> void:
 	if GlobalInput.is_debug():
 		visible = !visible
 
