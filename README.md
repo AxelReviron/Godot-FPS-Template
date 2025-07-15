@@ -6,7 +6,7 @@
 
 # Godot FPS Template
 A clean and modular First Person Shooter (FPS) template built with **Godot 4.4.1**, featuring a state-driven player system, modular weapons, and a debug interface — designed for rapid prototyping or as a base for FPS games.
-
+> Currently, only the player's movement system is fully implemented using a state machine.
 
 ## ✨ Features
 
@@ -56,8 +56,8 @@ entities/
 │  └─ player.tscn # Player scene
 levels/
 └─ main/ # Sample level and main scene
-shared/ # Autoloaded scripts (availables from any nodes)
-├── constants.gd # Constants variables (player_speed, player_jump_velocity...)
+shared/ # Autoloaded scripts (available from any nodes)
+├── constants.gd # Constant values (player speed, jump velocity, etc.)
 ├── settings.gd # Placeholder for player settings (will change with save system)
 ├── global.gd # Player and DebugPanel Nodes references
 └── input.gd # Centralized inputs
@@ -83,7 +83,24 @@ To add a new weapon:
 2. Fill in its configuration in the resource.
 3. Add it to the Weapon Type property of the Weapon Node (in Player scene)
 
-Weapon will be modular, and it will be possible to define 
+The weapon system is designed to be modular, and will later support defining additional properties like damage, rate of fire, recoil...
+
+
+## 🗒️ TODO
+- [ ] Make sliding mechanic optional
+- [ ] Finish weapon system
+  - [ ] Implement reload mechanic
+  - [ ] Add weapon switching
+  - [ ] Add aiming and shooting logic
+  - [ ] Add recoil system
+  - [ ] Visual and sound FX
+- [ ] Save user settings and progression system
+- [ ] Game menus and user settings
+- [ ] Interactable objects (like door or stuff)
+
+
+- [ ] Add optional wall sliding mechanic
+- [ ] Add own 3D Model 
 
 
 ## Credits

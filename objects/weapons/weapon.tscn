@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://gjexuayvn4xk" path="res://objects/weapons/crowbar/crowbar_resource.tres" id="2_nsv83"]
 
 [node name="Weapon" type="Node3D"]
+transform = Transform3D(-0.992541, 0.12189, 0.0024289, 0.00451701, 0.0168577, 0.999848, 0.12183, 0.992401, -0.0172825, 0.33, -0.165, -0.4)
 script = ExtResource("1_7lfho")
 WEAPON_TYPE = ExtResource("2_nsv83")
 
