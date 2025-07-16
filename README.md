@@ -86,7 +86,7 @@ They are loaded dynamically using `weapon_controller.gd` script.
 
 ### Add a new weapon:
 
-#### 1st Option: Weapon with single Mesh
+#### 1st Option: Weapon in a Scene
 1. Import your weapon scene/assets into the FileSystem.
 2. Create a new scene for your weapon (with hierarchy, animations, sounds, etc.).
 3. Create a new resource file (`.tres`) that extends the `Weapon` class.
