@@ -44,3 +44,7 @@ func is_debug() -> bool:
 
 func is_mouse_mode_captured() -> bool:
 	return Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
+
+
+func is_shooting() -> bool:
+	return Input.is_action_pressed("shoot")

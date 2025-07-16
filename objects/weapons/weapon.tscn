@@ -1,16 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://cw81xctbb6bsy"]
+[gd_scene load_steps=5 format=3 uid="uid://cw81xctbb6bsy"]
 
-[ext_resource type="Script" uid="uid://bt5t0sg6rh3ap" path="res://objects/weapons/init_weapon.gd" id="1_7lfho"]
-[ext_resource type="ArrayMesh" uid="uid://ccqpsj68bdcf3" path="res://objects/weapons/crowbar/crowbar_mesh.res" id="1_md4gu"]
-[ext_resource type="Resource" uid="uid://gjexuayvn4xk" path="res://objects/weapons/crowbar/crowbar_resource.tres" id="2_nsv83"]
+[ext_resource type="Script" uid="uid://bt5t0sg6rh3ap" path="res://objects/weapons/weapon_controller.gd" id="1_7lfho"]
+[ext_resource type="Resource" uid="uid://cuj4mlb2dot1d" path="res://objects/weapons/ak47/ak47_resource.tres" id="2_nsv83"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_nsv83"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_revnk"]
+noise = SubResource("FastNoiseLite_nsv83")
 
 [node name="Weapon" type="Node3D"]
-transform = Transform3D(-0.992541, 0.12189, 0.0024289, 0.00451701, 0.0168577, 0.999848, 0.12183, 0.992401, -0.0172825, 0.33, -0.165, -0.4)
+transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.222, -0.143, -0.289)
 script = ExtResource("1_7lfho")
 WEAPON_TYPE = ExtResource("2_nsv83")
+sway_noise = SubResource("NoiseTexture2D_revnk")
 
 [node name="WeaponMesh" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 layers = 2
-mesh = ExtResource("1_md4gu")
+
+[node name="WeaponScene" type="Node3D" parent="."]
+unique_name_in_owner = true

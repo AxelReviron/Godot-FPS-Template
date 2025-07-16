@@ -23,6 +23,9 @@ func update(delta: float):
 	PLAYER.update_input(Constants.PLAYER_CROUCH_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()
 	
+	WEAPON.sway_weapon(delta, false)
+	WEAPON.weapon_bob(delta, Constants.WEAPON_CROUCHING_BOB_SPEED, Constants.WEAPON_CROUCHING_BOB_H_AMOUNT, Constants.WEAPON_CROUCHING_BOB_V_AMOUNT)
+	
 	if !GlobalInput.is_crouching() and !RELEASED:
 		RELEASED = true
 		uncrouch()

@@ -56,6 +56,12 @@ entities/
 │  └─ player.tscn # Player scene
 levels/
 └─ main/ # Sample level and main scene
+objects/
+│  ├─ weapons/ # Weapons dir
+│  │   ├─ ak47/
+│  │   │   ├─ assets/ # Assets imported
+│  │   │   ├─ ak47_resource.tres # Resource file
+│  │   │   └─ ak_47.tscn # Scene file
 shared/ # Autoloaded scripts (available from any nodes)
 ├── constants.gd # Constant values (player speed, jump velocity, etc.)
 ├── settings.gd # Placeholder for player settings (will change with save system)
@@ -71,20 +77,33 @@ All scripts under `shared/` are automatically loaded via **Autoload** (see `Proj
 
 Weapons are handled via a modular system. Each weapon should have a `.tres` resource that defines:
 
-- Mesh
-- Position, Rotation 
+- Mesh or Scene 
+- Position, Rotation, Scale
+- Sway properties
 - And more to come like damage, recoil...
 
-They are loaded dynamically using `init_weapon.gd` script.
+They are loaded dynamically using `weapon_controller.gd` script.
 
-To add a new weapon:
+### Add a new weapon:
 
-1. Create a new resource file that extends Weapon class.
-2. Fill in its configuration in the resource.
-3. Add it to the Weapon Type property of the Weapon Node (in Player scene)
+#### 1st Option: Weapon with single Mesh
+1. Import your weapon scene/assets into the FileSystem.
+2. Create a new scene for your weapon (with hierarchy, animations, sounds, etc.).
+3. Create a new resource file (`.tres`) that extends the `Weapon` class.
+4. In the resource assign the scene you created
+5. In the Weapon Scene, assign your resource file to the `Weapon Type` field.
 
-The weapon system is designed to be modular, and will later support defining additional properties like damage, rate of fire, recoil...
+#### 2nd Option: Weapon with single Mesh
+1. Import your mesh into the FileSystem.
+2. Create a new resource file (`.tres`) that extends the `Weapon` class.
+3. In the resource assign the mesh directly
+4. In the Weapon Scene, assign your resource file to the `Weapon Type` field.
 
+### Adjust position, rotation, scale :
+Once you have selected the resource in the Weapon Scene, you can open the Player scene and adjust the properties of the resource according to the transform properties
+
+## Presentation Video
+TODO
 
 ## 🗒️ TODO
 - [ ] Make sliding mechanic optional
@@ -105,4 +124,4 @@ The weapon system is designed to be modular, and will later support defining add
 
 ## Credits
 ### Assets
-- [Superior](https://sketchfab.com/SuperiorOne) - Crowbar 3D Model
+- [Styloo](https://styloo.itch.io/) - Guns Asset Pack

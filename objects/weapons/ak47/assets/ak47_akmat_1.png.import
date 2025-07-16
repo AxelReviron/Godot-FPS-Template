@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfv4t88ptndux"
-path.s3tc="res://.godot/imported/crowbar_2.png-bf5c05a03669691635c197e96e274289.s3tc.ctex"
+uid="uid://devi28agtmg6c"
+path.s3tc="res://.godot/imported/ak47_akmat_1.png-60fc213efd8e3e47728916cc8827100c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "9e2ae7fc9584f081f6cc6b6efac91df4"
+"md5": "fe95ba70898b55b9bb26cf83aa3c0341"
 }
 
 [deps]
 
-source_file="res://objects/weapons/crowbar/assets/crowbar_2.png"
-dest_files=["res://.godot/imported/crowbar_2.png-bf5c05a03669691635c197e96e274289.s3tc.ctex"]
+source_file="res://objects/weapons/ak47/assets/ak47_akmat_1.png"
+dest_files=["res://.godot/imported/ak47_akmat_1.png-60fc213efd8e3e47728916cc8827100c.s3tc.ctex"]
 
 [params]
 
@@ -23,12 +23,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://entities/player/assets/crowbar/crowbar_2.png"
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

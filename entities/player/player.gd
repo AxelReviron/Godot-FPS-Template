@@ -7,6 +7,7 @@ class_name Player extends CharacterBody3D
 @export var SLIDE_ROTATION_LIMIT: float = deg_to_rad(90.0)
 @export var CAMERA_CONTROLLER: Camera3D
 @export var ANIMATIONPLAYER: AnimationPlayer
+@export var WEAPON_CONTROLLER: WeaponController
 
 var mouse_input: bool = false
 var mouse_rotation: Vector3
