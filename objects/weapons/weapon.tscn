@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cw81xctbb6bsy"]
 
 [ext_resource type="Script" uid="uid://bt5t0sg6rh3ap" path="res://objects/weapons/weapon_controller.gd" id="1_7lfho"]
-[ext_resource type="Resource" uid="uid://cuj4mlb2dot1d" path="res://objects/weapons/ak47/ak47_resource.tres" id="2_nsv83"]
+[ext_resource type="Resource" uid="uid://cf6agjg1ardc8" path="res://objects/weapons/pistol/pistol_resource.tres" id="2_7lfho"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_nsv83"]
 
@@ -9,9 +9,8 @@
 noise = SubResource("FastNoiseLite_nsv83")
 
 [node name="Weapon" type="Node3D"]
-transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.222, -0.143, -0.289)
 script = ExtResource("1_7lfho")
-WEAPON_TYPE = ExtResource("2_nsv83")
+WEAPON_TYPE = ExtResource("2_7lfho")
 sway_noise = SubResource("NoiseTexture2D_revnk")
 
 [node name="WeaponMesh" type="MeshInstance3D" parent="."]

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Weapons" load_steps=3 format=3 uid="uid://cf6agjg1ardc8"]
+
+[ext_resource type="PackedScene" uid="uid://di4y8v188c8qe" path="res://objects/weapons/pistol/pistol.tscn" id="1_66umr"]
+[ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons.gd" id="1_jvt60"]
+
+[resource]
+script = ExtResource("1_jvt60")
+name = &"Pistol"
+position = Vector3(0.21, -0.183, -0.459)
+rotation = Vector3(0, 96.9, 0)
+scale = Vector3(2, 2, 2)
+shadow = false
+scene = ExtResource("1_66umr")
+sway_min = Vector2(-20, -20)
+sway_max = Vector2(20, 20)
+sway_speed_position = 0.07
+sway_speed_rotation = 0.1
+sway_amount_position = 0.1
+sway_amount_rotation = 30.0
+idle_sway_adjustment = 10.0
+idle_sway_rotation_strength = 300.0
+random_sway_amount = 5.0
+recoil_amount_x = 0.1
+recoil_amount_y = 0.05
+recoil_snap_amount = 5.0
+recoil_speed = 7.0
+metadata/_custom_type_script = "uid://tdc0pwp4voaw"

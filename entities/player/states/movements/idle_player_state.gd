@@ -27,3 +27,7 @@ func update(delta: float):
 	
 	if PLAYER.velocity.y < -3.0 and !PLAYER.is_on_floor():
 		transition.emit("FallingPlayerState")
+	
+	# TEST Shoot
+	if GlobalInput.is_shooting():
+		WEAPON.shoot()

@@ -86,10 +86,3 @@ func _unhandled_input(event):
 
 func _physics_process(delta):
 	_update_camera(delta)
-
-	# Handle Jump
-	#if GlobalInput.is_jumping() and is_on_floor() and !PlayerState.is_crouching:
-	#	velocity.y = Constants.PLAYER_JUMP_VELOCITY
-	#	PlayerState.is_jumping = true
-	#elif is_on_floor() and PlayerState.is_jumping:
-	#	PlayerState.is_jumping = false

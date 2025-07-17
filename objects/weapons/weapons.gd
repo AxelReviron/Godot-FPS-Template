@@ -22,3 +22,9 @@ class_name Weapons extends Resource
 @export var idle_sway_adjustment: float = 10.0
 @export var idle_sway_rotation_strength: float = 300.0
 @export_range(0.1, 10.0, 0.1) var random_sway_amount: float = 5.0
+
+@export_group("Weapon Recoil")
+@export_range(0, 1, 0.05) var recoil_amount_x: float
+@export_range(0, 1, 0.05) var recoil_amount_y: float
+@export_range(0, 10, 1.0) var recoil_snap_amount: float
+@export_range(0, 10, 1.0) var recoil_speed: float
