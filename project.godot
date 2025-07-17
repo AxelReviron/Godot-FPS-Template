@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 
 Settings="*res://shared/settings.gd"
 Constants="*res://shared/constants.gd"
-PlayerState="*res://shared/player_state.gd"
 SignalBus="*res://shared/signal_bus.gd"
 Global="*res://shared/global.gd"
 GlobalInput="*res://shared/input.gd"

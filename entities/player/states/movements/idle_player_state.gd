@@ -29,5 +29,5 @@ func update(delta: float):
 		transition.emit("FallingPlayerState")
 	
 	# TEST Shoot
-	if GlobalInput.is_shooting():
-		WEAPON.shoot()
+	#if GlobalInput.is_shooting():
+		#WEAPON.shoot()

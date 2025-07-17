@@ -19,6 +19,8 @@ signal weapon_fired
 		if Engine.is_editor_hint():
 			load_weapon()
 
+@export var ANIMATIONPLAYER: AnimationPlayer
+
 @onready var weapon_mesh: MeshInstance3D = %WeaponMesh
 @onready var weapon_shadow: MeshInstance3D
 
@@ -50,9 +52,9 @@ func _ready() -> void:
 	load_weapon()
 
 
-func _input(event) -> void:# TODO: Move to GlobalInput (also in player.gd)
-	if event is InputEventMouseMotion:
-		mouse_movement = event.relative
+#func _input(event) -> void:# TODO: Move to GlobalInput (also in player.gd)
+	#if event is InputEventMouseMotion:
+		#mouse_movement = event.relative
 
 
 func load_weapon() -> void:

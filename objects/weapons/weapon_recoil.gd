@@ -1,9 +1,5 @@
 extends Node3D
 
-#@export var recoil_amount: Vector3
-#@export var snap_amount: float
-#@export var speed: float
-
 @export var weapon: WeaponController
 
 var current_position: Vector3

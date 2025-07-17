@@ -17,7 +17,7 @@ func update(delta: float):
 	PLAYER.update_input(Constants.PLAYER_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()
 	
-	WEAPON.sway_weapon(delta, false)
+	WEAPON.sway_weapon(delta, false)# TODO:
 	WEAPON.weapon_bob(delta, Constants.WEAPON_WALKING_BOB_SPEED, Constants.WEAPON_WALKING_BOB_H_AMOUNT, Constants.WEAPON_WALKING_BOB_V_AMOUNT)
 	
 	set_animation_speed(PLAYER.velocity.length())
