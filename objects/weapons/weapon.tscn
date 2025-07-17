@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cw81xctbb6bsy"]
+[gd_scene load_steps=6 format=3 uid="uid://cw81xctbb6bsy"]
 
 [ext_resource type="Script" uid="uid://bt5t0sg6rh3ap" path="res://objects/weapons/weapon_controller.gd" id="1_7lfho"]
 [ext_resource type="Resource" uid="uid://cf6agjg1ardc8" path="res://objects/weapons/pistol/pistol_resource.tres" id="2_7lfho"]
+[ext_resource type="Script" uid="uid://bqsi3wgdj0uoe" path="res://objects/weapons/weapon_physical_recoil.gd" id="3_nsv83"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_nsv83"]
 
@@ -13,9 +14,14 @@ script = ExtResource("1_7lfho")
 WEAPON_TYPE = ExtResource("2_7lfho")
 sway_noise = SubResource("NoiseTexture2D_revnk")
 
-[node name="WeaponMesh" type="MeshInstance3D" parent="."]
+[node name="RecoilPosition" type="Node3D" parent="." node_paths=PackedStringArray("weapon")]
+script = ExtResource("3_nsv83")
+weapon = NodePath("..")
+
+[node name="WeaponMesh" type="MeshInstance3D" parent="RecoilPosition"]
 unique_name_in_owner = true
 layers = 2
+skeleton = NodePath("../..")
 
-[node name="WeaponScene" type="Node3D" parent="."]
+[node name="WeaponScene" type="Node3D" parent="RecoilPosition"]
 unique_name_in_owner = true

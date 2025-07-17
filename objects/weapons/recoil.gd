@@ -1,8 +1,8 @@
 extends Node3D
 
-@export var recoil_amount: Vector3
-@export var snap_amount: float
-@export var speed: float
+#@export var recoil_amount: Vector3
+#@export var snap_amount: float
+#@export var speed: float
 
 @export var weapon: WeaponController
 
@@ -18,8 +18,8 @@ func _ready():
 # Reset the recoil each frames
 func _process(delta) ->void :
 	# Return lerp
-	target_rotation = lerp(target_rotation, Vector3.ZERO, speed * delta)
-	current_rotation = lerp(current_rotation, target_rotation, snap_amount * delta)
+	target_rotation = lerp(target_rotation, Vector3.ZERO, weapon.recoil_speed * delta)
+	current_rotation = lerp(current_rotation, target_rotation, weapon.recoil_snap_amount * delta)
 	basis = Quaternion.from_euler(current_rotation)
 
 

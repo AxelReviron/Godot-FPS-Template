@@ -481,9 +481,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="Recoil" type="Node3D" parent="CameraController" node_paths=PackedStringArray("weapon")]
 script = ExtResource("2_afbqv")
-recoil_amount = Vector3(0.15, 0.05, 0)
-snap_amount = 1.0
-speed = 4.0
 weapon = NodePath("Camera3D/WeaponRig/Weapon")
 
 [node name="Camera3D" type="Camera3D" parent="CameraController/Recoil"]
@@ -497,7 +494,7 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
-transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.210335, -0.183111, -0.459333)
+transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.21, -0.183, -0.459)
 sway_speed = 1.8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
