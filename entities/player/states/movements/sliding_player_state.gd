@@ -4,7 +4,6 @@ class_name SlidingPlayerState extends PlayerMovementState
 @export var ANIM_SPEED: float = Constants.MAX_PLAYER_SLIDING_ANIM_SPEED
 
 # TODO: Cancel slide with jump
-# TODO: Add FallingState
 func enter(previous_state: State) -> void:
 	PLAYER.slide_start_rotation_y = PLAYER.mouse_rotation.y
 	set_tilt(PLAYER.current_rotation)

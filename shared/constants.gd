@@ -36,3 +36,7 @@ var WEAPON_SPRINTING_BOB_SPEED: float = 9.0
 var WEAPON_SPRINTING_BOB_H_AMOUNT: float = 8.0 # Horizontal bob amount
 var WEAPON_SPRINTING_BOB_V_AMOUNT: float = 2.0 # Vertical bob amount
 #endregion
+
+#region Interaction
+var INTERACT_DISTANCE: float = 2.0
+#endregion

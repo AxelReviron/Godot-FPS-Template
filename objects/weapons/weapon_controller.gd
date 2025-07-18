@@ -52,11 +52,6 @@ func _ready() -> void:
 	load_weapon()
 
 
-#func _input(event) -> void:# TODO: Move to GlobalInput (also in player.gd)
-	#if event is InputEventMouseMotion:
-		#mouse_movement = event.relative
-
-
 func load_weapon() -> void:
 	position = WEAPON_TYPE.position # Set weapon position
 	rotation_degrees = WEAPON_TYPE.rotation # Set weapon rotation
@@ -149,18 +144,13 @@ func weapon_bob(delta: float, bob_speed: float, h_bob_amount: float, v_bob_amoun
 
 func shoot() -> void:
 	weapon_fired.emit()
-	var camera: Camera3D = Global.player.CAMERA_CONTROLLER
-	var space_state: PhysicsDirectSpaceState3D = camera.get_world_3d().direct_space_state
-	var screen_center: Vector2i = get_viewport().size / 2
 	
-	var ray_origin: Vector3 = camera.project_ray_origin(screen_center)# Center of the screen is the origin for the raycast
-	var ray_distance: float = 1000.0
-	var ray_end = ray_origin + camera.project_ray_normal(screen_center) * ray_distance
-	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
-	query.collide_with_bodies = true # Make raycast collide with physic bodies
-	var result: Dictionary = space_state.intersect_ray(query) # intersect_shape for rocket launcher, grenades...
-	if result:
-		_display_bullet_hole(result.get("position"), result.get("normal"))
+	var camera: Camera3D = Global.player.CAMERA_CONTROLLER
+	var viewport: Viewport = get_viewport()
+	var hit = Global.get_forward_ray_hit(camera, get_viewport(), 1000.0)
+	
+	if hit:
+		_display_bullet_hole(hit.get("position"), hit.get("normal"))
 
 
 # normal is the direction that the surface shooted is pointing

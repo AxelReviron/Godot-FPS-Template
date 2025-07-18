@@ -11,13 +11,16 @@ class_name Player extends CharacterBody3D
 
 var mouse_input: bool = false
 var mouse_rotation: Vector3
+
 var rotation_input: float
 var tilt_input: float
+
 var player_rotation: Vector3
 var camera_rotation: Vector3
 var current_rotation: float
+var slide_start_rotation_y: float
+var interact_cast_result: Object
 
-var slide_start_rotation_y
 
 func _update_camera(delta):
 	current_rotation = rotation_input
@@ -68,6 +71,30 @@ func update_velocity() -> void:
 	move_and_slide()
 
 
+## Project a ray cast from the center of the screen and return the object hit.
+func _interact_cast() :
+	var hit: Dictionary = Global.get_forward_ray_hit(CAMERA_CONTROLLER, get_viewport(), Constants.INTERACT_DISTANCE)
+	var object_hit = hit.get("collider")
+	
+	# If it's a different object hit
+	if object_hit != interact_cast_result:
+		if interact_cast_result and interact_cast_result.has_user_signal("unfocused"):
+			print(str(interact_cast_result) + " unfocused")
+			interact_cast_result.emit_signal("unfocused")
+			
+		interact_cast_result = object_hit
+		
+		if interact_cast_result and interact_cast_result.has_user_signal("focused"):
+			print(str(interact_cast_result) + " focused")
+			interact_cast_result.emit_signal("focused")
+
+
+## Interact with the object hit by the ray cast
+func _interact() -> void:
+	if interact_cast_result and interact_cast_result.has_user_signal("interacted"):
+		interact_cast_result.emit_signal("interacted")
+
+
 func _ready():
 	# Register player node globally
 	Global.player = self
@@ -82,7 +109,12 @@ func _unhandled_input(event):
 	
 	if GlobalInput.is_exiting():
 		get_tree().quit()
+	
+	if GlobalInput.is_interacting():
+		#_interact_cast()
+		_interact()
 
 
 func _physics_process(delta):
 	_update_camera(delta)
+	_interact_cast()

@@ -38,6 +38,10 @@ func is_exiting() -> bool:
 	return Input.is_action_pressed("exit")
 
 
+func is_interacting() -> bool:
+	return Input.is_action_pressed("interact")
+
+
 func is_debug() -> bool:
 	return Input.is_action_pressed("debug")
 

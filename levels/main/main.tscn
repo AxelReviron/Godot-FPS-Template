@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bemhexpxyb7ow"]
+[gd_scene load_steps=13 format=3 uid="uid://bemhexpxyb7ow"]
 
 [ext_resource type="Material" uid="uid://icokfqbcyd4j" path="res://levels/main/materials/black_grid_material.tres" id="2_f6gjy"]
 [ext_resource type="PackedScene" uid="uid://devdbqxq7swqd" path="res://entities/player/player.tscn" id="2_vc640"]
 [ext_resource type="Material" uid="uid://2fkdjwykfy0t" path="res://levels/main/materials/red_grid_material.tres" id="3_gonaa"]
 [ext_resource type="Material" uid="uid://dnefqwbgohiny" path="res://levels/main/materials/blue_grid_material.tres" id="4_gonaa"]
+[ext_resource type="PackedScene" uid="uid://c88xlgr6pcbj5" path="res://objects/weapons/ak47/interactable_ak_47.tscn" id="5_3ymrs"]
+[ext_resource type="Script" uid="uid://dib2nmaqrycg8" path="res://objects/interaction_component.gd" id="6_3ymrs"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_0o3xy"]
 
@@ -21,6 +23,9 @@ sky_material = SubResource("ProceduralSkyMaterial_f6gjy")
 [sub_resource type="Environment" id="Environment_iab0w"]
 background_mode = 2
 sky = SubResource("Sky_3ymrs")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3ymrs"]
+size = Vector3(0.789063, 0.257263, 0.0888672)
 
 [node name="Node3D" type="Node3D"]
 
@@ -77,3 +82,16 @@ material = ExtResource("3_gonaa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.03252)
 pixel_size = 0.015
 text = "Need to crouch"
+
+[node name="InteractableAk47" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.43835, 24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAk47"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105469, -0.033783, 0.455566)
+shape = SubResource("BoxShape3D_3ymrs")
+
+[node name="InteractableAk47" parent="InteractableAk47" instance=ExtResource("5_3ymrs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.482548)
+
+[node name="InteractionComponent" type="Node" parent="InteractableAk47"]
+script = ExtResource("6_3ymrs")
