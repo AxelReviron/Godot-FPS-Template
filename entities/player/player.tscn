@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://devdbqxq7swqd"]
+[gd_scene load_steps=28 format=3 uid="uid://devdbqxq7swqd"]
 
 [ext_resource type="Script" uid="uid://c5lomk3h5a1xr" path="res://entities/player/player.gd" id="1_symyc"]
 [ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://ui/hud/user_interface.tscn" id="2_abrql"]
 [ext_resource type="Script" uid="uid://b6dhrqhmba2xm" path="res://objects/weapons/camera_recoil.gd" id="2_afbqv"]
 [ext_resource type="PackedScene" uid="uid://cw81xctbb6bsy" path="res://objects/weapons/weapon.tscn" id="2_j3ovn"]
 [ext_resource type="Script" uid="uid://c563eujybct48" path="res://entities/player/states/movements/idle_player_state.gd" id="4_bls4j"]
+[ext_resource type="Resource" uid="uid://cuj4mlb2dot1d" path="res://objects/weapons/ak47/ak47_resource.tres" id="4_gx6sm"]
 [ext_resource type="Script" uid="uid://coc7tn55g074c" path="res://entities/player/states/player_state_machine.gd" id="5_afbqv"]
 [ext_resource type="Script" uid="uid://0yyhqfbjnuf8" path="res://entities/player/states/movements/walking_player_state.gd" id="5_fkugw"]
 [ext_resource type="Script" uid="uid://wl07ju33yxt8" path="res://entities/player/states/movements/sprinting_player_state.gd" id="6_8fjmc"]
@@ -493,6 +494,8 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
+transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.222, -0.143, -0.289)
+WEAPON_TYPE = ExtResource("4_gx6sm")
 sway_speed = 1.8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

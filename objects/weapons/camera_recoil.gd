@@ -1,5 +1,7 @@
 extends Node3D
 
+const MAX_RECOIL_X: float = 0.5
+
 @export var weapon: WeaponController
 
 var current_rotation: Vector3
@@ -21,8 +23,7 @@ func _process(delta) ->void :
 
 func add_recoil() -> void:
 	target_rotation += Vector3(
-		weapon.recoil_amount_x, # Recoil up
+		clamp(weapon.recoil_amount_x, -MAX_RECOIL_X, MAX_RECOIL_X), # Recoil up
 		randf_range(-weapon.recoil_amount_y, weapon.recoil_amount_y), # Recoil sides
 		0.0
 	)
-	

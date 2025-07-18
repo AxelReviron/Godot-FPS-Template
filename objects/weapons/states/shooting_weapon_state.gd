@@ -2,14 +2,23 @@ class_name ShootingWeaponState extends WeaponState
 
 
 func enter(previous_state: State) -> void:
-	WEAPON.shoot()
+	if WEAPON.shooting_type == Weapons.ShootingType.ONCE:
+		WEAPON.shoot()
 	#TODO: ANIMATION.pause()
 
 
 func update(delta: float):
-	if not GlobalInput.is_shooting():
-		transition.emit("IdleWeaponState")
-	
+	match WEAPON.shooting_type:
+		Weapons.ShootingType.ONCE:
+			if !GlobalInput.is_shooting():
+				transition.emit("IdleWeaponState")
+		
+		Weapons.ShootingType.AUTO:
+			if GlobalInput.is_shooting():
+				WEAPON.shoot()
+			else:
+				transition.emit("IdleWeaponState")
+
 	# TODO: Check for mag
 	#if WEAPON.is_mag_empty():
 		#transition.emit("ReloadingWeaponState")

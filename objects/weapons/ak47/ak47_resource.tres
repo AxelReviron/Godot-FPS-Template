@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="Weapons" load_steps=3 format=3 uid="uid://cuj4mlb2dot1d"]
 
 [ext_resource type="PackedScene" uid="uid://d0hcx4uh2u84" path="res://objects/weapons/ak47/ak_47.tscn" id="1_5kh04"]
-[ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons.gd" id="1_nfy4w"]
+[ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons_base_resource.gd" id="2_5kh04"]
 
 [resource]
-script = ExtResource("1_nfy4w")
+script = ExtResource("2_5kh04")
 name = &"AK47"
 position = Vector3(0.222, -0.143, -0.289)
 rotation = Vector3(0, 89.1, 0)
@@ -20,9 +20,12 @@ sway_amount_rotation = 30.0
 idle_sway_adjustment = 10.0
 idle_sway_rotation_strength = 300.0
 random_sway_amount = 5.0
-recoil_amount_x = 0.15
+recoil_amount_x = 0.1
 recoil_amount_y = 0.05
 recoil_snap_amount = 5.0
 recoil_speed = 7.0
 muzzle_flash_position = Vector3(0.55, 0, -0.009)
+fire_rate = 0.2
+shooting_type = 0
+max_ammo = 30
 metadata/_custom_type_script = "uid://tdc0pwp4voaw"

@@ -13,5 +13,6 @@ func _ready():
 func add_muzzle_flash() -> void:
 	light.visible = true
 	emitter.emitting = true
-	await get_tree().create_timer(flash_time).timeout
+	await get_tree().create_timer(Global.player.WEAPON_CONTROLLER.fire_rate).timeout
+	emitter.emitting = false
 	light.visible = false

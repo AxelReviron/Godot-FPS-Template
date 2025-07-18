@@ -31,3 +31,18 @@ class_name Weapons extends Resource
 
 @export_group("Weapon Muzzle Flash")
 @export var muzzle_flash_position: Vector3
+
+@export_group("Weapon Fire Shooting")
+@export var fire_rate: float
+enum ShootingType { AUTO, ONCE }
+@export var shooting_type: ShootingType = ShootingType.ONCE
+
+@export_group("Weapon Ammo")
+@export var max_ammo: int
+
+
+static func get_shooting_type_name(value: int) -> String:
+	for name in ShootingType.keys():
+		if ShootingType[name] == value:
+			return name
+	return "UNKNOWN"

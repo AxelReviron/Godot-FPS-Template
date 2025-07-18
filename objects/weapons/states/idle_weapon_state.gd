@@ -3,7 +3,8 @@ class_name IdleWeaponState extends WeaponState
 
 func enter(previous_state: State) -> void:
 	#TODO: ANIMATION.pause()
-	pass
+	if previous_state.name == "ShootingWeaponState":
+		WEAPON.emit_signal("weapon_stop_fire")
 
 
 func update(delta: float):

@@ -3,7 +3,7 @@
 class_name WeaponController extends Node3D
 
 signal weapon_fired
-
+signal weapon_stop_fire
 
 @export var WEAPON_TYPE: Weapons:
 	set(value):
@@ -50,6 +50,13 @@ var bullet_hole = preload("res://objects/weapons/bullet_hole/bullet_hole.tscn")
 # Muzzle Flash
 var muzzle_flash_position: Vector3
 
+# Shooting
+var fire_rate: float
+var shooting_type: Weapons.ShootingType
+var can_shoot: bool = true
+# Ammo
+var max_ammo: int
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	load_weapon()
@@ -62,6 +69,7 @@ func _clean_previous_weapon_instance() -> void:
 		current_weapon_instance = null
 	if weapon_mesh:
 		weapon_mesh.mesh = null
+
 
 func load_weapon() -> void:
 	_clean_previous_weapon_instance()
@@ -94,7 +102,11 @@ func load_weapon() -> void:
 	
 	if muzzle_flash:
 		muzzle_flash.position = WEAPON_TYPE.muzzle_flash_position
-
+	
+	# TODO: Fire rate, ShootType (auto, once)
+	fire_rate = WEAPON_TYPE.fire_rate
+	max_ammo = WEAPON_TYPE.max_ammo
+	shooting_type = WEAPON_TYPE.shooting_type
 
 # Sway weapon based on mouse movement
 func sway_weapon(delta: float, isIdle: bool) -> void:
@@ -159,6 +171,10 @@ func weapon_bob(delta: float, bob_speed: float, h_bob_amount: float, v_bob_amoun
 
 
 func shoot() -> void:
+	if !can_shoot:
+		return
+
+	can_shoot = false
 	weapon_fired.emit()
 	
 	var camera: Camera3D = Global.player.CAMERA_CONTROLLER
@@ -167,6 +183,9 @@ func shoot() -> void:
 	
 	if hit:
 		_display_bullet_hole(hit.get("position"), hit.get("normal"))
+	
+	await get_tree().create_timer(fire_rate).timeout
+	can_shoot = true
 
 
 # normal is the direction that the surface shooted is pointing
