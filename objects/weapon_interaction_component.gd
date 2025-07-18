@@ -1,22 +1,26 @@
-class_name InteractionComponent extends Node
+class_name WeaponInteractionComponent extends InteractionComponent
 
 
 const MAX_RECURSION_DEPTH := 10
 
+## Reference the weapon resource in the [annotation WeaponDatabase]
+@export var weapon_key: String
+
+## Weapon Resource
+var weapon_res: Resource = null
+
 ## Object detected by raycast
-var parent: StaticBody3D
 var meshes: Array[MeshInstance3D] = []
 var highlight_material = preload("res://objects/interactable_highlight.tres")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	parent = get_parent()
-	connect_parent()
+	super._ready()
 	_set_default_meshes()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta: float):
 	pass
 
 
@@ -30,20 +34,22 @@ func on_unfocus() -> void:
 	_clear_highlight_material()
 
 
-## Run when something is hit by raycast
+## Load the new weapon
 func on_interact() -> void:
-	print(parent.name)
-
-
-## Create signals to the parent Node
-func connect_parent() -> void:
-	parent.add_user_signal("focused")
-	parent.add_user_signal("unfocused")
-	parent.add_user_signal("interacted")
+	var new_weapon_res = WeaponDatabase.get_weapon(weapon_key)
 	
-	parent.connect("focused", Callable(self, "on_focus"))
-	parent.connect("unfocused", Callable(self, "on_unfocus"))
-	parent.connect("interacted", Callable(self, "on_interact"))
+	# If player interact with the same weapon equiped, do nothing
+	if weapon_res and weapon_res == new_weapon_res:
+		return
+	
+	weapon_res = WeaponDatabase.get_weapon(weapon_key)
+	
+	if Global.player and Global.player.WEAPON_CONTROLLER and weapon_res:
+		print("Weapon changed")
+		Global.player.WEAPON_CONTROLLER.WEAPON_TYPE = weapon_res
+	else:
+		push_warning("WeaponController or resource is missing!")
+
 
 
 ## Finds and stores all MeshInstance3D children of the parent node

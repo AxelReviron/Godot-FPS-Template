@@ -21,6 +21,7 @@ Settings="*res://shared/settings.gd"
 Constants="*res://shared/constants.gd"
 SignalBus="*res://shared/signal_bus.gd"
 Global="*res://shared/global.gd"
+WeaponDatabase="*res://shared/weapon_database.gd"
 GlobalInput="*res://shared/input.gd"
 
 [display]

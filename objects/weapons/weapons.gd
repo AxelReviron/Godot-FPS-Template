@@ -28,3 +28,6 @@ class_name Weapons extends Resource
 @export_range(0, 1, 0.05) var recoil_amount_y: float
 @export_range(0, 10, 1.0) var recoil_snap_amount: float
 @export_range(0, 10, 1.0) var recoil_speed: float
+
+@export_group("Weapon Muzzle Flash")
+@export var muzzle_flash_position: Vector3

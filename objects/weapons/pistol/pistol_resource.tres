@@ -24,4 +24,5 @@ recoil_amount_x = 0.1
 recoil_amount_y = 0.05
 recoil_snap_amount = 5.0
 recoil_speed = 7.0
+muzzle_flash_position = Vector3(0.064, 0.035, 0)
 metadata/_custom_type_script = "uid://tdc0pwp4voaw"

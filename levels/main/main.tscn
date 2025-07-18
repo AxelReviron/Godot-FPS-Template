@@ -1,11 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://bemhexpxyb7ow"]
+[gd_scene load_steps=15 format=3 uid="uid://bemhexpxyb7ow"]
 
 [ext_resource type="Material" uid="uid://icokfqbcyd4j" path="res://levels/main/materials/black_grid_material.tres" id="2_f6gjy"]
 [ext_resource type="PackedScene" uid="uid://devdbqxq7swqd" path="res://entities/player/player.tscn" id="2_vc640"]
 [ext_resource type="Material" uid="uid://2fkdjwykfy0t" path="res://levels/main/materials/red_grid_material.tres" id="3_gonaa"]
 [ext_resource type="Material" uid="uid://dnefqwbgohiny" path="res://levels/main/materials/blue_grid_material.tres" id="4_gonaa"]
 [ext_resource type="PackedScene" uid="uid://c88xlgr6pcbj5" path="res://objects/weapons/ak47/interactable_ak_47.tscn" id="5_3ymrs"]
-[ext_resource type="Script" uid="uid://dib2nmaqrycg8" path="res://objects/interaction_component.gd" id="6_3ymrs"]
+[ext_resource type="Script" uid="uid://dib2nmaqrycg8" path="res://objects/weapon_interaction_component.gd" id="6_3ymrs"]
+[ext_resource type="PackedScene" uid="uid://b1bxqiqvrgne4" path="res://objects/weapons/pistol/interactable_pistol.tscn" id="7_q42nm"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_0o3xy"]
 
@@ -26,6 +27,9 @@ sky = SubResource("Sky_3ymrs")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ymrs"]
 size = Vector3(0.789063, 0.257263, 0.0888672)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oclhf"]
+size = Vector3(0.167969, 0.152122, 0.0985107)
 
 [node name="Node3D" type="Node3D"]
 
@@ -93,5 +97,19 @@ shape = SubResource("BoxShape3D_3ymrs")
 [node name="InteractableAk47" parent="InteractableAk47" instance=ExtResource("5_3ymrs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.482548)
 
-[node name="InteractionComponent" type="Node" parent="InteractableAk47"]
+[node name="WeaponInteractionComponent" type="Node" parent="InteractableAk47"]
 script = ExtResource("6_3ymrs")
+weapon_key = "ak47"
+
+[node name="InteractablePistol" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75099, 1.39056, 24.4907)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractablePistol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00683594, 0.0215111, -0.0140991)
+shape = SubResource("BoxShape3D_oclhf")
+
+[node name="InteractablePistol" parent="InteractablePistol" instance=ExtResource("7_q42nm")]
+
+[node name="WeaponInteractionComponent2" type="Node" parent="InteractablePistol"]
+script = ExtResource("6_3ymrs")
+weapon_key = "pistol"

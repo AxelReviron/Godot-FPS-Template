@@ -79,13 +79,11 @@ func _interact_cast() :
 	# If it's a different object hit
 	if object_hit != interact_cast_result:
 		if interact_cast_result and interact_cast_result.has_user_signal("unfocused"):
-			print(str(interact_cast_result) + " unfocused")
 			interact_cast_result.emit_signal("unfocused")
 			
 		interact_cast_result = object_hit
 		
 		if interact_cast_result and interact_cast_result.has_user_signal("focused"):
-			print(str(interact_cast_result) + " focused")
 			interact_cast_result.emit_signal("focused")
 
 

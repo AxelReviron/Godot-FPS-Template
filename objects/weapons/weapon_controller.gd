@@ -8,8 +8,8 @@ signal weapon_fired
 @export var WEAPON_TYPE: Weapons:
 	set(value):
 		WEAPON_TYPE = value
-		if Engine.is_editor_hint():
-			load_weapon()
+		#if Engine.is_editor_hint():
+		load_weapon()
 
 @export var sway_noise: NoiseTexture2D
 @export var sway_speed: float = 1.2
@@ -23,6 +23,7 @@ signal weapon_fired
 
 @onready var weapon_mesh: MeshInstance3D = %WeaponMesh
 @onready var weapon_shadow: MeshInstance3D
+@onready var muzzle_flash: Node3D = %MuzzleFlash
 
 # Weapon Scene
 @onready var weapon_scene: Node3D = %WeaponScene # Weapon Node container for the weapon scene
@@ -46,13 +47,25 @@ var recoil_speed: float
 
 var bullet_hole = preload("res://objects/weapons/bullet_hole/bullet_hole.tscn")
 
+# Muzzle Flash
+var muzzle_flash_position: Vector3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	load_weapon()
 
 
+func _clean_previous_weapon_instance() -> void:
+	# Clean up previous weapon instance
+	if current_weapon_instance:
+		current_weapon_instance.queue_free()
+		current_weapon_instance = null
+	if weapon_mesh:
+		weapon_mesh.mesh = null
+
 func load_weapon() -> void:
+	_clean_previous_weapon_instance()
+	
 	position = WEAPON_TYPE.position # Set weapon position
 	rotation_degrees = WEAPON_TYPE.rotation # Set weapon rotation
 	scale = WEAPON_TYPE.scale # Set weapon scale
@@ -78,6 +91,9 @@ func load_weapon() -> void:
 	recoil_amount_y = WEAPON_TYPE.recoil_amount_y
 	recoil_snap_amount = WEAPON_TYPE.recoil_snap_amount
 	recoil_speed = WEAPON_TYPE.recoil_speed
+	
+	if muzzle_flash:
+		muzzle_flash.position = WEAPON_TYPE.muzzle_flash_position
 
 
 # Sway weapon based on mouse movement
