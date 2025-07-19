@@ -24,6 +24,8 @@ signal weapon_stop_fire
 @onready var weapon_mesh: MeshInstance3D = %WeaponMesh
 @onready var weapon_shadow: MeshInstance3D
 @onready var muzzle_flash: Node3D = %MuzzleFlash
+@onready var audio_stream_player: AudioStreamPlayer3D = %AudioStreamPlayer3D
+
 
 # Weapon Scene
 @onready var weapon_scene: Node3D = %WeaponScene # Weapon Node container for the weapon scene
@@ -47,15 +49,20 @@ var recoil_speed: float
 
 var bullet_hole = preload("res://objects/weapons/bullet_hole/bullet_hole.tscn")
 
-# Muzzle Flash
+# Weapon Shoot FX
 var muzzle_flash_position: Vector3
+var bullet_trace_position: Vector3
 
-# Shooting
+# Weapon Shooting Properties
 var fire_rate: float
 var shooting_type: Weapons.ShootingType
 var can_shoot: bool = true
+
 # Ammo
 var max_ammo: int
+
+# Sounds
+var shoot_sound: AudioStreamWAV
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -79,17 +86,17 @@ func load_weapon() -> void:
 	scale = WEAPON_TYPE.scale # Set weapon scale
 	
 	# Instanciate the weapon mesh or the weapon scene
-	if WEAPON_TYPE.mesh:
-		weapon_mesh.mesh = WEAPON_TYPE.mesh # Set weapon mesh
-	elif WEAPON_TYPE.scene:
+	#if WEAPON_TYPE.mesh:
+		#weapon_mesh.mesh = WEAPON_TYPE.mesh # Set weapon mesh
+	if WEAPON_TYPE.scene:
 		current_weapon_instance = WEAPON_TYPE.scene.instantiate()
 		if weapon_scene:
 			weapon_scene.add_child(current_weapon_instance)
 	else:
-		print("WeaponController need to have a mesh or a scene")
+		print("WeaponController need to a scene")
 	
-	if WEAPON_TYPE.shadow:
-		weapon_shadow.visible = WEAPON_TYPE.shadow # Turn shadow on/off
+	#if WEAPON_TYPE.shadow:
+		#weapon_shadow.visible = WEAPON_TYPE.shadow # Turn shadow on/off
 	
 	idle_sway_adjustment = WEAPON_TYPE.idle_sway_adjustment
 	idle_sway_rotation_strength = WEAPON_TYPE.idle_sway_rotation_strength
@@ -105,8 +112,11 @@ func load_weapon() -> void:
 	
 	# TODO: Fire rate, ShootType (auto, once)
 	fire_rate = WEAPON_TYPE.fire_rate
-	max_ammo = WEAPON_TYPE.max_ammo
 	shooting_type = WEAPON_TYPE.shooting_type
+	
+	max_ammo = WEAPON_TYPE.max_ammo
+	
+	shoot_sound = WEAPON_TYPE.shoot_sound
 
 # Sway weapon based on mouse movement
 func sway_weapon(delta: float, isIdle: bool) -> void:

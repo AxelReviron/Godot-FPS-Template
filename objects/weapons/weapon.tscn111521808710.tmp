@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://cw81xctbb6bsy"]
+[gd_scene load_steps=15 format=3 uid="uid://cw81xctbb6bsy"]
 
 [ext_resource type="Script" uid="uid://bt5t0sg6rh3ap" path="res://objects/weapons/weapon_controller.gd" id="1_7lfho"]
-[ext_resource type="Resource" uid="uid://cf6agjg1ardc8" path="res://objects/weapons/pistol/pistol_resource.tres" id="2_8vp3k"]
+[ext_resource type="Resource" uid="uid://cuj4mlb2dot1d" path="res://objects/weapons/ak47/ak47_resource.tres" id="2_nsv83"]
+[ext_resource type="AudioStream" uid="uid://bd7kv5ebw3kyk" path="res://objects/weapons/ak47/ak47_once.wav" id="3_25oyk"]
 [ext_resource type="Script" uid="uid://bqsi3wgdj0uoe" path="res://objects/weapons/weapon_recoil.gd" id="3_nsv83"]
 [ext_resource type="Script" uid="uid://xwyljv3xs41b" path="res://objects/weapons/muzzle_flash.gd" id="4_revnk"]
 [ext_resource type="Material" uid="uid://dppesubuvwrxb" path="res://objects/weapons/muzzle_flash_material.tres" id="5_4geap"]
@@ -26,79 +27,50 @@ gravity = Vector3(0, 0, 0)
 material = ExtResource("5_4geap")
 size = Vector2(0.05, 0.05)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4geap"]
-emission_shape_scale = Vector3(1, 0, 0)
-spread = 0.0
-initial_velocity_min = 50.0
-initial_velocity_max = 50.0
-gravity = Vector3(0, 0, 0)
-
-[sub_resource type="Gradient" id="Gradient_4geap"]
-colors = PackedColorArray(1, 0.690308, 0.328125, 1, 1, 0.837891, 0.351563, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_25oyk"]
-gradient = SubResource("Gradient_4geap")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2dk83"]
-transparency = 1
-albedo_color = Color(0, 0, 0, 0.964706)
-emission_enabled = true
-emission = Color(1, 0.904785, 0.53125, 1)
-emission_energy_multiplier = 16.0
-emission_texture = SubResource("GradientTexture2D_25oyk")
-grow_amount = 0.265
-
-[sub_resource type="BoxMesh" id="BoxMesh_25oyk"]
-material = SubResource("StandardMaterial3D_2dk83")
-size = Vector3(1, 0.001, 0.001)
-
 [node name="Weapon" type="Node3D"]
-transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.21, -0.183, -0.459)
+transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.222, -0.143, -0.289)
 script = ExtResource("1_7lfho")
-WEAPON_TYPE = ExtResource("2_8vp3k")
+WEAPON_TYPE = ExtResource("2_nsv83")
 sway_noise = SubResource("NoiseTexture2D_revnk")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, -1.86265e-09, 0, 1, 0, 1.86265e-09, 0, 1, 0.577154, 0.0287785, -0.00401807)
+stream = ExtResource("3_25oyk")
+bus = &"AK"
 
 [node name="RecoilPosition" type="Node3D" parent="." node_paths=PackedStringArray("weapon")]
 script = ExtResource("3_nsv83")
 weapon = NodePath("..")
 
+[node name="WeaponMesh" type="MeshInstance3D" parent="RecoilPosition"]
+unique_name_in_owner = true
+layers = 2
+skeleton = NodePath("../..")
+
 [node name="WeaponScene" type="Node3D" parent="RecoilPosition"]
 unique_name_in_owner = true
 
-[node name="MuzzleFlash" type="Node3D" parent="RecoilPosition/WeaponScene" node_paths=PackedStringArray("weapon")]
+[node name="MuzzleFlash" type="Node3D" parent="RecoilPosition" node_paths=PackedStringArray("weapon")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0.064, 0.035, 0)
+transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0.491247, 0.0256673, 0.000337198)
 script = ExtResource("4_revnk")
-weapon = NodePath("../../..")
+weapon = NodePath("../..")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="RecoilPosition/WeaponScene/MuzzleFlash"]
+[node name="OmniLight3D" type="OmniLight3D" parent="RecoilPosition/MuzzleFlash"]
 unique_name_in_owner = true
 visible = false
 light_color = Color(0.871094, 0.753694, 0.588669, 1)
 omni_shadow_mode = 0
 
-[node name="MuzzelFashParticles" type="GPUParticles3D" parent="RecoilPosition/WeaponScene/MuzzleFlash"]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="RecoilPosition/MuzzleFlash"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 emitting = false
 lifetime = 0.2
 speed_scale = 8.94
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_revnk")
 draw_pass_1 = SubResource("QuadMesh_q1d4d")
-
-[node name="BulletTraceParticle" type="GPUParticles3D" parent="RecoilPosition/WeaponScene/MuzzleFlash"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0)
-emitting = false
-amount = 1
-lifetime = 0.2
-process_material = SubResource("ParticleProcessMaterial_4geap")
-draw_pass_1 = SubResource("BoxMesh_25oyk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 

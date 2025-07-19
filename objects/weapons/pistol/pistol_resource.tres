@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="Weapons" load_steps=3 format=3 uid="uid://cf6agjg1ardc8"]
+[gd_resource type="Resource" script_class="Weapons" load_steps=4 format=3 uid="uid://cf6agjg1ardc8"]
 
 [ext_resource type="PackedScene" uid="uid://di4y8v188c8qe" path="res://objects/weapons/pistol/pistol.tscn" id="1_66umr"]
 [ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons_base_resource.gd" id="2_66umr"]
+[ext_resource type="AudioStream" uid="uid://b247h2m8nnbgo" path="res://objects/weapons/pistol/pistol_shoot.wav" id="3_1uy2w"]
 
 [resource]
 script = ExtResource("2_66umr")
@@ -25,7 +26,9 @@ recoil_amount_y = 0.05
 recoil_snap_amount = 5.0
 recoil_speed = 7.0
 muzzle_flash_position = Vector3(0.064, 0.035, 0)
-fire_rate = 0.0
+bullet_trace_position = Vector3(-1.49, 0, 0.004)
+fire_rate = 0.1
 shooting_type = 1
 max_ammo = 10
+shoot_sound = ExtResource("3_1uy2w")
 metadata/_custom_type_script = "uid://tdc0pwp4voaw"

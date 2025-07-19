@@ -23,8 +23,14 @@ func _process(delta) ->void :
 
 
 func add_recoil() -> void:
+	#target_position += Vector3(
+		#clamp(-weapon.recoil_amount_x * 0.5, -MAX_RECOIL_X, MAX_RECOIL_X), # Weapon goes close to the player
+		#clamp(weapon.recoil_amount_y  * 0.5, -MAX_RECOIL_Y, MAX_RECOIL_Y), # # Weapon goes up
+		#0.0
+	#)
+	
 	target_position += Vector3(
-		clamp(-weapon.recoil_amount_x * 0.5, -MAX_RECOIL_X, MAX_RECOIL_X), # Weapon goes close to the player
-		clamp(weapon.recoil_amount_y  * 0.5, -MAX_RECOIL_Y, MAX_RECOIL_Y), # # Weapon goes up
+		-weapon.recoil_amount_x * 0.5, # Weapon goes close to the player
+		weapon.recoil_amount_y  * 0.5, # # Weapon goes up
 		0.0
 	)

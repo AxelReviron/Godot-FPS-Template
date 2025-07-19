@@ -7,8 +7,6 @@ class_name Weapons extends Resource
 @export var scale: Vector3
 
 @export_group("Visual Settings")
-@export var mesh: Mesh
-@export var shadow: bool
 @export var scene: PackedScene
 
 @export_group("Weapon Sway")
@@ -32,7 +30,7 @@ class_name Weapons extends Resource
 @export_group("Weapon Muzzle Flash")
 @export var muzzle_flash_position: Vector3
 
-@export_group("Weapon Fire Shooting")
+@export_group("Weapon Shooting Properties")
 @export var fire_rate: float
 enum ShootingType { AUTO, ONCE }
 @export var shooting_type: ShootingType = ShootingType.ONCE
@@ -40,6 +38,9 @@ enum ShootingType { AUTO, ONCE }
 @export_group("Weapon Ammo")
 @export var max_ammo: int
 
+# TODO: Audio
+@export_group("Weapon Sound")
+@export var shoot_sound: AudioStreamWAV
 
 static func get_shooting_type_name(value: int) -> String:
 	for name in ShootingType.keys():

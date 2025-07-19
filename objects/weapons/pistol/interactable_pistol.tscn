@@ -152,23 +152,19 @@ shadow_mesh = SubResource("ArrayMesh_dsbhy")
 
 [node name="pewtrigger" type="MeshInstance3D" parent="MultiMeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0120239, 0.01159, 0)
-layers = 2
 mesh = SubResource("ArrayMesh_ke1re")
 skeleton = NodePath("")
 
 [node name="pewmagazine" type="MeshInstance3D" parent="MultiMeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0464487, -0.0111413, 9.00403e-06)
-layers = 2
 mesh = SubResource("ArrayMesh_sljpi")
 skeleton = NodePath("")
 
 [node name="pewhaut" type="MeshInstance3D" parent="MultiMeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0114079, 0.0336208, 0.000178527)
-layers = 2
 mesh = SubResource("ArrayMesh_2rrlp")
 skeleton = NodePath("")
 
 [node name="pewboody" type="MeshInstance3D" parent="MultiMeshInstance3D"]
-layers = 2
 mesh = SubResource("ArrayMesh_12rmx")
 skeleton = NodePath("")
