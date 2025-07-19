@@ -4,7 +4,7 @@ class_name ShootingWeaponState extends WeaponState
 var fade_time: float = 0.4  # secondes
 var fade_timer: float = 0.0
 var is_fading: bool = false
-
+#var previous_state_name: StringName
 
 func start_fade_out():
 	if !is_fading:
@@ -23,6 +23,12 @@ func enter(previous_state: State) -> void:
 
 
 func update(delta: float):
+	if GlobalInput.is_aiming():
+		WEAPON.aim(delta)
+	
+	if GlobalInput.stop_aiming():
+		WEAPON.reset_aim(delta)
+
 	match WEAPON.shooting_type:
 		Weapons.ShootingType.ONCE:
 			if !GlobalInput.is_shooting():

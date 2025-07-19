@@ -8,6 +8,10 @@ class_name Weapons extends Resource
 
 @export_group("Visual Settings")
 @export var scene: PackedScene
+@export var aim_position: Vector3
+@export var aim_rotation: Vector3
+@export var aim_speed: float = 8.0
+@export var aim_fov: float = 50
 
 @export_group("Weapon Sway")
 @export var sway_min: Vector2 = Vector2(-20.0, -20.0)
@@ -22,13 +26,16 @@ class_name Weapons extends Resource
 @export_range(0.1, 10.0, 0.1) var random_sway_amount: float = 5.0
 
 @export_group("Weapon Recoil")
-@export_range(0, 1, 0.05) var recoil_amount_x: float
-@export_range(0, 1, 0.05) var recoil_amount_y: float
+@export_range(0, 1, 0.01) var recoil_amount_x: float
+@export_range(0, 1, 0.01) var recoil_amount_y: float
 @export_range(0, 10, 1.0) var recoil_snap_amount: float
 @export_range(0, 10, 1.0) var recoil_speed: float
+@export_range(0, 10, 0.01) var aim_recoil_amount_x: float
+@export_range(0, 1, 0.01) var aim_recoil_amount_y: float
 
 @export_group("Weapon Muzzle Flash")
 @export var muzzle_flash_position: Vector3
+
 
 @export_group("Weapon Shooting Properties")
 @export var fire_rate: float

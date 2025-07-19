@@ -8,6 +8,12 @@ func enter(previous_state: State) -> void:
 
 
 func update(delta: float):
+	if GlobalInput.is_aiming():
+		WEAPON.aim(delta)
+	
+	if GlobalInput.stop_aiming():
+		WEAPON.reset_aim(delta)
+
 	if GlobalInput.is_shooting():
 		transition.emit("ShootingWeaponState")
 

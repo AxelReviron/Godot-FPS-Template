@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://cw81xctbb6bsy"]
 
 [ext_resource type="Script" uid="uid://bt5t0sg6rh3ap" path="res://objects/weapons/weapon_controller.gd" id="1_7lfho"]
-[ext_resource type="Resource" uid="uid://cf6agjg1ardc8" path="res://objects/weapons/pistol/pistol_resource.tres" id="2_8vp3k"]
+[ext_resource type="Resource" uid="uid://cuj4mlb2dot1d" path="res://objects/weapons/ak47/ak47_resource.tres" id="2_25oyk"]
 [ext_resource type="Script" uid="uid://bqsi3wgdj0uoe" path="res://objects/weapons/weapon_recoil.gd" id="3_nsv83"]
 [ext_resource type="Script" uid="uid://xwyljv3xs41b" path="res://objects/weapons/muzzle_flash.gd" id="4_revnk"]
 [ext_resource type="Material" uid="uid://dppesubuvwrxb" path="res://objects/weapons/muzzle_flash_material.tres" id="5_4geap"]
@@ -52,10 +52,11 @@ grow_amount = 0.265
 material = SubResource("StandardMaterial3D_2dk83")
 size = Vector3(1, 0.001, 0.001)
 
-[node name="Weapon" type="Node3D"]
-transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.21, -0.183, -0.459)
+[node name="Weapon" type="Node3D" node_paths=PackedStringArray("state_machine")]
+transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.222, -0.143, -0.289)
 script = ExtResource("1_7lfho")
-WEAPON_TYPE = ExtResource("2_8vp3k")
+state_machine = NodePath("WeaponStateMachine")
+WEAPON_TYPE = ExtResource("2_25oyk")
 sway_noise = SubResource("NoiseTexture2D_revnk")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
@@ -71,7 +72,7 @@ unique_name_in_owner = true
 
 [node name="MuzzleFlash" type="Node3D" parent="RecoilPosition/WeaponScene" node_paths=PackedStringArray("weapon")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0.064, 0.035, 0)
+transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0.491, 0.026, 0.011)
 script = ExtResource("4_revnk")
 weapon = NodePath("../../..")
 
@@ -83,7 +84,6 @@ omni_shadow_mode = 0
 
 [node name="MuzzelFashParticles" type="GPUParticles3D" parent="RecoilPosition/WeaponScene/MuzzleFlash"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 emitting = false
 lifetime = 0.2
 speed_scale = 8.94

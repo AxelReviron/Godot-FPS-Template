@@ -52,3 +52,11 @@ func is_mouse_mode_captured() -> bool:
 
 func is_shooting() -> bool:
 	return Input.is_action_pressed("shoot")
+
+
+func is_aiming() -> bool:
+	return Input.is_action_pressed("aim")
+
+
+func stop_aiming() -> bool:
+	return Input.is_action_just_released("aim")

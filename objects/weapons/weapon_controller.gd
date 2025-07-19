@@ -4,6 +4,7 @@ class_name WeaponController extends Node3D
 
 signal weapon_fired
 signal weapon_stop_fire
+@export var state_machine: WeaponStateMachine
 
 @export var WEAPON_TYPE: Weapons:
 	set(value):
@@ -21,15 +22,27 @@ signal weapon_stop_fire
 
 @export var ANIMATIONPLAYER: AnimationPlayer
 
-@onready var weapon_mesh: MeshInstance3D = %WeaponMesh
-@onready var weapon_shadow: MeshInstance3D
 @onready var muzzle_flash: Node3D = %MuzzleFlash
 @onready var audio_stream_player: AudioStreamPlayer3D = %AudioStreamPlayer3D
-
+@onready var camera: Camera3D = %Camera3D
 
 # Weapon Scene
 @onready var weapon_scene: Node3D = %WeaponScene # Weapon Node container for the weapon scene
 var current_weapon_instance: Node3D = null  # Reference to the weapon scene (defined in the weapon_resource)
+
+var can_sway: bool = true
+var base_position: Vector3
+var base_rotation: Vector3
+var base_camera_fov: float
+
+# Aim
+var aim_position: Vector3
+var aim_rotation: Vector3
+var aim_speed: float
+var aim_fov: float
+var position_tween: Tween = null
+var rotation_tween: Tween = null
+var fov_tween: Tween = null
 
 # Sway
 var mouse_movement: Vector2
@@ -46,6 +59,8 @@ var recoil_amount_x: float
 var recoil_amount_y: float
 var recoil_snap_amount: float
 var recoil_speed: float
+var aim_recoil_amount_x: float
+var aim_recoil_amount_y: float
 
 var bullet_hole = preload("res://objects/weapons/bullet_hole/bullet_hole.tscn")
 
@@ -74,29 +89,32 @@ func _clean_previous_weapon_instance() -> void:
 	if current_weapon_instance:
 		current_weapon_instance.queue_free()
 		current_weapon_instance = null
-	if weapon_mesh:
-		weapon_mesh.mesh = null
 
 
 func load_weapon() -> void:
 	_clean_previous_weapon_instance()
 	
+	base_position = WEAPON_TYPE.position
+	base_rotation = WEAPON_TYPE.rotation
+	if camera:
+		base_camera_fov = camera.fov
+	
 	position = WEAPON_TYPE.position # Set weapon position
 	rotation_degrees = WEAPON_TYPE.rotation # Set weapon rotation
 	scale = WEAPON_TYPE.scale # Set weapon scale
 	
-	# Instanciate the weapon mesh or the weapon scene
-	#if WEAPON_TYPE.mesh:
-		#weapon_mesh.mesh = WEAPON_TYPE.mesh # Set weapon mesh
+	aim_position = WEAPON_TYPE.aim_position
+	aim_rotation = WEAPON_TYPE.aim_rotation
+	aim_speed = WEAPON_TYPE.aim_speed
+	aim_fov = WEAPON_TYPE.aim_fov
+	
+	# Instanciate the weapon scene
 	if WEAPON_TYPE.scene:
 		current_weapon_instance = WEAPON_TYPE.scene.instantiate()
 		if weapon_scene:
 			weapon_scene.add_child(current_weapon_instance)
 	else:
 		print("WeaponController need to a scene")
-	
-	#if WEAPON_TYPE.shadow:
-		#weapon_shadow.visible = WEAPON_TYPE.shadow # Turn shadow on/off
 	
 	idle_sway_adjustment = WEAPON_TYPE.idle_sway_adjustment
 	idle_sway_rotation_strength = WEAPON_TYPE.idle_sway_rotation_strength
@@ -106,20 +124,22 @@ func load_weapon() -> void:
 	recoil_amount_y = WEAPON_TYPE.recoil_amount_y
 	recoil_snap_amount = WEAPON_TYPE.recoil_snap_amount
 	recoil_speed = WEAPON_TYPE.recoil_speed
+	aim_recoil_amount_x = WEAPON_TYPE.aim_recoil_amount_x
+	aim_recoil_amount_y = WEAPON_TYPE.aim_recoil_amount_y
 	
 	if muzzle_flash:
 		muzzle_flash.position = WEAPON_TYPE.muzzle_flash_position
 	
-	# TODO: Fire rate, ShootType (auto, once)
 	fire_rate = WEAPON_TYPE.fire_rate
 	shooting_type = WEAPON_TYPE.shooting_type
-	
 	max_ammo = WEAPON_TYPE.max_ammo
-	
 	shoot_sound = WEAPON_TYPE.shoot_sound
 
 # Sway weapon based on mouse movement
 func sway_weapon(delta: float, isIdle: bool) -> void:
+	if !can_sway:
+		return
+
 	# Clamp mouse movement
 	mouse_movement = mouse_movement.clamp(WEAPON_TYPE.sway_min, WEAPON_TYPE.sway_max)
 	var to_x_position: float 
@@ -222,3 +242,49 @@ func _display_bullet_hole(position: Vector3, normal: Vector3) -> void:
 	
 	await get_tree().create_timer(0.5).timeout
 	bullet_hole_instance.queue_free()
+
+
+func aim(delta: float) -> void:
+	can_sway = false
+	# Annule tout tween de position précédent pour éviter les conflits
+	if position_tween:
+		position_tween.kill()
+		position_tween = null
+	if rotation_tween:
+		rotation_tween.kill()
+		rotation_tween = null
+	if fov_tween:
+		fov_tween.kill()
+		fov_tween = null
+
+	camera.fov = lerp(camera.fov, aim_fov, aim_speed * delta)
+	self.position = self.position.lerp(aim_position, aim_speed * delta)
+	self.rotation_degrees = self.rotation_degrees.lerp(aim_rotation, aim_speed * delta)
+
+func reset_aim(delta: float) -> void:
+	if position_tween:
+		position_tween.kill()
+		position_tween = null
+	if rotation_tween:
+		rotation_tween.kill()
+		rotation_tween = null
+	if fov_tween:
+		fov_tween.kill()
+		fov_tween = null
+		
+	position_tween = create_tween()
+	rotation_tween = create_tween()
+	fov_tween = create_tween()
+	
+	fov_tween.tween_property(camera, "fov", base_camera_fov, 1.0 / aim_speed)
+	position_tween.tween_property(self, "position", base_position, 1.0 / aim_speed)
+	rotation_tween.tween_property(self, "rotation_degrees", base_rotation, 1.0 / aim_speed)
+
+	# Connect finished signal
+	rotation_tween.finished.connect(_on_position_tween_finished)
+
+func _on_position_tween_finished():
+	position_tween = null
+	rotation_tween = null
+	fov_tween = null
+	can_sway = true # Activate sway only when position, rotation  and fov tween are finished

@@ -22,8 +22,15 @@ func _process(delta) ->void :
 
 
 func add_recoil() -> void:
-	target_rotation += Vector3(
-		clamp(weapon.recoil_amount_x, -MAX_RECOIL_X, MAX_RECOIL_X), # Recoil up
-		randf_range(-weapon.recoil_amount_y, weapon.recoil_amount_y), # Recoil sides
-		0.0
-	)
+	if GlobalInput.is_aiming():
+		target_rotation += Vector3(
+			clamp(weapon.aim_recoil_amount_x, -MAX_RECOIL_X, MAX_RECOIL_X), # Recoil up
+			randf_range(-weapon.aim_recoil_amount_y, weapon.aim_recoil_amount_y), # Recoil sides
+			0.0
+		)
+	else :
+		target_rotation += Vector3(
+			clamp(weapon.recoil_amount_x, -MAX_RECOIL_X, MAX_RECOIL_X), # Recoil up
+			randf_range(-weapon.recoil_amount_y, weapon.recoil_amount_y), # Recoil sides
+			0.0
+		)
