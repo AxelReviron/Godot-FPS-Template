@@ -15,8 +15,7 @@ func _process(delta):
 	
 	var type_int: Weapons.ShootingType = Global.player.WEAPON_CONTROLLER.shooting_type
 	var type_str: String = Weapons.get_shooting_type_name(type_int)
-	Global.debug.add_property("Shooting Type", type_str, 3)
-	Global.debug.add_property("Max Ammo", Global.player.WEAPON_CONTROLLER.max_ammo, 3)
+	Global.debug.add_property("Weapon Shooting Type", type_str, 3)
 
 
 

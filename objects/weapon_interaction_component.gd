@@ -8,6 +8,7 @@ const MAX_RECURSION_DEPTH := 10
 
 ## Weapon Resource
 var weapon_res: Resource = null
+var current_equipped_weapon: Weapons = null
 
 ## Object detected by raycast
 var meshes: Array[MeshInstance3D] = []
@@ -35,21 +36,19 @@ func on_unfocus() -> void:
 
 
 ## Load the new weapon
-func on_interact() -> void:
-	var new_weapon_res = WeaponDatabase.get_weapon(weapon_key)
+func on_interact() -> void:	
+	if Global.player and Global.player.WEAPON_CONTROLLER:
+		current_equipped_weapon = Global.player.WEAPON_CONTROLLER.WEAPON_TYPE
 	
 	# If player interact with the same weapon equiped, do nothing
-	if weapon_res and weapon_res == new_weapon_res:
+	if current_equipped_weapon and current_equipped_weapon == weapon_res:
 		return
 	
 	weapon_res = WeaponDatabase.get_weapon(weapon_key)
 	
 	if Global.player and Global.player.WEAPON_CONTROLLER and weapon_res:
-		print("Weapon changed")
 		Global.player.WEAPON_CONTROLLER.WEAPON_TYPE = weapon_res
-	else:
-		push_warning("WeaponController or resource is missing!")
-
+		Global.player.WEAPON_CONTROLLER.display_weapon_icon_and_infos()
 
 
 ## Finds and stores all MeshInstance3D children of the parent node

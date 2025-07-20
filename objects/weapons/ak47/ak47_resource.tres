@@ -1,16 +1,18 @@
-[gd_resource type="Resource" script_class="Weapons" load_steps=4 format=3 uid="uid://cuj4mlb2dot1d"]
+[gd_resource type="Resource" script_class="Weapons" load_steps=5 format=3 uid="uid://cuj4mlb2dot1d"]
 
 [ext_resource type="PackedScene" uid="uid://d0hcx4uh2u84" path="res://objects/weapons/ak47/ak_47.tscn" id="1_5kh04"]
+[ext_resource type="Texture2D" uid="uid://b2mlvglvlshyn" path="res://objects/weapons/ak47/ak47_miniature.png" id="1_y8dmc"]
 [ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons_base_resource.gd" id="2_5kh04"]
 [ext_resource type="AudioStream" uid="uid://bd7kv5ebw3kyk" path="res://objects/weapons/ak47/ak47_shot.wav" id="3_p8268"]
 
 [resource]
 script = ExtResource("2_5kh04")
-name = &"AK47"
+name = &"ak47"
 position = Vector3(0.222, -0.143, -0.289)
 rotation = Vector3(0, 89.1, 0)
 scale = Vector3(1, 1, 1)
 scene = ExtResource("1_5kh04")
+icon_texture = ExtResource("1_y8dmc")
 aim_position = Vector3(0, -0.107, -0.216)
 aim_rotation = Vector3(0, 90, 0)
 aim_speed = 8.0

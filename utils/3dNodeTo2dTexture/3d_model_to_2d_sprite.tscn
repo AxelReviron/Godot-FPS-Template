@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpx5miamad386"]
+
+[ext_resource type="Script" uid="uid://d2lpirsf3vgvi" path="res://utils/3dNodeTo2dTexture/3d_model_to_2d_sprite.gd" id="1_2i58n"]
+[ext_resource type="PackedScene" uid="uid://b1bxqiqvrgne4" path="res://objects/weapons/pistol/interactable_pistol.tscn" id="2_5vevs"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="3DModelTo2DSprite" type="SubViewport" parent="." node_paths=PackedStringArray("node_to_snapshot")]
+transparent_bg = true
+render_target_update_mode = 4
+script = ExtResource("1_2i58n")
+node_to_snapshot = NodePath("InteractablePistol")
+snapshot_name = "pistol_miniature"
+
+[node name="Camera3D" type="Camera3D" parent="3DModelTo2DSprite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0291774, 0, 0.527059)
+current = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="3DModelTo2DSprite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.87601)
+
+[node name="InteractablePistol" parent="3DModelTo2DSprite" instance=ExtResource("2_5vevs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0434662, 0, 0.370276)

@@ -81,7 +81,14 @@ var shoot_sound: AudioStreamWAV
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Global.connect("hud_ready", Callable(self, "display_weapon_icon_and_infos"))
 	load_weapon()
+
+
+func display_weapon_icon_and_infos() -> void:
+	Global.hud_weapon_icon.texture = WEAPON_TYPE.icon_texture
+	Global.hud_weapon_name.text = WEAPON_TYPE.name
+	Global.hud_weapon_ammo.text = "Ammo: " + str(WEAPON_TYPE.max_ammo)
 
 
 func _clean_previous_weapon_instance() -> void:
@@ -134,6 +141,7 @@ func load_weapon() -> void:
 	shooting_type = WEAPON_TYPE.shooting_type
 	max_ammo = WEAPON_TYPE.max_ammo
 	shoot_sound = WEAPON_TYPE.shoot_sound
+
 
 # Sway weapon based on mouse movement
 func sway_weapon(delta: float, isIdle: bool) -> void:

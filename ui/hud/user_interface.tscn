@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy1a4pe5wyeeh"]
+[gd_scene load_steps=6 format=3 uid="uid://dy1a4pe5wyeeh"]
 
 [ext_resource type="Script" uid="uid://d1wwvxm65ltxc" path="res://ui/hud/reticle.gd" id="1_khptx"]
+[ext_resource type="Script" uid="uid://p0of23jmq5oe" path="res://ui/hud/user_interface.gd" id="1_vk4me"]
 [ext_resource type="Theme" uid="uid://xo06b8irr4vi" path="res://ui/themes/debug.tres" id="2_8wkqy"]
 [ext_resource type="Script" uid="uid://bjhragyop8lm4" path="res://ui/hud/debug_panel.gd" id="3_02bek"]
+[ext_resource type="LabelSettings" uid="uid://bquimv1uo6jwn" path="res://ui/hud/weapon_infos_label_settings.tres" id="6_yd38f"]
 
 [node name="UserInterface" type="Control"]
 layout_mode = 3
@@ -12,6 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = ExtResource("1_vk4me")
 
 [node name="Reticle" type="CenterContainer" parent="." node_paths=PackedStringArray("RETICLE_LINES")]
 layout_mode = 1
@@ -57,3 +60,37 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="DebugPanel/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -250.0
+offset_bottom = 150.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="WeaponName" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+label_settings = ExtResource("6_yd38f")
+
+[node name="Ammo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+label_settings = ExtResource("6_yd38f")

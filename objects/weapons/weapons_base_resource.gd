@@ -1,6 +1,6 @@
 class_name Weapons extends Resource
 
-@export var name: StringName
+@export var name: StringName # Should match the key in the WeaponDatabase
 @export_group("Weapon Orientation")
 @export var position: Vector3
 @export var rotation: Vector3
@@ -8,6 +8,7 @@ class_name Weapons extends Resource
 
 @export_group("Visual Settings")
 @export var scene: PackedScene
+@export var icon_texture: Texture2D
 @export var aim_position: Vector3
 @export var aim_rotation: Vector3
 @export var aim_speed: float = 8.0
