@@ -10,20 +10,17 @@ func reset() -> void:
 	context.text = ""
 
 
-func update_icon(image: Texture2D = null) -> void:
-	if image:
-		icon.texture = image
-	else:
-		icon.texture = default_icon
-
-
-func update_content(text: String) -> void:
+## Update text and image on the ContextComponent 
+func update(text: String, image: Texture2D = null) -> void:
+	icon.texture = image if image else default_icon
 	context.text = text
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Global.ui_context = self
+	#Global.ui_context = self
+	SignalBus.interacton_focused.connect(update)
+	SignalBus.interacton_unfocused.connect(reset)
 	default_icon = GlobalInput.get_interact_icon_texture()
 
 

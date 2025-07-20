@@ -6,6 +6,13 @@ const MAX_RECURSION_DEPTH := 10
 ## Reference the weapon resource in the [annotation WeaponDatabase]
 @export var weapon_key: String
 
+@export var highlight_object: bool = false
+@export var show_context: bool = true
+
+
+@export var context: String = "Get Weapon"
+@export var new_icon: Texture2D
+
 ## Weapon Resource
 var weapon_res: Resource = null
 var current_equipped_weapon: Weapons = null
@@ -27,12 +34,19 @@ func _process(delta: float):
 
 ## Run when something is hit by raycast
 func on_focus() -> void:
-	_apply_highlight_material()
+	if highlight_object:
+		_apply_highlight_material()
+	if show_context:
+		var icon: Texture2D = new_icon if new_icon else null
+		SignalBus.interacton_focused.emit(context, icon)
 
 
 ## Run when something is hit by raycast
 func on_unfocus() -> void:
-	_clear_highlight_material()
+	if highlight_object:
+		_clear_highlight_material()
+	if show_context:
+		SignalBus.interacton_unfocused.emit()
 
 
 ## Load the new weapon
@@ -49,7 +63,7 @@ func on_interact() -> void:
 	if Global.player and Global.player.WEAPON_CONTROLLER and weapon_res:
 		Global.player.WEAPON_CONTROLLER.WEAPON_TYPE = weapon_res
 		Global.player.WEAPON_CONTROLLER.display_weapon_icon_and_infos()
-		# Rest ammo
+		# Reset ammo
 
 
 ## Finds and stores all MeshInstance3D children of the parent node

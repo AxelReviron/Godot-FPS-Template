@@ -19,7 +19,7 @@ var door_position_tween: Tween = null
 func _on_door_position_tween_finished() -> void:
 	is_open = !is_open
 	is_animating = false
-	Global.ui_context.update_content(close_door_context if is_open else open_door_context)
+	SignalBus.interacton_unfocused.emit()
 	
 	if door_position_tween:
 		door_position_tween.kill()
@@ -49,13 +49,14 @@ func _process(delta: float):
 
 ## Run when something is hit by raycast
 func on_focus() -> void:
-	Global.ui_context.update_content(close_door_context if is_open else open_door_context)
-	Global.ui_context.update_icon(new_icon if new_icon else null)
+	var context: String = close_door_context if is_open else open_door_context
+	var icon: Texture2D = new_icon if new_icon else null
+	SignalBus.interacton_focused.emit(context, icon)
 
 
 ## Run when something is hit by raycast
 func on_unfocus() -> void:
-	Global.ui_context.reset()
+	SignalBus.interacton_unfocused.emit()
 
 
 ## Load the new weapon
