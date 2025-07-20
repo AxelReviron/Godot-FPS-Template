@@ -7,6 +7,7 @@ var player: CharacterBody3D = null
 var hud_weapon_icon: TextureRect
 var hud_weapon_name: Label
 var hud_weapon_ammo: Label
+var ui_context: ContextComponent
 
 var debug: PanelContainer = null
 

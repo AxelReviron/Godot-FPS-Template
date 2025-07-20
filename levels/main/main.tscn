@@ -1,10 +1,12 @@
-[gd_scene load_steps=45 format=4 uid="uid://bemhexpxyb7ow"]
+[gd_scene load_steps=49 format=4 uid="uid://bemhexpxyb7ow"]
 
 [ext_resource type="Material" uid="uid://icokfqbcyd4j" path="res://levels/main/materials/black_grid_material.tres" id="2_f6gjy"]
 [ext_resource type="PackedScene" uid="uid://devdbqxq7swqd" path="res://entities/player/player.tscn" id="2_vc640"]
 [ext_resource type="Material" uid="uid://2fkdjwykfy0t" path="res://levels/main/materials/red_grid_material.tres" id="3_gonaa"]
 [ext_resource type="Material" uid="uid://dnefqwbgohiny" path="res://levels/main/materials/blue_grid_material.tres" id="4_gonaa"]
+[ext_resource type="Material" uid="uid://b5w8ktf0q8stl" path="res://levels/main/textures/blue_grid_material.tres" id="4_sqa4f"]
 [ext_resource type="PackedScene" uid="uid://c88xlgr6pcbj5" path="res://objects/weapons/ak47/interactable_ak_47.tscn" id="5_3ymrs"]
+[ext_resource type="Script" uid="uid://c8h6q6ivfucvj" path="res://objects/door/door_interaction_component.gd" id="5_20bwc"]
 [ext_resource type="Script" uid="uid://dib2nmaqrycg8" path="res://objects/weapon_interaction_component.gd" id="6_3ymrs"]
 [ext_resource type="PackedScene" uid="uid://b1bxqiqvrgne4" path="res://objects/weapons/pistol/interactable_pistol.tscn" id="7_q42nm"]
 
@@ -268,6 +270,21 @@ _surfaces = [{
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_u4gi4"]
 data = PackedVector3Array(7.9145, 3.9145, 1, 7.9145, 0.9145, 1, 7.9145, 0.9145, 0, 7.9145, 0.9145, 0, 7.9145, 0.9145, 1, 8.0855, 0.9145, 1, 8.0855, 0.9145, 1, 7.9145, 0.9145, 1, 7.9145, 3.9145, 1, 7.9145, 0.9145, 0, 7.9145, 3.9145, 0, 7.9145, 3.9145, 1, 8.0855, 3.9145, 0, 7.9145, 3.9145, 0, 7.9145, 0.9145, 0, 7.9145, 3.9145, 1, 7.9145, 3.9145, 0, 8.0855, 3.9145, 0, 8.0855, 0.9145, 1, 8.0855, 0.9145, 0, 7.9145, 0.9145, 0, 7.9145, 0.9145, 0, 8.0855, 0.9145, 0, 8.0855, 3.9145, 0, 8.0855, 3.9145, 0, 8.0855, 0.9145, 0, 8.0855, 0.9145, 1, 7.9145, 3.9145, 1, 8.0855, 3.9145, 1, 8.0855, 0.9145, 1, 8.0855, 3.9145, 0, 8.0855, 3.9145, 1, 7.9145, 3.9145, 1, 8.0855, 0.9145, 1, 8.0855, 3.9145, 1, 8.0855, 3.9145, 0)
 
+[sub_resource type="ArrayMesh" id="ArrayMesh_omhea"]
+_surfaces = [{
+"aabb": AABB(12.0029, 0.0113074, 6.99709, 0.99353, 2.97546, 2),
+"attribute_data": PackedByteArray("AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359738391,
+"material": ExtResource("4_sqa4f"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("AAxAQYBCOTwU9A9BAAxAQYBCOTwo6N9AAAxAQUInP0Ao6N9AgPFPQYBCOTwo6N9AAAxAQYBCOTwo6N9AAAxAQYBCOTwU9A9BAAxAQUInP0Ao6N9AAAxAQYBCOTwo6N9AgPFPQYBCOTwo6N9AAAxAQUInP0Ao6N9AAAxAQUInP0AU9A9BAAxAQYBCOTwU9A9BAAxAQYBCOTwU9A9BAAxAQUInP0AU9A9BgPFPQUInP0AU9A9BgPFPQUInP0AU9A9BAAxAQUInP0AU9A9BAAxAQUInP0Ao6N9AAAxAQYBCOTwU9A9BgPFPQYBCOTwU9A9BgPFPQYBCOTwo6N9AgPFPQUInP0AU9A9BgPFPQYBCOTwU9A9BAAxAQYBCOTwU9A9BgPFPQYBCOTwo6N9AgPFPQYBCOTwU9A9BgPFPQUInP0AU9A9BgPFPQYBCOTwo6N9AgPFPQUInP0Ao6N9AAAxAQUInP0Ao6N9AAAxAQUInP0Ao6N9AgPFPQUInP0Ao6N9AgPFPQUInP0AU9A9BgPFPQUInP0AU9A9BgPFPQUInP0Ao6N9AgPFPQYBCOTwo6N9AAAD/f/9//n8AAP9//3/+fwAA/3//f/5//38AAP//AAD/fwAA//8AAP9/AAD//wAA/////wAA/z//////AAD/P/////8AAP8/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5//////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5/")
+}]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_dvq2k"]
+data = PackedVector3Array(12.0029, 0.0113, 8.9971, 12.0029, 0.0113, 6.9971, 12.0029, 2.9868, 6.9971, 12.9965, 0.0113, 6.9971, 12.0029, 0.0113, 6.9971, 12.0029, 0.0113, 8.9971, 12.0029, 2.9868, 6.9971, 12.0029, 0.0113, 6.9971, 12.9965, 0.0113, 6.9971, 12.0029, 2.9868, 6.9971, 12.0029, 2.9868, 8.9971, 12.0029, 0.0113, 8.9971, 12.0029, 0.0113, 8.9971, 12.0029, 2.9868, 8.9971, 12.9965, 2.9868, 8.9971, 12.9965, 2.9868, 8.9971, 12.0029, 2.9868, 8.9971, 12.0029, 2.9868, 6.9971, 12.0029, 0.0113, 8.9971, 12.9965, 0.0113, 8.9971, 12.9965, 0.0113, 6.9971, 12.9965, 2.9868, 8.9971, 12.9965, 0.0113, 8.9971, 12.0029, 0.0113, 8.9971, 12.9965, 0.0113, 6.9971, 12.9965, 0.0113, 8.9971, 12.9965, 2.9868, 8.9971, 12.9965, 0.0113, 6.9971, 12.9965, 2.9868, 6.9971, 12.0029, 2.9868, 6.9971, 12.0029, 2.9868, 6.9971, 12.9965, 2.9868, 6.9971, 12.9965, 2.9868, 8.9971, 12.9965, 2.9868, 8.9971, 12.9965, 2.9868, 6.9971, 12.9965, 0.0113, 6.9971)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_3ymrs"]
 size = Vector3(0.789063, 0.257263, 0.0888672)
 
@@ -430,24 +447,32 @@ skeleton = NodePath("../../root/@EditorNode@21272/@Panel@14/@VBoxContainer@15/Do
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Meshes/Separations/Separation4"]
 shape = SubResource("ConcavePolygonShape3D_u4gi4")
 
+[node name="InteractableDoor" type="AnimatableBody3D" parent="Map/Meshes"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Map/Meshes/InteractableDoor"]
+mesh = SubResource("ArrayMesh_omhea")
+skeleton = NodePath("../../root/@EditorNode@21272/@Panel@14/@VBoxContainer@15/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@26/DockVSplitCenter/@VSplitContainer@54/@VBoxContainer@55/@EditorMainScreen@102/MainScreen/@CanvasItemEditor@11482/@VSplitContainer@11134/@HSplitContainer@11136/@HSplitContainer@11138/@Control@11139/@SubViewportContainer@11140/@SubViewport@11141/Node3D/Map/CSG")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Meshes/InteractableDoor"]
+shape = SubResource("ConcavePolygonShape3D_dvq2k")
+
+[node name="DoorInteractionComponent" type="Node" parent="Map/Meshes/InteractableDoor"]
+script = ExtResource("5_20bwc")
+position_target = Vector3(0, -2.98, 0)
+opening_speed = 1.0
+
 [node name="CSG" type="Node3D" parent="Map"]
-visible = false
 
 [node name="Floor" type="CSGCombiner3D" parent="Map/CSG"]
+visible = false
 
 [node name="Floor" type="CSGBox3D" parent="Map/CSG/Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.00185061, -7)
 size = Vector3(29, 0.001, 34)
 material = ExtResource("2_f6gjy")
 
-[node name="Wall" type="CSGCombiner3D" parent="Map/CSG"]
-
-[node name="WallBottom" type="CSGBox3D" parent="Map/CSG/Wall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 10.5)
-size = Vector3(28, 4, 1)
-material = ExtResource("3_gonaa")
-
 [node name="WallDoor" type="CSGCombiner3D" parent="Map/CSG"]
+visible = false
 
 [node name="WallDoor" type="CSGBox3D" parent="Map/CSG/WallDoor"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.5, 2, 8)
@@ -462,6 +487,7 @@ material = ExtResource("3_gonaa")
 
 [node name="Table" type="CSGCombiner3D" parent="Map/CSG"]
 transform = Transform3D(-4.37114e-08, 0, 1, -1, -4.37114e-08, -4.37114e-08, 4.37114e-08, -1, 1.91069e-15, -12, 1, 12)
+visible = false
 
 [node name="Table" type="CSGBox3D" parent="Map/CSG/Table"]
 transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 3.59989e-21, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0.499999, 11.5, 14)
@@ -469,6 +495,7 @@ size = Vector3(20, 1, 1)
 material = ExtResource("3_gonaa")
 
 [node name="TableTop" type="CSGCombiner3D" parent="Map/CSG"]
+visible = false
 
 [node name="TableTop" type="CSGBox3D" parent="Map/CSG/TableTop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3.91449, 0.5)
@@ -476,6 +503,7 @@ size = Vector3(20, 0.171021, 1)
 material = ExtResource("3_gonaa")
 
 [node name="Separation" type="CSGCombiner3D" parent="Map/CSG"]
+visible = false
 
 [node name="Separation1" type="CSGBox3D" parent="Map/CSG/Separation"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -4, 2.41449, 0.5)
@@ -483,11 +511,20 @@ size = Vector3(3, 0.171021, 1)
 material = ExtResource("3_gonaa")
 
 [node name="Line" type="CSGCombiner3D" parent="Map/CSG"]
+visible = false
 
 [node name="Line1" type="CSGBox3D" parent="Map/CSG/Line"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -4, -0.0369263, -11.5)
 size = Vector3(0.097168, 0.171021, 23)
 material = ExtResource("3_gonaa")
+
+[node name="Door" type="CSGCombiner3D" parent="Map/CSG"]
+visible = false
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map/CSG/Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.4997, 1.49904, 7.99709)
+size = Vector3(0.99353, 2.97546, 2)
+material = ExtResource("4_sqa4f")
 
 [node name="CSGTest" type="CSGCombiner3D" parent="Map"]
 use_collision = true

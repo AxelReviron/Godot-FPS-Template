@@ -1,5 +1,31 @@
 extends Node
 
+var interact_key: String
+
+
+## Get the key for the 'interact' action
+func _get_interact_key() -> void:
+	for event in InputMap.action_get_events("interact"):
+		var text = event.as_text()
+		var parts = text.split(" ")
+		if parts.size() > 0:
+			interact_key = parts[0]
+
+
+## Get the icon texture associated with the 'interact' action key
+func get_interact_icon_texture() -> Texture:
+	var filename = "keyboard_%s.png" % interact_key.to_lower()
+	var path = "res://ui/hud/assets/input_prompt/keyboard_and_mouse/" + filename
+	if ResourceLoader.exists(path):
+		return load(path)
+	else:
+		printerr("Icon not found at path: " + path)
+		return load("res://ui/hud/assets/input_prompt/keyboard_and_mouse/keyboard.png") # Default keyboard icon fallback
+
+
+func _ready():
+	_get_interact_key()
+
 
 func get_move_vector() -> Vector2:
 	var input = Vector2.ZERO

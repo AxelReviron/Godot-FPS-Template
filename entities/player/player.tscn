@@ -496,7 +496,7 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
-transform = Transform3D(-8.74228e-08, 0, 2, 0, 2, 0, -2, 0, -8.74228e-08, 0, -0.138161, -0.334115)
+transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.21, -0.183, -0.459)
 WEAPON_TYPE = ExtResource("4_gx6sm")
 sway_speed = 1.8
 

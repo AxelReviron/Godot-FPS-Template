@@ -49,6 +49,7 @@ func on_interact() -> void:
 	if Global.player and Global.player.WEAPON_CONTROLLER and weapon_res:
 		Global.player.WEAPON_CONTROLLER.WEAPON_TYPE = weapon_res
 		Global.player.WEAPON_CONTROLLER.display_weapon_icon_and_infos()
+		# Rest ammo
 
 
 ## Finds and stores all MeshInstance3D children of the parent node

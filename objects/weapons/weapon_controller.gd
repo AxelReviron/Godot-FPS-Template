@@ -214,6 +214,7 @@ func shoot() -> void:
 
 	can_shoot = false
 	weapon_fired.emit()
+	# Handle ammo
 	
 	var camera: Camera3D = Global.player.CAMERA_CONTROLLER
 	var viewport: Viewport = get_viewport()
