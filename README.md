@@ -125,3 +125,4 @@ TODO
 ## Credits
 ### Assets
 - [Styloo](https://styloo.itch.io/) - Guns Asset Pack
+- [Kenney](https://kenney.nl/assets/input-prompts) - Input Prompts
