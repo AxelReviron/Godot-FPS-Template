@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnvct6h0j3cf7"]
+
+[ext_resource type="PackedScene" uid="uid://0m04ggniub4j" path="res://entities/player/assets/SWAT.glb" id="1_aiklb"]
+[ext_resource type="PackedScene" uid="uid://cvb8do483sa1y" path="res://objects/weapons/pistol/pistol_character.tscn" id="2_oyvdm"]
+
+[node name="Character" instance=ExtResource("1_aiklb")]
+
+[node name="Skeleton3D" parent="RootNode/CharacterArmature" index="0"]
+bones/1/position = Vector3(4.53219e-06, 0.00828953, -0.000456057)
+bones/5/rotation = Quaternion(0.00363648, 2.25668e-10, -2.13629e-09, 0.999993)
+bones/6/rotation = Quaternion(-0.00947105, 6.77982e-07, -8.58601e-10, 0.999955)
+bones/7/rotation = Quaternion(-0.0245109, -0.000275392, 0.000120303, 0.9997)
+bones/10/rotation = Quaternion(0.674998, -0.403884, -0.387776, -0.480506)
+bones/11/rotation = Quaternion(-0.121328, -0.0295654, -0.184313, 0.974902)
+bones/12/rotation = Quaternion(0.0112397, 0.0177445, 0.0104792, 0.999725)
+bones/14/rotation = Quaternion(-0.0408909, -0.0321456, 0.0670435, 0.996393)
+bones/15/rotation = Quaternion(-0.0790735, 0.0116557, 0.0250531, 0.996486)
+bones/16/rotation = Quaternion(-0.0298723, 0.00978077, 0.00496208, 0.999494)
+bones/19/rotation = Quaternion(-0.0899747, 0.0254326, -0.00615306, 0.9956)
+bones/20/rotation = Quaternion(-0.12041, 0.00623888, -0.0188473, 0.992526)
+bones/21/rotation = Quaternion(-0.0190456, 0.00917197, -0.011121, 0.999715)
+bones/24/rotation = Quaternion(-0.0819329, 0.160517, -0.0365543, 0.982947)
+bones/25/rotation = Quaternion(-0.118164, 0.0402264, -0.0414629, 0.991312)
+bones/26/rotation = Quaternion(-0.0751798, 0.0300851, -0.00748025, 0.996688)
+bones/34/rotation = Quaternion(0.0417278, -0.122015, 0.0851815, 0.987985)
+bones/35/rotation = Quaternion(-0.0885877, -0.0556028, 0.121992, 0.987005)
+bones/37/rotation = Quaternion(-0.477432, 0.846008, 0.0374908, 0.234357)
+bones/38/rotation = Quaternion(-0.777286, 0.177437, -0.069106, 0.599639)
+bones/39/rotation = Quaternion(-0.0181728, 0.0111481, 0.212776, 0.976869)
+bones/42/rotation = Quaternion(0.0914462, 0.0257588, -0.0526983, 0.994081)
+bones/43/rotation = Quaternion(-0.0887832, -0.0113618, -0.0247415, 0.995679)
+bones/44/rotation = Quaternion(-0.621542, -0.0179139, 0.102678, 0.776416)
+bones/46/rotation = Quaternion(0.0266053, 0.0196841, -0.0114354, 0.999387)
+bones/47/rotation = Quaternion(-0.0912545, -0.0281621, 0.0105307, 0.995374)
+bones/48/rotation = Quaternion(-0.578269, 0.100751, -0.0312627, 0.808997)
+bones/49/rotation = Quaternion(-0.64423, -0.00864352, -0.0990049, 0.758348)
+bones/51/rotation = Quaternion(0.0132246, 0.0520619, -0.095416, 0.993987)
+bones/53/rotation = Quaternion(-0.434437, -0.077144, 0.233583, 0.86646)
+bones/54/rotation = Quaternion(-0.558151, -0.0127081, 0.302042, 0.772708)
+bones/56/rotation = Quaternion(0.01941, 0.0737948, -0.202729, 0.976257)
+bones/57/rotation = Quaternion(-0.126589, -0.179584, 0.161972, 0.962024)
+bones/58/rotation = Quaternion(-0.250375, 0.0470092, 0.0880591, 0.962989)
+bones/59/rotation = Quaternion(-0.529398, 0.0520214, 0.036422, 0.845994)
+bones/61/rotation = Quaternion(-0.0987528, -0.54738, 0.343797, 0.756589)
+bones/62/rotation = Quaternion(-0.176504, 0.176174, -0.31691, 0.915083)
+bones/63/rotation = Quaternion(-0.0885877, 0.0556028, -0.121992, 0.987005)
+bones/65/rotation = Quaternion(-0.535617, 0.0211013, 0.835658, -0.119768)
+bones/66/rotation = Quaternion(0.186823, 0.68198, -0.186822, 0.681981)
+bones/68/rotation = Quaternion(0.55499, 0.125435, 0.804817, 0.168885)
+bones/69/rotation = Quaternion(0.167543, -0.686971, 0.167542, 0.686972)
+
+[node name="Swat_Legs" parent="RootNode/CharacterArmature/Skeleton3D" index="0"]
+layers = 4
+
+[node name="Swat_Feet" parent="RootNode/CharacterArmature/Skeleton3D" index="1"]
+layers = 4
+
+[node name="Swat_Body" parent="RootNode/CharacterArmature/Skeleton3D" index="2"]
+layers = 4
+
+[node name="Swat_Head" parent="RootNode/CharacterArmature/Skeleton3D" index="3"]
+layers = 4
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="RootNode/CharacterArmature/Skeleton3D" index="4"]
+transform = Transform3D(-0.176217, -0.0212284, -0.984122, 0.0420272, -0.999018, 0.0140245, -0.983454, -0.0388885, 0.176937, -0.00160701, -0.00488015, 0.0134148)
+bone_name = "Wrist.R"
+bone_idx = 40
+
+[node name="Pistol_Char" parent="RootNode/CharacterArmature/Skeleton3D/BoneAttachment3D" index="0" instance=ExtResource("2_oyvdm")]
+transform = Transform3D(-0.000746765, -0.0176999, 0.00318683, 0.0179828, -0.000690829, 0.000376963, -0.00024837, 0.00319942, 0.0177116, -3.88622e-05, 0.00199532, -0.00021703)

@@ -9,6 +9,9 @@ class_name Player extends CharacterBody3D
 @export var ANIMATIONPLAYER: AnimationPlayer
 @export var WEAPON_CONTROLLER: WeaponController
 
+@onready var anim_player: AnimationPlayer = %Character.get_node("AnimationPlayer")
+
+
 var mouse_input: bool = false
 var mouse_rotation: Vector3
 
@@ -93,10 +96,30 @@ func _interact() -> void:
 		interact_cast_result.emit_signal("interacted")
 
 
+func get_movement_direction() -> String:
+	var local_velocity = global_transform.basis.inverse() * velocity
+	local_velocity.y = 0.0  # Ignore la verticale
+
+	if local_velocity.length() < 0.1:
+		return "Idle"
+
+	var angle = atan2(local_velocity.x, local_velocity.z)
+
+	if abs(angle) < PI / 4:
+		return "Forward"
+	elif abs(angle) > 3 * PI / 4:
+		return "Backward"
+	elif angle < 0:
+		return "Left"
+	else:
+		return "Right"
+
+
 func _ready():
 	# Register player node globally
 	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
 
 
 func _unhandled_input(event):

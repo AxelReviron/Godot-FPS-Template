@@ -7,7 +7,6 @@ func enter(previous_state: State) -> void:
 
 	ANIMATION.play("walking", -1.0, 1.0)
 
-
 func exit() -> void:
 	ANIMATION.speed_scale = 1.0
 
@@ -20,7 +19,20 @@ func update(delta: float):
 	WEAPON.sway_weapon(delta, false)# TODO:
 	WEAPON.weapon_bob(delta, Constants.WEAPON_WALKING_BOB_SPEED, Constants.WEAPON_WALKING_BOB_H_AMOUNT, Constants.WEAPON_WALKING_BOB_V_AMOUNT)
 	
+	# Animation for FPS Camera
 	set_animation_speed(PLAYER.velocity.length())
+	# Animations for Character
+	var direction = PLAYER.get_movement_direction()
+	match direction:
+		"Forward":
+			PLAYER.anim_player.play("CharacterArmature|Run")
+		"Backward":
+			PLAYER.anim_player.play("CharacterArmature|Run_Back")
+		"Left":
+			PLAYER.anim_player.play("CharacterArmature|Run_Left")
+		"Right":
+			PLAYER.anim_player.play("CharacterArmature|Run_Right")
+	
 	if PLAYER.velocity.length() == 0.0:
 		transition.emit("IdlePlayerState")
 	

@@ -24,7 +24,8 @@ signal weapon_stop_fire
 
 @onready var muzzle_flash: Node3D = %MuzzleFlash
 @onready var audio_stream_player: AudioStreamPlayer3D = %AudioStreamPlayer3D
-@onready var camera: Camera3D = %Camera3D
+@onready var blood_impact_scene: PackedScene = preload("res://objects/weapons/fx/blood_particles.tscn")
+#@onready var camera: Camera3D = %Camera3D
 
 # Weapon Scene
 @onready var weapon_scene: Node3D = %WeaponScene # Weapon Node container for the weapon scene
@@ -75,6 +76,7 @@ var can_shoot: bool = true
 
 # Ammo
 var max_ammo: int
+var current_ammo: int
 
 # Sounds
 var shoot_sound: AudioStreamWAV
@@ -88,7 +90,11 @@ func _ready() -> void:
 func display_weapon_icon_and_infos() -> void:
 	Global.hud_weapon_icon.texture = WEAPON_TYPE.icon_texture
 	Global.hud_weapon_name.text = WEAPON_TYPE.name
-	Global.hud_weapon_ammo.text = "Ammo: " + str(WEAPON_TYPE.max_ammo)
+	Global.hud_weapon_ammo.text = "Ammo: " + str(current_ammo) + "/" + str(WEAPON_TYPE.max_ammo)
+
+
+func update_ammo_display() -> void:
+	Global.hud_weapon_ammo.text = "Ammo: " + str(current_ammo) + "/" + str(WEAPON_TYPE.max_ammo)
 
 
 func _clean_previous_weapon_instance() -> void:
@@ -103,8 +109,8 @@ func load_weapon() -> void:
 	
 	base_position = WEAPON_TYPE.position
 	base_rotation = WEAPON_TYPE.rotation
-	if camera:
-		base_camera_fov = camera.fov
+	#if camera:
+		#base_camera_fov = camera.fov
 	
 	position = WEAPON_TYPE.position # Set weapon position
 	rotation_degrees = WEAPON_TYPE.rotation # Set weapon rotation
@@ -140,6 +146,7 @@ func load_weapon() -> void:
 	fire_rate = WEAPON_TYPE.fire_rate
 	shooting_type = WEAPON_TYPE.shooting_type
 	max_ammo = WEAPON_TYPE.max_ammo
+	current_ammo = max_ammo
 	shoot_sound = WEAPON_TYPE.shoot_sound
 
 
@@ -208,11 +215,19 @@ func weapon_bob(delta: float, bob_speed: float, h_bob_amount: float, v_bob_amoun
 	weapon_bob_amount.y = abs(cos(time * bob_speed) * v_bob_amount)
 
 
+func reload() -> void:
+	# TODO: Add max mag
+	current_ammo = max_ammo
+	update_ammo_display()
+
+
 func shoot() -> void:
-	if !can_shoot:
+	if !can_shoot or current_ammo == 0:
 		return
 
 	can_shoot = false
+	current_ammo -= 1
+	update_ammo_display()
 	weapon_fired.emit()
 	# Handle ammo
 	
@@ -223,8 +238,24 @@ func shoot() -> void:
 	if hit:
 		_display_bullet_hole(hit.get("position"), hit.get("normal"))
 	
+	if hit.get("collider") is CharacterBody3D:
+		_emit_blood_particles(hit.get("position"), hit.get("normal"))
+	
 	await get_tree().create_timer(fire_rate).timeout
 	can_shoot = true
+
+
+func _emit_blood_particles(position: Vector3, normal: Vector3) -> void:
+	var impact_instance = blood_impact_scene.instantiate() as GPUParticles3D
+	self.add_child(impact_instance)
+	
+	impact_instance.global_transform.origin = position
+	# Oriente la particule pour "regarder" dans la direction de la normale
+	impact_instance.global_transform.basis = Basis().looking_at(position - normal, Vector3.UP)
+	impact_instance.emitting = true
+
+	await get_tree().create_timer(1.0).timeout
+	impact_instance.queue_free()
 
 
 # normal is the direction that the surface shooted is pointing
@@ -266,7 +297,8 @@ func aim(delta: float) -> void:
 		fov_tween.kill()
 		fov_tween = null
 
-	camera.fov = lerp(camera.fov, aim_fov, aim_speed * delta)
+	#TODO: Fix this ?
+	#camera.fov = lerp(camera.fov, aim_fov, aim_speed * delta)
 	self.position = self.position.lerp(aim_position, aim_speed * delta)
 	self.rotation_degrees = self.rotation_degrees.lerp(aim_rotation, aim_speed * delta)
 
@@ -285,14 +317,15 @@ func reset_aim(delta: float) -> void:
 	rotation_tween = create_tween()
 	fov_tween = create_tween()
 	
-	fov_tween.tween_property(camera, "fov", base_camera_fov, 1.0 / aim_speed)
+	#TODO: Fix this ?
+	#fov_tween.tween_property(camera, "fov", base_camera_fov, 1.0 / aim_speed)
 	position_tween.tween_property(self, "position", base_position, 1.0 / aim_speed)
 	rotation_tween.tween_property(self, "rotation_degrees", base_rotation, 1.0 / aim_speed)
 
 	# Connect finished signal
-	rotation_tween.finished.connect(_on_position_tween_finished)
+	rotation_tween.finished.connect(_on_aim_position_tween_finished)
 
-func _on_position_tween_finished():
+func _on_aim_position_tween_finished():
 	position_tween = null
 	rotation_tween = null
 	fov_tween = null

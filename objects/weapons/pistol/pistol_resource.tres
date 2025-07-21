@@ -35,6 +35,6 @@ aim_recoil_amount_y = 0.02
 muzzle_flash_position = Vector3(0.064, 0.035, 0)
 fire_rate = 0.1
 shooting_type = 1
-max_ammo = 10
+max_ammo = 15
 shoot_sound = ExtResource("3_1uy2w")
 metadata/_custom_type_script = "uid://tdc0pwp4voaw"

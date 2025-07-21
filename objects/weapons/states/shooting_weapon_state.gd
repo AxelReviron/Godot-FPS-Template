@@ -13,16 +13,20 @@ func start_fade_out():
 
 
 func enter(previous_state: State) -> void:
-	# Add shoot sound to AudioStream
-	WEAPON.audio_stream_player.stream = WEAPON.shoot_sound
-	if WEAPON.shooting_type == Weapons.ShootingType.ONCE:
-		if !WEAPON.audio_stream_player.playing:
-			WEAPON.audio_stream_player.play()
-		WEAPON.shoot()
-	#TODO: ANIMATION.pause()
+	if WEAPON.current_ammo > 0:
+		# Add shoot sound to AudioStream
+		WEAPON.audio_stream_player.stream = WEAPON.shoot_sound
+		if WEAPON.shooting_type == Weapons.ShootingType.ONCE:
+			if !WEAPON.audio_stream_player.playing:
+				WEAPON.audio_stream_player.play()
+			WEAPON.shoot()
+		#TODO: ANIMATION.pause()
 
 
 func update(delta: float):
+	if WEAPON.current_ammo == 0:
+		transition.emit("IdleWeaponState")
+
 	if GlobalInput.is_aiming():
 		WEAPON.aim(delta)
 	
@@ -35,7 +39,7 @@ func update(delta: float):
 				transition.emit("IdleWeaponState")
 		
 		Weapons.ShootingType.AUTO:
-			if GlobalInput.is_shooting():
+			if GlobalInput.is_shooting() and WEAPON.current_ammo > 0:
 				if !WEAPON.audio_stream_player.playing:
 					WEAPON.audio_stream_player.play()
 				WEAPON.shoot()

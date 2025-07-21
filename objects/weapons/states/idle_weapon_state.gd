@@ -16,6 +16,9 @@ func update(delta: float):
 
 	if GlobalInput.is_shooting():
 		transition.emit("ShootingWeaponState")
+	
+	if GlobalInput.is_reloading():
+		transition.emit("ReloadingWeaponState")
 
 
 func _input(event) -> void:# TODO: Move to GlobalInput (also in player.gd)

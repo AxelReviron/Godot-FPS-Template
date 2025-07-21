@@ -76,6 +76,7 @@ func is_mouse_mode_captured() -> bool:
 	return Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
 
 
+#region Weapon
 func is_shooting() -> bool:
 	return Input.is_action_pressed("shoot")
 
@@ -84,5 +85,11 @@ func is_aiming() -> bool:
 	return Input.is_action_pressed("aim")
 
 
+func is_reloading() -> bool:
+	return Input.is_action_pressed("reload")
+
+
 func stop_aiming() -> bool:
 	return Input.is_action_just_released("aim")
+
+#endregion Weapon

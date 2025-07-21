@@ -21,6 +21,17 @@ func update(delta: float):
 	WEAPON.weapon_bob(delta, Constants.WEAPON_SPRINTING_BOB_SPEED, Constants.WEAPON_SPRINTING_BOB_H_AMOUNT, Constants.WEAPON_SPRINTING_BOB_V_AMOUNT)
 	
 	set_animation_speed(PLAYER.velocity.length())
+	# Animations for Character
+	var direction = PLAYER.get_movement_direction()
+	match direction:
+		"Forward":
+			PLAYER.anim_player.play("CharacterArmature|Run")
+		"Backward":
+			PLAYER.anim_player.play("CharacterArmature|Run_Back")
+		"Left":
+			PLAYER.anim_player.play("CharacterArmature|Run_Left")
+		"Right":
+			PLAYER.anim_player.play("CharacterArmature|Run_Right")
 	
 	if GlobalInput.stop_sprinting():
 		transition.emit("WalkingPlayerState")

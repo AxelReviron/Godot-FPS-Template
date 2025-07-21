@@ -6,6 +6,7 @@ func enter(previous_state: State) -> void:
 		await ANIMATION.animation_finished
 	
 	ANIMATION.pause()
+	PLAYER.anim_player.play("CharacterArmature|Idle_Gun_Pointing")
 
 
 func update(delta: float):

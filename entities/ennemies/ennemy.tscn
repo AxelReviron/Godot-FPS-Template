@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://lkx6nd7xjuna"]
+
+[ext_resource type="Script" uid="uid://ci325f1idrq1b" path="res://entities/ennemies/ennemy_controller.gd" id="1_cb24k"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2hoi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cb24k"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kv7pt"]
+material = SubResource("StandardMaterial3D_cb24k")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kv7pt"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_jd7s0"]
+material = SubResource("StandardMaterial3D_kv7pt")
+radius = 0.1
+height = 0.1
+
+[node name="Ennemy" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_cb24k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_h2hoi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_kv7pt")
+
+[node name="Eye" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.432137, -0.489419)
+mesh = SubResource("SphereMesh_jd7s0")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+unique_name_in_owner = true
+target_desired_distance = 5.0
+debug_enabled = true
+
+[node name="RayCastLow" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-5.73206e-15, 1.31134e-07, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, 1.31134e-07, 0.00211412, -0.509849, -0.493444)
+
+[node name="RayCastHigh" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 1.00091, 0)

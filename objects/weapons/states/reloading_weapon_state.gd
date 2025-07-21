@@ -1,13 +1,20 @@
 class_name ReloadingWeaponState extends WeaponState
 
+var is_reloading: bool = true
+
 
 func enter(previous_state: State) -> void:
 	pass
 	# TODO:
 	# Start reloading animation
 	# wait for finish
-	# Update mag and bullet in WEAPON
+	WEAPON.reload()
+	is_reloading = false
 
 
 func update(delta: float):
-	pass
+	if GlobalInput.is_shooting():
+		transition.emit("ShootingWeaponState")
+	
+	if !is_reloading:
+		transition.emit("IdleWeaponState")

@@ -23,8 +23,9 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_vk4me")
 
-[node name="Reticle" type="CenterContainer" parent="." node_paths=PackedStringArray("RETICLE_LINES")]
-layout_mode = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Reticle" type="CenterContainer" parent="CanvasLayer" node_paths=PackedStringArray("RETICLE_LINES")]
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
@@ -35,25 +36,24 @@ grow_vertical = 2
 script = ExtResource("1_khptx")
 RETICLE_LINES = [NodePath("Top"), NodePath("Right"), NodePath("Bottom"), NodePath("Left")]
 
-[node name="Top" type="Line2D" parent="Reticle"]
+[node name="Top" type="Line2D" parent="CanvasLayer/Reticle"]
 points = PackedVector2Array(0, -5, 0, -15)
 width = 2.0
 
-[node name="Right" type="Line2D" parent="Reticle"]
+[node name="Right" type="Line2D" parent="CanvasLayer/Reticle"]
 points = PackedVector2Array(5, 0, 15, 0)
 width = 2.0
 
-[node name="Bottom" type="Line2D" parent="Reticle"]
+[node name="Bottom" type="Line2D" parent="CanvasLayer/Reticle"]
 points = PackedVector2Array(0, 5, 0, 15)
 width = 2.0
 
-[node name="Left" type="Line2D" parent="Reticle"]
+[node name="Left" type="Line2D" parent="CanvasLayer/Reticle"]
 points = PackedVector2Array(-5, 0, -15, 0)
 width = 2.0
 
-[node name="DebugPanel" type="PanelContainer" parent="."]
+[node name="DebugPanel" type="PanelContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(200, 0)
-layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0
 offset_right = 210.0
@@ -61,49 +61,50 @@ offset_bottom = 50.0
 theme = ExtResource("2_8wkqy")
 script = ExtResource("3_02bek")
 
-[node name="MarginContainer" type="MarginContainer" parent="DebugPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/DebugPanel"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DebugPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/DebugPanel/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="WeaponInfos" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 1
+[node name="WeaponInfos" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = -250.0
-offset_bottom = 150.0
+offset_top = -150.0
 grow_horizontal = 0
+grow_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="WeaponInfos"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/WeaponInfos"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="WeaponInfos/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/WeaponInfos/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 6
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WeaponInfos/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/WeaponInfos/VBoxContainer"]
 layout_mode = 2
 
-[node name="WeaponName" type="Label" parent="WeaponInfos/VBoxContainer/HBoxContainer"]
+[node name="WeaponName" type="Label" parent="CanvasLayer/WeaponInfos/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 label_settings = ExtResource("6_yd38f")
 
-[node name="Ammo" type="Label" parent="WeaponInfos/VBoxContainer/HBoxContainer"]
+[node name="Ammo" type="Label" parent="CanvasLayer/WeaponInfos/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 label_settings = ExtResource("6_yd38f")
 
-[node name="ContextComponent" type="CenterContainer" parent="."]
-layout_mode = 1
+[node name="ContextComponent" type="CenterContainer" parent="CanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -114,18 +115,18 @@ grow_vertical = 2
 script = ExtResource("6_36lb2")
 default_icon = SubResource("CompressedTexture2D_yd38f")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ContextComponent"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ContextComponent"]
 custom_minimum_size = Vector2(100, 20)
 layout_mode = 2
 
-[node name="ContextIcon" type="TextureRect" parent="ContextComponent/HBoxContainer"]
+[node name="ContextIcon" type="TextureRect" parent="CanvasLayer/ContextComponent/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ContextLabel" type="Label" parent="ContextComponent/HBoxContainer"]
+[node name="ContextLabel" type="Label" parent="CanvasLayer/ContextComponent/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 label_settings = SubResource("LabelSettings_uwo1s")

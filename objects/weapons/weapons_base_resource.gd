@@ -1,6 +1,7 @@
 class_name Weapons extends Resource
 
-@export var name: StringName # Should match the key in the WeaponDatabase
+## Should match the key in the WeaponDatabase, used in the WeaponInteractionComponenent to load weapon
+@export var name: StringName
 @export_group("Weapon Orientation")
 @export var position: Vector3
 @export var rotation: Vector3

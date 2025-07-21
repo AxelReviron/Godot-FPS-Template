@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvb8do483sa1y"]
+
+[ext_resource type="PackedScene" uid="uid://di4y8v188c8qe" path="res://objects/weapons/pistol/pistol.tscn" id="1_yw326"]
+
+[node name="pew2" instance=ExtResource("1_yw326")]
+
+[node name="pew" parent="." index="0"]
+layers = 4
+
+[node name="pewhaut" parent="pew" index="0"]
+layers = 4
+
+[node name="pewmagazine" parent="pew" index="1"]
+layers = 4
+
+[node name="pewtrigger" parent="pew" index="2"]
+layers = 4
