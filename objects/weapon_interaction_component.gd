@@ -61,9 +61,16 @@ func on_interact() -> void:
 	weapon_res = WeaponDatabase.get_weapon(weapon_key)
 	
 	if Global.player and Global.player.WEAPON_CONTROLLER and weapon_res:
-		Global.player.WEAPON_CONTROLLER.WEAPON_TYPE = weapon_res
-		Global.player.WEAPON_CONTROLLER.display_weapon_icon_and_infos()
-		# Reset ammo
+		var player = Global.player
+		var weapon_controller = player.WEAPON_CONTROLLER
+		weapon_controller.WEAPON_TYPE = weapon_res
+		weapon_controller.display_weapon_icon_and_infos()
+		
+		# Change weapon type for character animation for the AnimationTree StateMachine
+		var enum_keys = Weapons.CharAnimType.keys()
+		player.char_anim_type_name = enum_keys[weapon_controller.WEAPON_TYPE.char_anim_type]
+		# Change weapon scene for character
+		weapon_controller.display_char_weapon()
 
 
 ## Finds and stores all MeshInstance3D children of the parent node

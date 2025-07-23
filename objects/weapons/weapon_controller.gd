@@ -31,6 +31,9 @@ signal weapon_stop_fire
 @onready var weapon_scene: Node3D = %WeaponScene # Weapon Node container for the weapon scene
 var current_weapon_instance: Node3D = null  # Reference to the weapon scene (defined in the weapon_resource)
 
+# Weapon Character Scene
+var current_weapon_char_instance: Node3D = null  # Reference to the weapon scene (defined in the weapon_resource)
+
 var can_sway: bool = true
 var base_position: Vector3
 var base_rotation: Vector3
@@ -81,10 +84,29 @@ var current_ammo: int
 # Sounds
 var shoot_sound: AudioStreamWAV
 
+# Character
+var char_anim_type: Weapons.CharAnimType
+var char_weapon_position: Vector3
+var char_weapon_rotation: Vector3
+var char_weapon_scale: Vector3
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Global.connect("hud_ready", Callable(self, "display_weapon_icon_and_infos"))
+	Global.connect("character_ready", Callable(self, "display_char_weapon"))
 	load_weapon()
+
+
+func display_char_weapon() -> void:
+	current_weapon_char_instance = WEAPON_TYPE.char_scene.instantiate()
+	Global.weapon_char_scene.add_child(current_weapon_char_instance)
+	
+	print('instanciate weapon: ', current_weapon_char_instance)
+	
+	Global.weapon_char_scene.position = WEAPON_TYPE.char_weapon_position
+	Global.weapon_char_scene.rotation_degrees = WEAPON_TYPE.char_weapon_rotation
+	Global.weapon_char_scene.scale = WEAPON_TYPE.char_weapon_scale
+
 
 
 func display_weapon_icon_and_infos() -> void:
@@ -98,10 +120,18 @@ func update_ammo_display() -> void:
 
 
 func _clean_previous_weapon_instance() -> void:
-	# Clean up previous weapon instance
+	# Clean up previous weapon instance (FPS)
 	if current_weapon_instance:
 		current_weapon_instance.queue_free()
 		current_weapon_instance = null
+	if current_weapon_char_instance:
+		current_weapon_char_instance.queue_free()
+		current_weapon_char_instance = null
+	
+	# Clean up previous weapon instance (Character)
+	if current_weapon_char_instance:
+		current_weapon_char_instance.queue_free()
+		current_weapon_char_instance = null
 
 
 func load_weapon() -> void:
@@ -148,6 +178,13 @@ func load_weapon() -> void:
 	max_ammo = WEAPON_TYPE.max_ammo
 	current_ammo = max_ammo
 	shoot_sound = WEAPON_TYPE.shoot_sound
+	
+	# Character
+	char_anim_type = WEAPON_TYPE.char_anim_type
+	
+	position = WEAPON_TYPE.position # Set weapon position
+	rotation_degrees = WEAPON_TYPE.rotation # Set weapon rotation
+	scale = WEAPON_TYPE.scale # Set weapon scale
 
 
 # Sway weapon based on mouse movement

@@ -16,6 +16,7 @@ func look_at_player():
 
 
 func _physics_process(delta):
+	return# TEST
 	# update target_position with player position
 	navigation_agent.target_position = Global.player.global_position # global_transform.origin
 	

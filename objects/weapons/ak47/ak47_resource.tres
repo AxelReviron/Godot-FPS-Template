@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="Weapons" load_steps=5 format=3 uid="uid://cuj4mlb2dot1d"]
+[gd_resource type="Resource" script_class="Weapons" load_steps=6 format=3 uid="uid://cuj4mlb2dot1d"]
 
 [ext_resource type="PackedScene" uid="uid://d0hcx4uh2u84" path="res://objects/weapons/ak47/ak_47.tscn" id="1_5kh04"]
+[ext_resource type="PackedScene" uid="uid://codim5w54hn3c" path="res://objects/weapons/ak47/ak47_character.tscn" id="1_f5jbs"]
 [ext_resource type="Texture2D" uid="uid://b2mlvglvlshyn" path="res://objects/weapons/ak47/ak47_miniature.png" id="1_y8dmc"]
 [ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons_base_resource.gd" id="2_5kh04"]
 [ext_resource type="AudioStream" uid="uid://bd7kv5ebw3kyk" path="res://objects/weapons/ak47/ak47_shot.wav" id="3_p8268"]
@@ -33,8 +34,14 @@ recoil_speed = 7.0
 aim_recoil_amount_x = 0.06
 aim_recoil_amount_y = 0.03
 muzzle_flash_position = Vector3(0.491, 0.026, 0.011)
+char_muzzle_flash_position = Vector3(0, 0, 0)
 fire_rate = 0.08
 shooting_type = 0
 max_ammo = 30
 shoot_sound = ExtResource("3_p8268")
+char_scene = ExtResource("1_f5jbs")
+char_anim_type = 1
+char_weapon_position = Vector3(7.653, 12.285, 3.707)
+char_weapon_rotation = Vector3(17.6, 153.4, 79.5)
+char_weapon_scale = Vector3(140, 140, 140)
 metadata/_custom_type_script = "uid://tdc0pwp4voaw"

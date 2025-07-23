@@ -3,12 +3,15 @@ extends Node3D
 @export var weapon: WeaponController
 @export var flash_time: float = 0.05 #TODO: Move into weapon_resource
 @onready var muzzle_flash_light: OmniLight3D = %OmniLight3D
-@onready var muzzle_flash_emitter: GPUParticles3D = %MuzzelFashParticles
+@onready var muzzle_flash_emitter: GPUParticles3D = %MuzzleFashParticles
 @onready var bullet_trace_emitter: GPUParticles3D = %BulletTraceParticle
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	weapon.weapon_fired.connect(add_muzzle_flash)
+	if weapon:
+		weapon.weapon_fired.connect(add_muzzle_flash)
+	else:
+		print("WeaponController is not attached to MuzzleFlash")
 
 
 func add_muzzle_flash() -> void:

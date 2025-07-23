@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://di4y8v188c8qe" path="res://objects/weapons/pistol/pistol.tscn" id="1_yw326"]
 
 [node name="pew2" instance=ExtResource("1_yw326")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="pew" parent="." index="0"]
 layers = 4

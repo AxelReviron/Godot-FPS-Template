@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://codim5w54hn3c"]
+
+[ext_resource type="PackedScene" uid="uid://mmqhkrjgx3bm" path="res://objects/weapons/ak47/assets/ak47.glb" id="1_nj4kp"]
+
+[node name="AK47Character" instance=ExtResource("1_nj4kp")]
+
+[node name="ak47" parent="." index="0"]
+layers = 4
+
+[node name="akderriere_low" parent="ak47" index="0"]
+layers = 4
+
+[node name="akmagazine_low" parent="ak47" index="1"]
+layers = 4
+
+[node name="aktrigger_low" parent="ak47" index="2"]
+layers = 4

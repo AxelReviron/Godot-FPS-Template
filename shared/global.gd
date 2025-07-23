@@ -1,8 +1,10 @@
 extends Node
 
 signal hud_ready
+signal character_ready
 
 var player: CharacterBody3D = null
+var weapon_char_scene: Node3D
 
 var hud_weapon_icon: TextureRect
 var hud_weapon_name: Label

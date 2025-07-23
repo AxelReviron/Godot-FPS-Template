@@ -1,0 +1,48 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=10 format=3 uid="uid://b7jho6j3vn5f"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_8nw1w"]
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_jg4xm"]
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_8nw1w"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3wlsy"]
+animation = &"Pistol/idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4swqr"]
+animation = &"Pistol/idle_jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jg4xm"]
+animation = &"Pistol/walk_backward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b2kln"]
+animation = &"Pistol/walk_forward"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qv2ek"]
+animation = &"Pistol/walk_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4crc7"]
+animation = &"Pistol/walk_right"
+
+[resource]
+graph_offset = Vector2(-1188, 230.148)
+nodes/Jump/node = SubResource("AnimationNodeBlend2_8nw1w")
+nodes/Jump/position = Vector2(-760, 600)
+nodes/WalkSides/node = SubResource("AnimationNodeBlend3_jg4xm")
+nodes/WalkSides/position = Vector2(0, 600)
+nodes/WalkToward/node = SubResource("AnimationNodeBlend3_8nw1w")
+nodes/WalkToward/position = Vector2(-500, 600)
+nodes/idle/node = SubResource("AnimationNodeAnimation_3wlsy")
+nodes/idle/position = Vector2(-1100, 560)
+nodes/idle_jump/node = SubResource("AnimationNodeAnimation_4swqr")
+nodes/idle_jump/position = Vector2(-1140, 780)
+nodes/output/position = Vector2(280, 600)
+nodes/walk_backward/node = SubResource("AnimationNodeAnimation_jg4xm")
+nodes/walk_backward/position = Vector2(-760, 360)
+nodes/walk_forward/node = SubResource("AnimationNodeAnimation_b2kln")
+nodes/walk_forward/position = Vector2(-760, 900)
+nodes/walk_left/node = SubResource("AnimationNodeAnimation_qv2ek")
+nodes/walk_left/position = Vector2(-260, 880)
+nodes/walk_right/node = SubResource("AnimationNodeAnimation_4crc7")
+nodes/walk_right/position = Vector2(-260, 360)
+node_connections = [&"Jump", 0, &"idle", &"Jump", 1, &"idle_jump", &"WalkSides", 0, &"walk_right", &"WalkSides", 1, &"WalkToward", &"WalkSides", 2, &"walk_left", &"WalkToward", 0, &"walk_backward", &"WalkToward", 1, &"Jump", &"WalkToward", 2, &"walk_forward", &"output", 0, &"WalkSides"]

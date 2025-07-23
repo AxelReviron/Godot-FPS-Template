@@ -1,11 +1,14 @@
-[gd_scene load_steps=29 format=3 uid="uid://devdbqxq7swqd"]
+[gd_scene load_steps=39 format=3 uid="uid://devdbqxq7swqd"]
 
 [ext_resource type="Script" uid="uid://c5lomk3h5a1xr" path="res://entities/player/player.gd" id="1_symyc"]
 [ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://ui/hud/user_interface.tscn" id="2_abrql"]
 [ext_resource type="Script" uid="uid://b6dhrqhmba2xm" path="res://objects/weapons/camera_recoil.gd" id="2_afbqv"]
-[ext_resource type="PackedScene" uid="uid://bnvct6h0j3cf7" path="res://entities/player/character.tscn" id="2_gx6sm"]
 [ext_resource type="PackedScene" uid="uid://cw81xctbb6bsy" path="res://objects/weapons/weapon.tscn" id="2_j3ovn"]
+[ext_resource type="PackedScene" uid="uid://dho5eo7kunfv6" path="res://entities/player/character.tscn" id="2_yqrof"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://b7jho6j3vn5f" path="res://entities/player/animation_tree/pistol_blend_anim.tres" id="3_b2kln"]
+[ext_resource type="Resource" uid="uid://cf6agjg1ardc8" path="res://objects/weapons/pistol/pistol_resource.tres" id="4_b2kln"]
 [ext_resource type="Script" uid="uid://c563eujybct48" path="res://entities/player/states/movements/idle_player_state.gd" id="4_bls4j"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://ccn7otlippsq4" path="res://entities/player/animation_tree/rifle_blend_anim.tres" id="4_we0b7"]
 [ext_resource type="Script" uid="uid://coc7tn55g074c" path="res://entities/player/states/player_state_machine.gd" id="5_afbqv"]
 [ext_resource type="Script" uid="uid://0yyhqfbjnuf8" path="res://entities/player/states/movements/walking_player_state.gd" id="5_fkugw"]
 [ext_resource type="Script" uid="uid://wl07ju33yxt8" path="res://entities/player/states/movements/sprinting_player_state.gd" id="6_8fjmc"]
@@ -23,6 +26,43 @@ albedo_color = Color(0.317647, 0.662745, 0.552941, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_symyc"]
 material = SubResource("StandardMaterial3D_sfv1e")
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b2kln"]
+animation = &"Pistol/idle_jump"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtric"]
+advance_mode = 2
+advance_expression = "is_on_floor() && char_anim_type_name == \"PISTOL\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_b2kln"]
+advance_mode = 2
+advance_expression = "is_on_floor() && char_anim_type_name == \"RIFLE\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_we0b7"]
+advance_mode = 2
+advance_expression = "char_anim_type_name == \"RIFLE\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eyb6c"]
+advance_mode = 2
+advance_expression = "char_anim_type_name == \"PISTOL\""
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_221hk"]
+advance_mode = 2
+advance_expression = "is_on_floor()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ghoj8"]
+advance_mode = 2
+advance_expression = "!is_on_floor()"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_eyb6c"]
+states/PistolWalk/node = ExtResource("3_b2kln")
+states/PistolWalk/position = Vector2(420, 30)
+states/Pistol_idle_jump/node = SubResource("AnimationNodeAnimation_b2kln")
+states/Pistol_idle_jump/position = Vector2(420, -104)
+states/RifleWalk/node = ExtResource("4_we0b7")
+states/RifleWalk/position = Vector2(420, 160)
+transitions = ["Start", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_mtric"), "Start", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_b2kln"), "PistolWalk", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_we0b7"), "RifleWalk", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_eyb6c"), "Pistol_idle_jump", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_221hk"), "PistolWalk", "Pistol_idle_jump", SubResource("AnimationNodeStateMachineTransition_ghoj8")]
+graph_offset = Vector2(-268, -146)
 
 [sub_resource type="Animation" id="Animation_abrql"]
 length = 0.001
@@ -462,26 +502,12 @@ _data = {
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_symyc"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_afbqv"]
-
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("STATE_MACHINE", "CAMERA_CONTROLLER", "ANIMATIONPLAYER", "WEAPON_CONTROLLER")]
 script = ExtResource("1_symyc")
 STATE_MACHINE = NodePath("PlayerStateMachine")
 CAMERA_CONTROLLER = NodePath("CameraController/Recoil/Camera3D")
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
 WEAPON_CONTROLLER = NodePath("CameraController/Recoil/Camera3D/WeaponRig/Weapon")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_sfv1e")
-
-[node name="Character" parent="CollisionShape3D" instance=ExtResource("2_gx6sm")]
-unique_name_in_owner = true
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, -1, 0)
-
-[node name="PlaceholderMesh" type="MeshInstance3D" parent="CollisionShape3D"]
-visible = false
-mesh = SubResource("CapsuleMesh_symyc")
 
 [node name="CameraController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -502,8 +528,129 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
-transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.222, -0.143, -0.289)
+transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.21, -0.183, -0.459)
+WEAPON_TYPE = ExtResource("4_b2kln")
 sway_speed = 1.8
+
+[node name="MuzzleFlash" parent="CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene" index="0"]
+transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0.061, 0.037, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_sfv1e")
+
+[node name="PlaceholderMesh" type="MeshInstance3D" parent="CollisionShape3D"]
+visible = false
+mesh = SubResource("CapsuleMesh_symyc")
+
+[node name="Character" parent="CollisionShape3D" instance=ExtResource("2_yqrof")]
+unique_name_in_owner = true
+transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, -1, 0)
+
+[node name="Skeleton3D" parent="CollisionShape3D/Character" index="0"]
+bones/0/position = Vector3(0.000160575, 101.121, 0.246213)
+bones/0/rotation = Quaternion(0, 0, 0, 1)
+bones/2/rotation = Quaternion(-0.0609327, -4.81724e-07, 7.89114e-06, 0.998142)
+bones/4/rotation = Quaternion(0.000196387, -1.81769e-09, -9.25563e-06, 1)
+bones/5/rotation = Quaternion(-3.46945e-18, 2.11758e-22, -6.2204e-22, 1)
+bones/8/rotation = Quaternion(0.0607367, 1.04596e-06, 1.34708e-06, 0.998154)
+bones/11/rotation = Quaternion(1.54074e-33, 0, 4.4081e-39, 1)
+bones/20/rotation = Quaternion(0.5295, 0.612704, -0.469609, 0.351697)
+bones/22/rotation = Quaternion(-0.0109973, -0.000826494, 0.0749383, 0.997127)
+bones/24/rotation = Quaternion(-0.0151396, -0.000784125, 0.0517177, 0.998547)
+bones/27/rotation = Quaternion(0.0528634, -0.175394, -0.0311951, 0.982583)
+bones/30/rotation = Quaternion(-0.039162, -0.00071342, 0.0182001, 0.999067)
+bones/32/rotation = Quaternion(0.0678904, -6.95494e-18, 4.34684e-19, 0.997693)
+bones/34/rotation = Quaternion(-0.00250594, 4.03898e-28, -3.46946e-18, 0.999997)
+bones/37/rotation = Quaternion(0.148611, 0.0426093, 0.272299, 0.949712)
+bones/40/rotation = Quaternion(0.0344728, -2.08291e-17, -2.77721e-17, 0.999406)
+bones/43/rotation = Quaternion(-0.0332647, 4.33921e-18, 5.55419e-17, 0.999447)
+bones/47/rotation = Quaternion(0.0171877, -7.1926e-05, -0.00418407, 0.999844)
+bones/49/rotation = Quaternion(0.026041, 2.08237e-17, 4.33828e-19, 0.999661)
+bones/51/rotation = Quaternion(0.0231233, 1.38815e-17, 5.85626e-18, 0.999733)
+bones/54/rotation = Quaternion(-0.0328744, 0.000135097, -0.00410722, 0.999451)
+bones/57/rotation = Quaternion(0.0165206, 0, 8.6748e-19, 0.999864)
+bones/59/rotation = Quaternion(0.077493, 1.39196e-17, -3.58866e-18, 0.996993)
+bones/62/rotation = Quaternion(-0.0250157, -0.000559483, 0.0223527, 0.999437)
+bones/64/rotation = Quaternion(0.013263, 3.46975e-17, 1.73488e-18, 0.999912)
+bones/66/rotation = Quaternion(0.00776503, 1.38782e-17, -5.20433e-18, 0.99997)
+bones/69/rotation = Quaternion(-0.529513, 0.612683, -0.469616, -0.351704)
+bones/71/rotation = Quaternion(-0.0109571, 0.000823589, -0.0749489, 0.997127)
+bones/72/rotation = Quaternion(-0.0151519, 0.000784623, -0.0517086, 0.998547)
+bones/75/rotation = Quaternion(0.0528621, 0.175376, 0.0311975, 0.982586)
+bones/78/rotation = Quaternion(-0.0391569, 0.000713215, -0.0181973, 0.999067)
+bones/80/rotation = Quaternion(0.0678881, -6.95494e-18, -3.04279e-18, 0.997693)
+bones/82/rotation = Quaternion(-0.002499, -4.85724e-17, -5.20419e-18, 0.999997)
+bones/85/rotation = Quaternion(0.148605, -0.0426079, -0.272301, 0.949712)
+bones/88/rotation = Quaternion(0.0344723, 4.55636e-17, -1.3886e-17, 0.999406)
+bones/91/rotation = Quaternion(-0.0332606, -3.90529e-18, 1.38855e-17, 0.999447)
+bones/95/rotation = Quaternion(0.0171774, 7.18659e-05, 0.00418309, 0.999844)
+bones/97/rotation = Quaternion(0.0260575, -1.38825e-17, -1.95223e-18, 0.99966)
+bones/99/rotation = Quaternion(0.0231294, -6.94075e-18, 2.49433e-18, 0.999732)
+bones/102/rotation = Quaternion(-0.0328854, -0.000135115, 0.00410642, 0.999451)
+bones/105/rotation = Quaternion(0.0165428, 1.38797e-17, 8.67481e-19, 0.999863)
+bones/107/rotation = Quaternion(0.0774879, 6.48184e-27, 6.52483e-19, 0.996993)
+bones/110/rotation = Quaternion(-0.0250078, 0.00055934, -0.022354, 0.999437)
+bones/112/rotation = Quaternion(0.0132559, -6.9395e-18, 3.46975e-18, 0.999912)
+bones/114/rotation = Quaternion(0.00775845, -2.77564e-17, 1.73478e-18, 0.99997)
+bones/117/rotation = Quaternion(5.23594e-08, -0.0218304, 0.999762, 2.39789e-06)
+bones/120/rotation = Quaternion(-0.0181449, -0.00010777, 0.0059383, 0.999818)
+bones/123/rotation = Quaternion(0.461782, 0.0161906, -0.00843085, 0.886806)
+bones/126/rotation = Quaternion(0.338737, -0.0272382, 0.00981096, 0.940436)
+bones/128/rotation = Quaternion(-1.54108e-06, -0.0218326, 0.999762, -7.05692e-05)
+bones/132/rotation = Quaternion(-0.0181426, 0.000108176, -0.00596146, 0.999818)
+bones/135/rotation = Quaternion(0.461782, -0.0162008, 0.00843615, 0.886806)
+bones/138/rotation = Quaternion(0.338735, 0.0272386, -0.00981107, 0.940436)
+
+[node name="Eyes" parent="CollisionShape3D/Character/Skeleton3D" index="0"]
+layers = 4
+
+[node name="default" parent="CollisionShape3D/Character/Skeleton3D" index="1"]
+layers = 4
+
+[node name="Gloves" parent="CollisionShape3D/Character/Skeleton3D" index="2"]
+layers = 4
+
+[node name="Body" parent="CollisionShape3D/Character/Skeleton3D" index="3"]
+layers = 4
+
+[node name="Eyewear" parent="CollisionShape3D/Character/Skeleton3D" index="4"]
+layers = 4
+
+[node name="Hats" parent="CollisionShape3D/Character/Skeleton3D" index="5"]
+layers = 4
+
+[node name="Shoes" parent="CollisionShape3D/Character/Skeleton3D" index="6"]
+layers = 4
+
+[node name="Tops" parent="CollisionShape3D/Character/Skeleton3D" index="7"]
+layers = 4
+
+[node name="Bottoms" parent="CollisionShape3D/Character/Skeleton3D" index="8"]
+layers = 4
+
+[node name="BoneAttachment3D" parent="CollisionShape3D/Character/Skeleton3D" index="9"]
+transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843588, 0.154718, -73.4252, 142.865, -5.75817)
+
+[node name="DebugCameraBone" parent="CollisionShape3D/Character/Skeleton3D" index="10"]
+transform = Transform3D(1, -1.56943e-05, -1.92332e-06, 1.58117e-05, 0.992574, 0.121639, 0, -0.121639, 0.992574, 4.6363e-05, 110.978, -0.976972)
+
+[node name="Camera3D" parent="CollisionShape3D/Character/DebugCameraSubViewport/ExternalCameraDebug/SubViewport" index="0"]
+transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, -0.8518, 1.64239, -1.14811)
+cull_mask = 1048573
+
+[node name="AnimationTree" type="AnimationTree" parent="CollisionShape3D/Character"]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/..")
+tree_root = SubResource("AnimationNodeStateMachine_eyb6c")
+advance_expression_base_node = NodePath("../../..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/PistolWalk/Jump/blend_amount = 0.0
+parameters/PistolWalk/WalkSides/blend_amount = 0
+parameters/PistolWalk/WalkToward/blend_amount = 0
+parameters/RifleWalk/Jump/blend_amount = 0
+parameters/RifleWalk/WalkSides/blend_amount = 0
+parameters/RifleWalk/WalkToward/blend_amount = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -518,6 +665,25 @@ target_position = Vector3(0, 0.5, 0)
 debug_shape_custom_color = Color(0, 1, 0, 1)
 
 [node name="UserInterface" parent="." instance=ExtResource("2_abrql")]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("12_a1qjk")
+
+[node name="WeaponCamera" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("MAIN_CAMERA")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48759, 0)
+cull_mask = 1048570
+script = ExtResource("13_j3ovn")
+MAIN_CAMERA = NodePath("../../../CameraController/Recoil/Camera3D/WeaponRig")
 
 [node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
 script = ExtResource("5_afbqv")
@@ -544,28 +710,8 @@ script = ExtResource("9_bectd")
 [node name="FallingPlayerState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("10_wvtmh")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-render_target_update_mode = 4
-script = ExtResource("12_a1qjk")
-
-[node name="WeaponCamera" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("MAIN_CAMERA")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48759, 0)
-cull_mask = 1048570
-script = ExtResource("13_j3ovn")
-MAIN_CAMERA = NodePath("../../../CameraController/Recoil/Camera3D/WeaponRig")
-
-[node name="AnimationPlayerCharacter" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_afbqv")
-}
-
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
+
+[editable path="CameraController/Recoil/Camera3D/WeaponRig/Weapon"]
+[editable path="CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene/MuzzleFlash"]
+[editable path="CollisionShape3D/Character"]

@@ -21,17 +21,6 @@ func update(delta: float):
 	
 	# Animation for FPS Camera
 	set_animation_speed(PLAYER.velocity.length())
-	# Animations for Character
-	var direction = PLAYER.get_movement_direction()
-	match direction:
-		"Forward":
-			PLAYER.anim_player.play("CharacterArmature|Run")
-		"Backward":
-			PLAYER.anim_player.play("CharacterArmature|Run_Back")
-		"Left":
-			PLAYER.anim_player.play("CharacterArmature|Run_Left")
-		"Right":
-			PLAYER.anim_player.play("CharacterArmature|Run_Right")
 	
 	if PLAYER.velocity.length() == 0.0:
 		transition.emit("IdlePlayerState")

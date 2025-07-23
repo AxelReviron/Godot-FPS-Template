@@ -24,6 +24,7 @@ var current_rotation: float
 var slide_start_rotation_y: float
 var interact_cast_result: Object
 
+var char_anim_type_name: String
 
 func _update_camera(delta):
 	current_rotation = rotation_input
@@ -96,23 +97,45 @@ func _interact() -> void:
 		interact_cast_result.emit_signal("interacted")
 
 
-func get_movement_direction() -> String:
-	var local_velocity = global_transform.basis.inverse() * velocity
-	local_velocity.y = 0.0  # Ignore la verticale
+var blend_speed = 20
+var walk_anim_val = 0
+var walk_sides_anim_val = 0
+var jump_anim_val = 0
+func _define_walk_blend_char_animations(delta: float):
+	var move_input = GlobalInput.get_move_vector()# TODO: Trouver un autre moyen d'avoir la direction relative pour l'ennemie
+	
+	# TODO: AnimationState pour savoir quelle arme le joueur a, si pistol -> anim pistol...
+	# TODO: Si rifle -> anim pistol
+	# TODO: Ensuite utiliser des Blend2
+	# TODO: Faire une fonction a part pour obtenir la direction
+		
+	if move_input.y < 0:# Walk Forward
+		walk_anim_val = lerpf(walk_anim_val, 1, blend_speed * delta)
 
-	if local_velocity.length() < 0.1:
-		return "Idle"
+	if move_input.y > 0:# Walk Backward
+		walk_anim_val = lerpf(walk_anim_val, -1, blend_speed * delta)
+	
+	if move_input.x < 0:# Walk Left
+		walk_sides_anim_val = lerpf(walk_sides_anim_val, 1, blend_speed * delta)
 
-	var angle = atan2(local_velocity.x, local_velocity.z)
+	if move_input.x > 0:# Walk Right
+		walk_sides_anim_val = lerpf(walk_sides_anim_val, -1, blend_speed * delta)
+	
+	if move_input.y == 0 and move_input.x == 0 and is_on_floor():# Idle
+		walk_anim_val = lerpf(walk_anim_val, 0, blend_speed * delta)
+		walk_sides_anim_val = lerpf(walk_sides_anim_val, 0, blend_speed * delta)
 
-	if abs(angle) < PI / 4:
-		return "Forward"
-	elif abs(angle) > 3 * PI / 4:
-		return "Backward"
-	elif angle < 0:
-		return "Left"
-	else:
-		return "Right"
+	if !is_on_floor():# Idle Jump
+		jump_anim_val = lerpf(jump_anim_val, 1, blend_speed * delta)
+	if is_on_floor():# Idle Jump
+		jump_anim_val = lerpf(jump_anim_val, 0, blend_speed * delta)
+	
+	%AnimationTree.set("parameters/PistolWalk/WalkToward/blend_amount", walk_anim_val)# TODO: Faire ça dans le player State ?
+	%AnimationTree.set("parameters/PistolWalk/WalkSides/blend_amount", walk_sides_anim_val)
+	%AnimationTree.set("parameters/PistolWalk/Jump/blend_amount", jump_anim_val)
+	%AnimationTree.set("parameters/RifleWalk/WalkToward/blend_amount", walk_anim_val)
+	%AnimationTree.set("parameters/RifleWalk/WalkSides/blend_amount", walk_sides_anim_val)
+	%AnimationTree.set("parameters/RifleWalk/Jump/blend_amount", jump_anim_val)
 
 
 func _ready():
@@ -120,6 +143,9 @@ func _ready():
 	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
+	# Define the character weapon animation type for the AnimationTree StateMachine
+	var enum_keys = Weapons.CharAnimType.keys()
+	char_anim_type_name = enum_keys[WEAPON_CONTROLLER.WEAPON_TYPE.char_anim_type]
 
 
 func _unhandled_input(event):
@@ -139,3 +165,4 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	_update_camera(delta)
 	_interact_cast()
+	_define_walk_blend_char_animations(delta)

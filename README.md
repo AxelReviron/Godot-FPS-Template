@@ -85,19 +85,11 @@ Weapons are handled via a modular system. Each weapon should have a `.tres` reso
 They are loaded dynamically using `weapon_controller.gd` script.
 
 ### Add a new weapon:
-
-#### 1st Option: Weapon in a Scene
 1. Import your weapon scene/assets into the FileSystem.
 2. Create a new scene for your weapon (with hierarchy, animations, sounds, etc.).
 3. Create a new resource file (`.tres`) that extends the `Weapon` class.
 4. In the resource assign the scene you created
 5. In the Weapon Scene, assign your resource file to the `Weapon Type` field.
-
-#### 2nd Option: Weapon with single Mesh
-1. Import your mesh into the FileSystem.
-2. Create a new resource file (`.tres`) that extends the `Weapon` class.
-3. In the resource assign the mesh directly
-4. In the Weapon Scene, assign your resource file to the `Weapon Type` field.
 
 ### Adjust position, rotation, scale :
 Once you have selected the resource in the Weapon Scene, you can open the Player scene and adjust the properties of the resource according to the transform properties
@@ -108,14 +100,14 @@ TODO
 ## 🗒️ TODO
 - [ ] Make sliding mechanic optional
 - [ ] Finish weapon system
-  - [ ] Implement reload mechanic
+  - [x] Implement reload mechanic
   - [ ] Add weapon switching
-  - [ ] Add aiming and shooting logic
-  - [ ] Add recoil system
-  - [ ] Visual and sound FX
+  - [x] Add aiming and shooting logic
+  - [x] Add recoil system
+  - [x] Visual and sound FX
 - [ ] Save user settings and progression system
 - [ ] Game menus and user settings
-- [ ] Interactable objects (like door or stuff)
+- [x] Interactable objects (like door or stuff)
 
 
 - [ ] Add optional wall sliding mechanic
@@ -126,3 +118,4 @@ TODO
 ### Assets
 - [Styloo](https://styloo.itch.io/) - Guns Asset Pack
 - [Kenney](https://kenney.nl/assets/input-prompts) - Input Prompts
+- [Doctortex](https://sketchfab.com/3d-models/soldier-2efdbacef9ca4d45846e16bebba05e03) - Soldier

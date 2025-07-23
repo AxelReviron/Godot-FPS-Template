@@ -8,7 +8,9 @@ class_name Weapons extends Resource
 @export var scale: Vector3
 
 @export_group("Visual Settings")
+## Scene of the weapon
 @export var scene: PackedScene
+## Optional icon texture for overriding default interaction icon
 @export var icon_texture: Texture2D
 @export var aim_position: Vector3
 @export var aim_rotation: Vector3
@@ -36,8 +38,10 @@ class_name Weapons extends Resource
 @export_range(0, 1, 0.01) var aim_recoil_amount_y: float
 
 @export_group("Weapon Muzzle Flash")
+## Position of the Muzzle Flash in FPS 
 @export var muzzle_flash_position: Vector3
-
+## Position of the Muzzle Flash for the character (visible by other player)
+@export var char_muzzle_flash_position: Vector3
 
 @export_group("Weapon Shooting Properties")
 @export var fire_rate: float
@@ -46,10 +50,22 @@ enum ShootingType { AUTO, ONCE }
 
 @export_group("Weapon Ammo")
 @export var max_ammo: int
+# TODO: max_mag
 
 # TODO: Audio
 @export_group("Weapon Sound")
 @export var shoot_sound: AudioStreamWAV
+
+@export_group("Weapon Character Animation")
+## For each type there is a corresping set of animation for the character 
+enum CharAnimType { PISTOL, RIFLE }
+@export var char_scene: PackedScene
+@export var char_anim_type: CharAnimType
+## Position of the weapon for the character (relative to the BoneAttachment3D)# TODO: Instanciate this
+@export var char_weapon_position: Vector3
+@export var char_weapon_rotation: Vector3
+@export var char_weapon_scale: Vector3 = Vector3(1, 1, 1)
+
 
 static func get_shooting_type_name(value: int) -> String:
 	for name in ShootingType.keys():
