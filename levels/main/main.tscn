@@ -315,8 +315,9 @@ transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 2, 0, 7)
 [node name="Camera3D" parent="Player/CollisionShape3D/Character/DebugCameraSubViewport/ExternalCameraDebug/SubViewport" index="0"]
 transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, 1.1482, 1.64239, 5.85189)
 
-[node name="Ennemy" parent="." instance=ExtResource("4_20bwc")]
+[node name="Ennemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("4_20bwc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -15)
+target = NodePath("../Player")
 
 [node name="Map" type="Node3D" parent="."]
 

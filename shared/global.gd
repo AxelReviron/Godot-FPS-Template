@@ -9,6 +9,7 @@ var weapon_char_scene: Node3D
 var hud_weapon_icon: TextureRect
 var hud_weapon_name: Label
 var hud_weapon_ammo: Label
+var hud_reticle: CenterContainer
 var ui_context: ContextComponent
 
 var debug: PanelContainer = null

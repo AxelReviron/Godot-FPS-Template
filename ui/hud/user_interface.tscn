@@ -26,6 +26,7 @@ script = ExtResource("1_vk4me")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Reticle" type="CenterContainer" parent="CanvasLayer" node_paths=PackedStringArray("RETICLE_LINES")]
+unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

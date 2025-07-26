@@ -9,12 +9,12 @@
 [resource]
 script = ExtResource("2_5kh04")
 name = &"ak47"
-position = Vector3(0.222, -0.143, -0.289)
+position = Vector3(0.134, -0.143, -0.261)
 rotation = Vector3(0, 89.1, 0)
 scale = Vector3(1, 1, 1)
 scene = ExtResource("1_5kh04")
 icon_texture = ExtResource("1_y8dmc")
-aim_position = Vector3(0, -0.107, -0.216)
+aim_position = Vector3(0, -0.069, -0.216)
 aim_rotation = Vector3(0, 90, 0)
 aim_speed = 8.0
 aim_fov = 50.0
@@ -28,7 +28,7 @@ idle_sway_adjustment = 10.0
 idle_sway_rotation_strength = 300.0
 random_sway_amount = 5.0
 recoil_amount_x = 0.1
-recoil_amount_y = 0.07
+recoil_amount_y = 0.0
 recoil_snap_amount = 5.0
 recoil_speed = 7.0
 aim_recoil_amount_x = 0.06

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Weapons" load_steps=6 format=3 uid="uid://cf6agjg1ardc8"]
 
 [ext_resource type="PackedScene" uid="uid://di4y8v188c8qe" path="res://objects/weapons/pistol/pistol.tscn" id="1_66umr"]
-[ext_resource type="PackedScene" uid="uid://cvb8do483sa1y" path="res://objects/weapons/pistol/pistol_character.tscn" id="1_btrfu"]
+[ext_resource type="PackedScene" uid="uid://cnowmh8odc3nm" path="res://objects/weapons/pistol/pistol_character.tscn" id="1_btrfu"]
 [ext_resource type="Texture2D" uid="uid://h4gps36jgks1" path="res://objects/weapons/pistol/pistol_miniature.png" id="1_hjkl0"]
 [ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons_base_resource.gd" id="2_66umr"]
 [ext_resource type="AudioStream" uid="uid://b247h2m8nnbgo" path="res://objects/weapons/pistol/pistol_shoot.wav" id="3_1uy2w"]
@@ -9,12 +9,12 @@
 [resource]
 script = ExtResource("2_66umr")
 name = &"pistol"
-position = Vector3(0.21, -0.183, -0.459)
+position = Vector3(0.155, -0.183, -0.53)
 rotation = Vector3(0, 96.9, 0)
 scale = Vector3(2, 2, 2)
 scene = ExtResource("1_66umr")
 icon_texture = ExtResource("1_hjkl0")
-aim_position = Vector3(0, -0.138, -0.334)
+aim_position = Vector3(0, -0.095, -0.334)
 aim_rotation = Vector3(0, 90, 0)
 aim_speed = 10.0
 aim_fov = 50.0

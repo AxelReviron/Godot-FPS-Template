@@ -155,7 +155,7 @@ func _unhandled_input(event):
 		tilt_input = -event.relative.y * Settings.MOUSE_SENSITIVITY
 	
 	if GlobalInput.is_exiting():
-		get_tree().quit()
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	if GlobalInput.is_interacting():
 		#_interact_cast()

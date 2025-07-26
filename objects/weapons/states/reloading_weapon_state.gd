@@ -1,19 +1,26 @@
 class_name ReloadingWeaponState extends WeaponState
 
-var is_reloading: bool = true
+var is_reloading: bool = false
+
+
+func reload() -> void:
+	if !is_reloading and WEAPON.current_ammo != WEAPON.max_ammo:
+		is_reloading = true
+		if WEAPON.current_weapon_anim_player_instance:
+			WEAPON.current_weapon_anim_player_instance.play("reload")
+			await get_tree().create_timer(1).timeout
+			WEAPON.current_weapon_anim_player_instance.stop()
+		WEAPON.current_ammo = WEAPON.max_ammo
+		WEAPON.update_ammo_display()
+		is_reloading = false
 
 
 func enter(previous_state: State) -> void:
-	pass
-	# TODO:
-	# Start reloading animation
-	# wait for finish
-	WEAPON.reload()
-	is_reloading = false
+	reload()
 
 
 func update(delta: float):
-	if GlobalInput.is_shooting():
+	if GlobalInput.is_shooting() and !is_reloading:
 		transition.emit("ShootingWeaponState")
 	
 	if !is_reloading:

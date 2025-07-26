@@ -1,5 +1,8 @@
 class_name Ennemy extends CharacterBody3D
 
+@export var is_following_target: bool = false
+@export var target: Node
+
 @onready var navigation_agent: NavigationAgent3D = %NavigationAgent3D
 @onready var ray_obstacle_low: RayCast3D = %RayCastLow
 @onready var ray_obstacle_high: RayCast3D = %RayCastHigh
@@ -8,19 +11,16 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
 
-func look_at_player():
-	var target_pos = Global.player.global_position
-	target_pos.y = global_position.y
-	
-	look_at(target_pos, Vector3.UP)
+func _look_at_target(target_position: Vector3):
+	target_position.y = global_position.y
+	look_at(target_position, Vector3.UP)
 
 
-func _physics_process(delta):
-	return# TEST
-	# update target_position with player position
-	navigation_agent.target_position = Global.player.global_position # global_transform.origin
+func _follow_target(delta: float) -> void:
+	var target_position: Vector3 = target.global_position
+	navigation_agent.target_position = target_position
 	
-	look_at_player()
+	_look_at_target(target_position)
 	
 	if navigation_agent.is_navigation_finished():
 		return
@@ -42,3 +42,8 @@ func _physics_process(delta):
 
 	velocity = velocity.move_toward(Vector3(new_velocity.x, velocity.y, new_velocity.z), 0.25)
 	move_and_slide()
+
+
+func _physics_process(delta):
+	if is_following_target:
+		_follow_target(delta)

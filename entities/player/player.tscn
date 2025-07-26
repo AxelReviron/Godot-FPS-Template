@@ -528,7 +528,7 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
-transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.21, -0.183, -0.459)
+transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.155484, -0.183, -0.529743)
 WEAPON_TYPE = ExtResource("4_b2kln")
 sway_speed = 1.8
 
@@ -549,7 +549,6 @@ transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.0
 
 [node name="Skeleton3D" parent="CollisionShape3D/Character" index="0"]
 bones/0/position = Vector3(0.000160575, 101.121, 0.246213)
-bones/0/rotation = Quaternion(0, 0, 0, 1)
 bones/2/rotation = Quaternion(-0.0609327, -4.81724e-07, 7.89114e-06, 0.998142)
 bones/4/rotation = Quaternion(0.000196387, -1.81769e-09, -9.25563e-06, 1)
 bones/5/rotation = Quaternion(-3.46945e-18, 2.11758e-22, -6.2204e-22, 1)

@@ -25,11 +25,12 @@ signal weapon_stop_fire
 @onready var muzzle_flash: Node3D = %MuzzleFlash
 @onready var audio_stream_player: AudioStreamPlayer3D = %AudioStreamPlayer3D
 @onready var blood_impact_scene: PackedScene = preload("res://objects/weapons/fx/blood_particles.tscn")
-#@onready var camera: Camera3D = %Camera3D
+@onready var camera: Camera3D = %Camera3D
 
 # Weapon Scene
 @onready var weapon_scene: Node3D = %WeaponScene # Weapon Node container for the weapon scene
 var current_weapon_instance: Node3D = null  # Reference to the weapon scene (defined in the weapon_resource)
+var current_weapon_anim_player_instance: AnimationPlayer = null
 
 # Weapon Character Scene
 var current_weapon_char_instance: Node3D = null  # Reference to the weapon scene (defined in the weapon_resource)
@@ -75,7 +76,7 @@ var bullet_trace_position: Vector3
 # Weapon Shooting Properties
 var fire_rate: float
 var shooting_type: Weapons.ShootingType
-var can_shoot: bool = true
+#var can_shoot: bool = true
 
 # Ammo
 var max_ammo: int
@@ -101,12 +102,9 @@ func display_char_weapon() -> void:
 	current_weapon_char_instance = WEAPON_TYPE.char_scene.instantiate()
 	Global.weapon_char_scene.add_child(current_weapon_char_instance)
 	
-	print('instanciate weapon: ', current_weapon_char_instance)
-	
 	Global.weapon_char_scene.position = WEAPON_TYPE.char_weapon_position
 	Global.weapon_char_scene.rotation_degrees = WEAPON_TYPE.char_weapon_rotation
 	Global.weapon_char_scene.scale = WEAPON_TYPE.char_weapon_scale
-
 
 
 func display_weapon_icon_and_infos() -> void:
@@ -124,10 +122,7 @@ func _clean_previous_weapon_instance() -> void:
 	if current_weapon_instance:
 		current_weapon_instance.queue_free()
 		current_weapon_instance = null
-	if current_weapon_char_instance:
-		current_weapon_char_instance.queue_free()
-		current_weapon_char_instance = null
-	
+
 	# Clean up previous weapon instance (Character)
 	if current_weapon_char_instance:
 		current_weapon_char_instance.queue_free()
@@ -139,8 +134,8 @@ func load_weapon() -> void:
 	
 	base_position = WEAPON_TYPE.position
 	base_rotation = WEAPON_TYPE.rotation
-	#if camera:
-		#base_camera_fov = camera.fov
+	if camera:
+		base_camera_fov = camera.fov
 	
 	position = WEAPON_TYPE.position # Set weapon position
 	rotation_degrees = WEAPON_TYPE.rotation # Set weapon rotation
@@ -154,6 +149,9 @@ func load_weapon() -> void:
 	# Instanciate the weapon scene
 	if WEAPON_TYPE.scene:
 		current_weapon_instance = WEAPON_TYPE.scene.instantiate()
+		for child in current_weapon_instance.get_children():
+			if child is AnimationPlayer:
+				current_weapon_anim_player_instance = child
 		if weapon_scene:
 			weapon_scene.add_child(current_weapon_instance)
 	else:
@@ -252,75 +250,6 @@ func weapon_bob(delta: float, bob_speed: float, h_bob_amount: float, v_bob_amoun
 	weapon_bob_amount.y = abs(cos(time * bob_speed) * v_bob_amount)
 
 
-func reload() -> void:
-	# TODO: Add max mag
-	current_ammo = max_ammo
-	update_ammo_display()
-
-
-func shoot() -> void:
-	if !can_shoot or current_ammo == 0:
-		return
-
-	can_shoot = false
-	current_ammo -= 1
-	update_ammo_display()
-	weapon_fired.emit()
-	# Handle ammo
-	
-	var camera: Camera3D = Global.player.CAMERA_CONTROLLER
-	var viewport: Viewport = get_viewport()
-	var hit = Global.get_forward_ray_hit(camera, get_viewport(), 1000.0)
-	
-	if hit:
-		_display_bullet_hole(hit.get("position"), hit.get("normal"))
-	
-	if hit.get("collider") is CharacterBody3D:
-		_emit_blood_particles(hit.get("position"), hit.get("normal"))
-	
-	await get_tree().create_timer(fire_rate).timeout
-	can_shoot = true
-
-
-func _emit_blood_particles(position: Vector3, normal: Vector3) -> void:
-	var impact_instance = blood_impact_scene.instantiate() as GPUParticles3D
-	self.add_child(impact_instance)
-	
-	impact_instance.global_transform.origin = position
-	# Oriente la particule pour "regarder" dans la direction de la normale
-	impact_instance.global_transform.basis = Basis().looking_at(position - normal, Vector3.UP)
-	impact_instance.emitting = true
-
-	await get_tree().create_timer(1.0).timeout
-	impact_instance.queue_free()
-
-
-# normal is the direction that the surface shooted is pointing
-# With the normal we can adjust the rotation of the bullet_hole 
-func _display_bullet_hole(position: Vector3, normal: Vector3) -> void:
-	# Add bulet hole decal to the scene
-	var bullet_hole_instance: Node3D = bullet_hole.instantiate()
-	get_tree().root.add_child(bullet_hole_instance)
-	bullet_hole_instance.global_position = position
-
-	# Bullet shooted into walls
-	if normal != Vector3.UP and normal != Vector3.DOWN:
-		bullet_hole_instance.look_at(position + normal, Vector3.UP)
-		bullet_hole_instance.rotate_object_local(Vector3.RIGHT, deg_to_rad(90))
-
-	# Bullet shooted into floor or ceiling
-	elif normal == Vector3.UP or normal == Vector3.DOWN:
-		bullet_hole_instance.look_at(position + normal, Vector3.UP)
-		bullet_hole_instance.rotate_object_local(Vector3.RIGHT, deg_to_rad(90))
-
-	await get_tree().create_timer(2).timeout
-	var fade = get_tree().create_tween()
-	fade.tween_property(bullet_hole_instance, "modulate:a", 0, 0.5)
-	
-	await get_tree().create_timer(0.5).timeout
-	bullet_hole_instance.queue_free()
-
-
 func aim(delta: float) -> void:
 	can_sway = false
 	# Annule tout tween de position précédent pour éviter les conflits
@@ -334,10 +263,11 @@ func aim(delta: float) -> void:
 		fov_tween.kill()
 		fov_tween = null
 
-	#TODO: Fix this ?
-	#camera.fov = lerp(camera.fov, aim_fov, aim_speed * delta)
+	camera.fov = lerp(camera.fov, aim_fov, aim_speed * delta)
 	self.position = self.position.lerp(aim_position, aim_speed * delta)
 	self.rotation_degrees = self.rotation_degrees.lerp(aim_rotation, aim_speed * delta)
+	Global.hud_reticle.visible = false
+
 
 func reset_aim(delta: float) -> void:
 	if position_tween:
@@ -354,16 +284,17 @@ func reset_aim(delta: float) -> void:
 	rotation_tween = create_tween()
 	fov_tween = create_tween()
 	
-	#TODO: Fix this ?
-	#fov_tween.tween_property(camera, "fov", base_camera_fov, 1.0 / aim_speed)
+	fov_tween.tween_property(camera, "fov", base_camera_fov, 1.0 / aim_speed)
 	position_tween.tween_property(self, "position", base_position, 1.0 / aim_speed)
 	rotation_tween.tween_property(self, "rotation_degrees", base_rotation, 1.0 / aim_speed)
 
 	# Connect finished signal
 	rotation_tween.finished.connect(_on_aim_position_tween_finished)
 
+
 func _on_aim_position_tween_finished():
 	position_tween = null
 	rotation_tween = null
 	fov_tween = null
 	can_sway = true # Activate sway only when position, rotation  and fov tween are finished
+	Global.hud_reticle.visible = true

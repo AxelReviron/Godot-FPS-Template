@@ -2,6 +2,5 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="library" name="GdSdk Master" level="project" />
   </component>
 </module>

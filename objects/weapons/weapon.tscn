@@ -15,7 +15,7 @@
 noise = SubResource("FastNoiseLite_nsv83")
 
 [node name="Weapon" type="Node3D" node_paths=PackedStringArray("state_machine")]
-transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.222, -0.143, -0.289)
+transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.134, -0.143, -0.261)
 script = ExtResource("1_7lfho")
 state_machine = NodePath("WeaponStateMachine")
 WEAPON_TYPE = ExtResource("2_25oyk")

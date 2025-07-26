@@ -1,9 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvb8do483sa1y"]
+[gd_scene load_steps=2 format=3 uid="uid://cnowmh8odc3nm"]
 
-[ext_resource type="PackedScene" uid="uid://di4y8v188c8qe" path="res://objects/weapons/pistol/pistol.tscn" id="1_yw326"]
+[ext_resource type="PackedScene" uid="uid://cxcdwnrhefc6" path="res://objects/weapons/pistol/assets/pew.glb" id="1_eoidq"]
 
-[node name="pew2" instance=ExtResource("1_yw326")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+[node name="PistolCharacter" instance=ExtResource("1_eoidq")]
 
 [node name="pew" parent="." index="0"]
 layers = 4
