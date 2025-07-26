@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="Weapons" load_steps=6 format=3 uid="uid://cuj4mlb2dot1d"]
+[gd_resource type="Resource" script_class="Weapons" load_steps=7 format=3 uid="uid://cuj4mlb2dot1d"]
 
 [ext_resource type="PackedScene" uid="uid://d0hcx4uh2u84" path="res://objects/weapons/ak47/ak_47.tscn" id="1_5kh04"]
 [ext_resource type="PackedScene" uid="uid://codim5w54hn3c" path="res://objects/weapons/ak47/ak47_character.tscn" id="1_f5jbs"]
 [ext_resource type="Texture2D" uid="uid://b2mlvglvlshyn" path="res://objects/weapons/ak47/ak47_miniature.png" id="1_y8dmc"]
 [ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons_base_resource.gd" id="2_5kh04"]
+[ext_resource type="AudioStream" uid="uid://bwobq5uywsu3e" path="res://objects/weapons/ak47/ak-reload.wav" id="3_7c3pk"]
 [ext_resource type="AudioStream" uid="uid://bd7kv5ebw3kyk" path="res://objects/weapons/ak47/ak47_shot.wav" id="3_p8268"]
 
 [resource]
@@ -39,6 +40,7 @@ fire_rate = 0.08
 shooting_type = 0
 max_ammo = 30
 shoot_sound = ExtResource("3_p8268")
+reload_sound = ExtResource("3_7c3pk")
 char_scene = ExtResource("1_f5jbs")
 char_anim_type = 1
 char_weapon_position = Vector3(7.653, 12.285, 3.707)

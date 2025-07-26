@@ -53,8 +53,9 @@ enum ShootingType { AUTO, ONCE }
 # TODO: max_mag
 
 # TODO: Audio
-@export_group("Weapon Sound")
+@export_group("Weapon Sounds")
 @export var shoot_sound: AudioStreamWAV
+@export var reload_sound: AudioStreamWAV
 
 @export_group("Weapon Character Animation")
 ## For each type there is a corresping set of animation for the character 

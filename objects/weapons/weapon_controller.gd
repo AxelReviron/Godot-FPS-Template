@@ -84,6 +84,7 @@ var current_ammo: int
 
 # Sounds
 var shoot_sound: AudioStreamWAV
+var reload_sound: AudioStreamWAV
 
 # Character
 var char_anim_type: Weapons.CharAnimType
@@ -176,6 +177,7 @@ func load_weapon() -> void:
 	max_ammo = WEAPON_TYPE.max_ammo
 	current_ammo = max_ammo
 	shoot_sound = WEAPON_TYPE.shoot_sound
+	reload_sound = WEAPON_TYPE.reload_sound
 	
 	# Character
 	char_anim_type = WEAPON_TYPE.char_anim_type

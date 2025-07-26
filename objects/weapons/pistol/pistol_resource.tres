@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="Weapons" load_steps=6 format=3 uid="uid://cf6agjg1ardc8"]
+[gd_resource type="Resource" script_class="Weapons" load_steps=7 format=3 uid="uid://cf6agjg1ardc8"]
 
 [ext_resource type="PackedScene" uid="uid://di4y8v188c8qe" path="res://objects/weapons/pistol/pistol.tscn" id="1_66umr"]
 [ext_resource type="PackedScene" uid="uid://cnowmh8odc3nm" path="res://objects/weapons/pistol/pistol_character.tscn" id="1_btrfu"]
 [ext_resource type="Texture2D" uid="uid://h4gps36jgks1" path="res://objects/weapons/pistol/pistol_miniature.png" id="1_hjkl0"]
 [ext_resource type="Script" uid="uid://tdc0pwp4voaw" path="res://objects/weapons/weapons_base_resource.gd" id="2_66umr"]
 [ext_resource type="AudioStream" uid="uid://b247h2m8nnbgo" path="res://objects/weapons/pistol/pistol_shoot.wav" id="3_1uy2w"]
+[ext_resource type="AudioStream" uid="uid://c2qxageg7j8dt" path="res://objects/weapons/pistol/pistol-reload.wav" id="3_py34a"]
 
 [resource]
 script = ExtResource("2_66umr")
@@ -29,16 +30,17 @@ idle_sway_rotation_strength = 300.0
 random_sway_amount = 5.0
 recoil_amount_x = 0.08
 recoil_amount_y = 0.04
-recoil_snap_amount = 5.0
+recoil_snap_amount = 3.0
 recoil_speed = 7.0
-aim_recoil_amount_x = 0.05
-aim_recoil_amount_y = 0.02
+aim_recoil_amount_x = 0.02
+aim_recoil_amount_y = 0.01
 muzzle_flash_position = Vector3(0.061, 0.037, 0)
 char_muzzle_flash_position = Vector3(0, 0, 0)
 fire_rate = 0.1
 shooting_type = 1
 max_ammo = 15
 shoot_sound = ExtResource("3_1uy2w")
+reload_sound = ExtResource("3_py34a")
 char_scene = ExtResource("1_btrfu")
 char_anim_type = 0
 char_weapon_position = Vector3(4.41, 17.017, 4.154)
