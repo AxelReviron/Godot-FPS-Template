@@ -2,6 +2,9 @@ class_name IdlePlayerState extends PlayerMovementState
 
 
 func enter(previous_state: State) -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if ANIMATION.is_playing() and ANIMATION.current_animation == "jump_end":
 		await ANIMATION.animation_finished
 	
@@ -9,6 +12,9 @@ func enter(previous_state: State) -> void:
 
 
 func update(delta: float):
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()

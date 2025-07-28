@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cnowmh8odc3nm"]
 
-[ext_resource type="PackedScene" uid="uid://cxcdwnrhefc6" path="res://objects/weapons/pistol/assets/pew.glb" id="1_eoidq"]
+[ext_resource type="PackedScene" uid="uid://cxcdwnrhefc6" path="res://objects/weapons/pistol/assets/pistol/pew.glb" id="1_eoidq"]
 
 [node name="PistolCharacter" instance=ExtResource("1_eoidq")]
 

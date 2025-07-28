@@ -27,6 +27,9 @@ var states: Dictionary[String, State] = {}
 ## Initializes the dictionary of states by scanning child nodes,
 ## connects their `transition` signals to [member StateMachine._switch_state], and waits for the owner to be ready.
 func _ready():
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	for child in get_children():
 		if child is State:
 			states[child.name] = child
@@ -43,6 +46,9 @@ func _ready():
 ## the current state's name in a global debug property for monitoring.
 ## [param delta] Frame time elapsed since last frame.
 func _process(delta):
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	CURRENT_STATE.update(delta)
 
 
@@ -51,6 +57,9 @@ func _process(delta):
 ## Delegates the physics update call to the current state.
 ## [param delta] Time elapsed since last physics frame.
 func _physics_process(delta):
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	CURRENT_STATE.physics_update(delta)
 
 

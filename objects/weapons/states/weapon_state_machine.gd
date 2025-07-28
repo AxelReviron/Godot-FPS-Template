@@ -9,6 +9,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	super._process(delta)
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	
 	var debug_label: String = owner.name + "Current State"
 	Global.debug.add_property(debug_label, CURRENT_STATE.name, 2)

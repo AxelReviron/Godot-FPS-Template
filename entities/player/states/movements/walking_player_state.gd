@@ -2,16 +2,25 @@ class_name WalkingPlayerState extends PlayerMovementState
 
 
 func enter(previous_state: State) -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if ANIMATION.is_playing() and ANIMATION.current_animation == "jump_end":
 		await ANIMATION.animation_finished
 
 	ANIMATION.play("walking", -1.0, 1.0)
 
 func exit() -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	ANIMATION.speed_scale = 1.0
 
 
 func update(delta: float):
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()

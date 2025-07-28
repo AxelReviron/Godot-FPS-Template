@@ -10,9 +10,11 @@ var hud_weapon_icon: TextureRect
 var hud_weapon_name: Label
 var hud_weapon_ammo: Label
 var hud_reticle: CenterContainer
-var ui_context: ContextComponent
 
 var debug: PanelContainer = null
+
+# Multiplayer
+var connected_peers: Array[int] = []
 
 
 static func get_camera_state_space(camera: Camera3D) -> PhysicsDirectSpaceState3D:

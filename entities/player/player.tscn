@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://devdbqxq7swqd"]
+[gd_scene load_steps=36 format=3 uid="uid://devdbqxq7swqd"]
 
 [ext_resource type="Script" uid="uid://c5lomk3h5a1xr" path="res://entities/player/player.gd" id="1_symyc"]
 [ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://ui/hud/user_interface.tscn" id="2_abrql"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cw81xctbb6bsy" path="res://objects/weapons/weapon.tscn" id="2_j3ovn"]
 [ext_resource type="PackedScene" uid="uid://dho5eo7kunfv6" path="res://entities/player/character.tscn" id="2_yqrof"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://b7jho6j3vn5f" path="res://entities/player/animation_tree/pistol_blend_anim.tres" id="3_b2kln"]
-[ext_resource type="Resource" uid="uid://cf6agjg1ardc8" path="res://objects/weapons/pistol/pistol_resource.tres" id="4_b2kln"]
 [ext_resource type="Script" uid="uid://c563eujybct48" path="res://entities/player/states/movements/idle_player_state.gd" id="4_bls4j"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://ccn7otlippsq4" path="res://entities/player/animation_tree/rifle_blend_anim.tres" id="4_we0b7"]
 [ext_resource type="Script" uid="uid://coc7tn55g074c" path="res://entities/player/states/player_state_machine.gd" id="5_afbqv"]
@@ -20,6 +19,7 @@
 [ext_resource type="Script" uid="uid://bc7dtu8745goy" path="res://entities/player/weapon_camera.gd" id="13_j3ovn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sfv1e"]
+radius = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sfv1e"]
 albedo_color = Color(0.317647, 0.662745, 0.552941, 1)
@@ -27,16 +27,13 @@ albedo_color = Color(0.317647, 0.662745, 0.552941, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_symyc"]
 material = SubResource("StandardMaterial3D_sfv1e")
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_b2kln"]
-animation = &"Pistol/idle_jump"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtric"]
 advance_mode = 2
-advance_expression = "is_on_floor() && char_anim_type_name == \"PISTOL\""
+advance_expression = "char_anim_type_name == \"PISTOL\""
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_b2kln"]
 advance_mode = 2
-advance_expression = "is_on_floor() && char_anim_type_name == \"RIFLE\""
+advance_expression = "char_anim_type_name == \"RIFLE\""
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_we0b7"]
 advance_mode = 2
@@ -46,23 +43,13 @@ advance_expression = "char_anim_type_name == \"RIFLE\""
 advance_mode = 2
 advance_expression = "char_anim_type_name == \"PISTOL\""
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_221hk"]
-advance_mode = 2
-advance_expression = "is_on_floor()"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ghoj8"]
-advance_mode = 2
-advance_expression = "!is_on_floor()"
-
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_eyb6c"]
 states/PistolWalk/node = ExtResource("3_b2kln")
 states/PistolWalk/position = Vector2(420, 30)
-states/Pistol_idle_jump/node = SubResource("AnimationNodeAnimation_b2kln")
-states/Pistol_idle_jump/position = Vector2(420, -104)
 states/RifleWalk/node = ExtResource("4_we0b7")
 states/RifleWalk/position = Vector2(420, 160)
-transitions = ["Start", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_mtric"), "Start", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_b2kln"), "PistolWalk", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_we0b7"), "RifleWalk", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_eyb6c"), "Pistol_idle_jump", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_221hk"), "PistolWalk", "Pistol_idle_jump", SubResource("AnimationNodeStateMachineTransition_ghoj8")]
-graph_offset = Vector2(-268, -146)
+transitions = ["Start", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_mtric"), "Start", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_b2kln"), "PistolWalk", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_we0b7"), "RifleWalk", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_eyb6c")]
+graph_offset = Vector2(-203, -21)
 
 [sub_resource type="Animation" id="Animation_abrql"]
 length = 0.001
@@ -502,12 +489,35 @@ _data = {
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_symyc"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("STATE_MACHINE", "CAMERA_CONTROLLER", "ANIMATIONPLAYER", "WEAPON_CONTROLLER")]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_b2kln"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:walk_anim_val")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:walk_sides_anim_val")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:jump_anim_val")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:char_anim_type_name")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("STATE_MACHINE", "CAMERA_CONTROLLER", "ANIMATIONPLAYER", "WEAPON_CONTROLLER", "character_skeleton", "first_person_arms")]
 script = ExtResource("1_symyc")
 STATE_MACHINE = NodePath("PlayerStateMachine")
 CAMERA_CONTROLLER = NodePath("CameraController/Recoil/Camera3D")
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
 WEAPON_CONTROLLER = NodePath("CameraController/Recoil/Camera3D/WeaponRig/Weapon")
+spawn_points = Array[Vector3]([Vector3(0, 0, 4.292), Vector3(7.674, 0, 4.292)])
+character_skeleton = NodePath("CollisionShape3D/Character/Skeleton3D")
+first_person_arms = NodePath("CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene")
 
 [node name="CameraController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -528,12 +538,7 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
-transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.155484, -0.183, -0.529743)
-WEAPON_TYPE = ExtResource("4_b2kln")
 sway_speed = 1.8
-
-[node name="MuzzleFlash" parent="CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene" index="0"]
-transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0.061, 0.037, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -545,7 +550,7 @@ mesh = SubResource("CapsuleMesh_symyc")
 
 [node name="Character" parent="CollisionShape3D" instance=ExtResource("2_yqrof")]
 unique_name_in_owner = true
-transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, -1, 0)
+transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, -0.863379, 0)
 
 [node name="Skeleton3D" parent="CollisionShape3D/Character" index="0"]
 bones/0/position = Vector3(0.000160575, 101.121, 0.246213)
@@ -634,8 +639,14 @@ transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.
 [node name="DebugCameraBone" parent="CollisionShape3D/Character/Skeleton3D" index="10"]
 transform = Transform3D(1, -1.56943e-05, -1.92332e-06, 1.58117e-05, 0.992574, 0.121639, 0, -0.121639, 0.992574, 4.6363e-05, 110.978, -0.976972)
 
+[node name="DebugCameraSubViewport" parent="CollisionShape3D/Character" index="1"]
+visible = false
+
+[node name="SubViewport" parent="CollisionShape3D/Character/DebugCameraSubViewport/ExternalCameraDebug" index="0"]
+render_target_update_mode = 0
+
 [node name="Camera3D" parent="CollisionShape3D/Character/DebugCameraSubViewport/ExternalCameraDebug/SubViewport" index="0"]
-transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, -0.8518, 1.64239, -1.14811)
+transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, -0.8518, 1.6471, -1.14811)
 cull_mask = 1048573
 
 [node name="AnimationTree" type="AnimationTree" parent="CollisionShape3D/Character"]
@@ -666,6 +677,7 @@ debug_shape_custom_color = Color(0, 1, 0, 1)
 [node name="UserInterface" parent="." instance=ExtResource("2_abrql")]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -675,11 +687,12 @@ grow_vertical = 2
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-render_target_update_mode = 4
+render_target_update_mode = 0
 script = ExtResource("12_a1qjk")
 
 [node name="WeaponCamera" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("MAIN_CAMERA")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48759, 0)
+visible = false
 cull_mask = 1048570
 script = ExtResource("13_j3ovn")
 MAIN_CAMERA = NodePath("../../../CameraController/Recoil/Camera3D/WeaponRig")
@@ -709,8 +722,12 @@ script = ExtResource("9_bectd")
 [node name="FallingPlayerState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("10_wvtmh")
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_b2kln")
+
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
 
 [editable path="CameraController/Recoil/Camera3D/WeaponRig/Weapon"]
 [editable path="CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene/MuzzleFlash"]
 [editable path="CollisionShape3D/Character"]
+[editable path="UserInterface"]

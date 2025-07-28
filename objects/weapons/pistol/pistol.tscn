@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://di4y8v188c8qe"]
+[gd_scene load_steps=8 format=3 uid="uid://di4y8v188c8qe"]
 
-[ext_resource type="PackedScene" uid="uid://cxcdwnrhefc6" path="res://objects/weapons/pistol/assets/pew.glb" id="1_7fso0"]
+[ext_resource type="PackedScene" uid="uid://cxcdwnrhefc6" path="res://objects/weapons/pistol/assets/pistol/pew.glb" id="1_7fso0"]
 [ext_resource type="PackedScene" uid="uid://dwkrh1mnbkc8l" path="res://entities/player/arm.tscn" id="2_fescm"]
+[ext_resource type="PackedScene" uid="uid://b7kauilg8frgb" path="res://objects/weapons/pistol/pistol_bullet.tscn" id="3_m0rrv"]
 
 [sub_resource type="Animation" id="Animation_fescm"]
 length = 0.001
@@ -286,6 +287,17 @@ tracks/39/interp = 1
 tracks/39/loop_wrap = true
 tracks/39/keys = PackedFloat32Array(0, 1, -0.0464487, -0.0111413, 9.00403e-06)
 
+[sub_resource type="Animation" id="Animation_foq0q"]
+resource_name = "reload"
+length = 0.5
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pew/pewmagazine")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.0464487, -0.0111413, 9.00403e-06, 0.05, 1, -0.0574217, -0.0350238, 9.00403e-06, 0.1, 1, -0.064522, -0.0518061, 9.00403e-06, 0.15, 1, -0.0696857, -0.0756886, 9.00403e-06, 0.2, 1, -0.0748495, -0.142172, 9.00403e-06, 0.25, 1, -0.0731245, -0.225175, 9.00403e-06, 0.35, 1, -0.0696857, -0.0756886, 9.00403e-06, 0.4, 1, -0.064522, -0.0518061, 9.00403e-06, 0.45, 1, -0.0574217, -0.0350238, 9.00403e-06, 0.5, 1, -0.0464487, -0.0111413, 9.00403e-06)
+
 [sub_resource type="Animation" id="Animation_m0rrv"]
 resource_name = "shoot"
 length = 0.1
@@ -564,17 +576,6 @@ tracks/38/interp = 1
 tracks/38/loop_wrap = true
 tracks/38/keys = PackedFloat32Array(0, 1, -0.0114079, 0.0336208, 0.000178527, 0.1, 1, -0.0260769, 0.0336208, 0.000178527)
 
-[sub_resource type="Animation" id="Animation_foq0q"]
-resource_name = "reload"
-length = 0.5
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("pew/pewmagazine")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, -0.0464487, -0.0111413, 9.00403e-06, 0.05, 1, -0.0574217, -0.0350238, 9.00403e-06, 0.1, 1, -0.064522, -0.0518061, 9.00403e-06, 0.15, 1, -0.0696857, -0.0756886, 9.00403e-06, 0.2, 1, -0.0748495, -0.142172, 9.00403e-06, 0.25, 1, -0.0731245, -0.225175, 9.00403e-06, 0.35, 1, -0.0696857, -0.0756886, 9.00403e-06, 0.4, 1, -0.064522, -0.0518061, 9.00403e-06, 0.45, 1, -0.0574217, -0.0350238, 9.00403e-06, 0.5, 1, -0.0464487, -0.0111413, 9.00403e-06)
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_foq0q"]
 _data = {
 &"RESET": SubResource("Animation_fescm"),
@@ -588,9 +589,11 @@ _data = {
 layers = 2
 
 [node name="pewhaut" parent="pew" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0114079, 0.0336208, 0.000178527)
 layers = 2
 
 [node name="pewmagazine" parent="pew" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0464487, -0.0111413, 9.00403e-06)
 layers = 2
 
 [node name="pewtrigger" parent="pew" index="2"]
@@ -601,18 +604,23 @@ layers = 2
 transform = Transform3D(-2.18557e-09, 0, 0.05, 0, 0.05, 0, -0.05, 0, -2.18557e-09, -0.281177, -0.143082, 0)
 
 [node name="Skeleton3D" parent="arm/Armature" index="0"]
+bones/1/rotation = Quaternion(-0.0459846, 0.0474712, -0.717227, 0.693699)
 bones/2/rotation = Quaternion(0.118739, -0.000169894, 0.0166692, 0.992786)
-bones/4/rotation = Quaternion(0.0135145, -0.00103893, -0.0676883, 0.997615)
+bones/3/rotation = Quaternion(-0.0528712, 1.97731e-10, -1.67206e-08, 0.998601)
+bones/4/rotation = Quaternion(0.0135145, -0.00103893, -0.0676883, 0.997614)
 bones/5/rotation = Quaternion(0.00494286, -0.000110299, 0.0177153, 0.999831)
 bones/6/rotation = Quaternion(0.00389558, -1.44528e-05, -0.00436751, 0.999983)
-bones/9/rotation = Quaternion(-0.000594397, 4.85885e-09, 0.0102042, 0.999948)
+bones/7/rotation = Quaternion(0.00544576, -0.000830451, -0.0921612, 0.995729)
+bones/8/rotation = Quaternion(-3.61833e-08, -2.24099e-09, -1.49303e-08, 1)
+bones/9/rotation = Quaternion(-0.000594397, 4.8592e-09, 0.0102042, 0.999948)
 bones/10/rotation = Quaternion(0.00960149, 0.000953591, -0.0976334, 0.995176)
 bones/11/rotation = Quaternion(0.000115365, 3.15219e-07, -0.00116164, 0.999999)
+bones/12/rotation = Quaternion(0.00432281, 2.29558e-07, 0.00972147, 0.999943)
 bones/13/rotation = Quaternion(-0.0129544, -0.000128972, -0.10912, 0.993944)
-bones/14/rotation = Quaternion(-0.00139261, 2.0782e-08, -0.00423899, 0.99999)
-bones/15/rotation = Quaternion(0.0151425, 2.86423e-08, 0.00759705, 0.999857)
+bones/14/rotation = Quaternion(-0.00139261, 2.07838e-08, -0.00423899, 0.99999)
+bones/15/rotation = Quaternion(0.0151425, 2.8643e-08, 0.00759705, 0.999857)
 bones/16/rotation = Quaternion(0.338039, 0.0770264, -0.232245, 0.908768)
-bones/17/rotation = Quaternion(-0.0965241, 5.33819e-06, 0.00288136, 0.995326)
+bones/17/rotation = Quaternion(-0.0965241, 5.33817e-06, 0.00288136, 0.995326)
 bones/18/rotation = Quaternion(-0.0248003, 0.000517065, -0.00737523, 0.999665)
 bones/19/position = Vector3(-0.450717, 0.194406, -0.941275)
 bones/19/rotation = Quaternion(-0.240243, 0.624351, 0.712903, 0.21033)
@@ -624,16 +632,16 @@ bones/21/position = Vector3(1.13171e-07, 2.734, -1.93823e-09)
 bones/21/rotation = Quaternion(-0.0483376, 0.00290343, -0.112819, 0.992435)
 bones/21/scale = Vector3(1, 1, 1)
 bones/22/position = Vector3(-0.204881, 1.30841, -0.366675)
-bones/22/rotation = Quaternion(0.00676402, -0.00134188, 0.327513, 0.944821)
+bones/22/rotation = Quaternion(0.00676402, -0.00134188, 0.327513, 0.944822)
 bones/22/scale = Vector3(1, 1, 1)
 bones/23/position = Vector3(0.0857133, 0.28395, 0.00172139)
-bones/23/rotation = Quaternion(-0.0084967, 0.00563656, 0.498903, 0.866598)
+bones/23/rotation = Quaternion(-0.00849669, 0.00563656, 0.498903, 0.866598)
 bones/23/scale = Vector3(1, 1, 1)
 bones/24/position = Vector3(-2.09401e-08, 0.301571, 1.29428e-07)
-bones/24/rotation = Quaternion(-0.0138734, 0.0128942, 0.671286, 0.740956)
+bones/24/rotation = Quaternion(-0.0138734, 0.0128942, 0.671286, 0.740957)
 bones/24/scale = Vector3(1, 1, 1)
 bones/25/position = Vector3(-0.0951614, 1.33975, -0.126113)
-bones/25/rotation = Quaternion(0.000189112, -0.00266939, 0.301117, 0.953583)
+bones/25/rotation = Quaternion(0.000189111, -0.00266939, 0.301117, 0.953583)
 bones/25/scale = Vector3(1, 1, 1)
 bones/26/rotation = Quaternion(-0.0144096, -0.00478729, 0.555247, 0.831547)
 bones/26/scale = Vector3(1, 0.999999, 1)
@@ -647,7 +655,6 @@ bones/29/rotation = Quaternion(-0.0116401, -0.000148008, 0.54087, 0.841026)
 bones/29/scale = Vector3(1, 1, 1)
 bones/30/position = Vector3(-1.04199e-07, 0.326785, 6.70154e-08)
 bones/30/rotation = Quaternion(-0.00918799, 0.00232379, 0.576168, 0.817276)
-bones/30/scale = Vector3(1, 1, 1)
 bones/31/position = Vector3(-0.0539287, 1.44346, 0.412873)
 bones/31/rotation = Quaternion(0.0707496, -0.0416955, -0.0154043, 0.996503)
 bones/31/scale = Vector3(1, 1, 1)
@@ -655,7 +662,7 @@ bones/32/position = Vector3(3.32338e-08, 0.324804, 5.63478e-08)
 bones/32/rotation = Quaternion(0.000545166, 0.00732985, 0.0742087, 0.997216)
 bones/32/scale = Vector3(1, 0.999999, 0.999999)
 bones/33/position = Vector3(3.16586e-07, 0.296942, -4.65461e-08)
-bones/33/rotation = Quaternion(0.0433329, 0.0607323, 0.472914, 0.877945)
+bones/33/rotation = Quaternion(0.0433329, 0.0607323, 0.472914, 0.877944)
 bones/33/scale = Vector3(1, 1, 1)
 bones/34/position = Vector3(-0.152904, 0.537615, 0.513647)
 bones/34/rotation = Quaternion(0.391581, -0.166385, 0.391604, 0.815859)
@@ -670,7 +677,11 @@ bones/36/scale = Vector3(1, 1, 0.999999)
 [node name="Body" parent="arm/Armature/Skeleton3D" index="0"]
 layers = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+[node name="PistolBullet" parent="." index="2" instance=ExtResource("3_m0rrv")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0317023, 0)
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
 libraries = {
 &"": SubResource("AnimationLibrary_foq0q")
 }

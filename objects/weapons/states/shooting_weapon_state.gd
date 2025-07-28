@@ -8,6 +8,9 @@ var can_shoot: bool = true
 #var previous_state_name: StringName
 
 func _shoot() -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if !can_shoot or WEAPON.current_ammo == 0:
 		return
 	
@@ -83,6 +86,9 @@ func start_fade_out():
 
 
 func enter(previous_state: State) -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if WEAPON.current_ammo > 0:
 		# Add shoot sound to AudioStream
 		WEAPON.audio_stream_player.stream = WEAPON.shoot_sound
@@ -94,6 +100,9 @@ func enter(previous_state: State) -> void:
 
 
 func update(delta: float):
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if WEAPON.current_ammo == 0:
 		transition.emit("IdleWeaponState")
 
@@ -118,11 +127,17 @@ func update(delta: float):
 
 
 func _input(event) -> void:# TODO: Move to GlobalInput (also in player.gd)
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if event is InputEventMouseMotion:
 		WEAPON.mouse_movement = event.relative
 
 
 func _process(delta: float):
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if is_fading:
 		fade_timer += delta
 		var t = clamp(fade_timer / fade_time, 0.0, 1.0)

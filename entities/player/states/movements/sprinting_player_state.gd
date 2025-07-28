@@ -2,6 +2,9 @@ class_name SprintingPlayerState extends PlayerMovementState
 
 
 func enter(previous_state: State) -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if ANIMATION.is_playing() and ANIMATION.current_animation == "jump_end":
 		await ANIMATION.animation_finished
 
@@ -9,10 +12,16 @@ func enter(previous_state: State) -> void:
 
 
 func exit() -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	ANIMATION.speed_scale = 1.0
 
 
 func update(delta: float):
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_SPRINT_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()

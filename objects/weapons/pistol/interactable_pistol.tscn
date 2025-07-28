@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=4 uid="uid://b1bxqiqvrgne4"]
 
-[ext_resource type="Texture2D" uid="uid://bb0ovftov7vxp" path="res://objects/weapons/pistol/assets/pew_pewfinal_color.png" id="1_le6fo"]
-[ext_resource type="Texture2D" uid="uid://k4t0wyloai3x" path="res://objects/weapons/pistol/assets/pew_pewfinal_normal.png" id="2_8s7w0"]
+[ext_resource type="Texture2D" uid="uid://bb0ovftov7vxp" path="res://objects/weapons/pistol/assets/pistol/pew_pewfinal_color.png" id="1_le6fo"]
+[ext_resource type="Texture2D" uid="uid://k4t0wyloai3x" path="res://objects/weapons/pistol/assets/pistol/pew_pewfinal_normal.png" id="2_8s7w0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_laecp"]
 resource_name = "pewfinal"

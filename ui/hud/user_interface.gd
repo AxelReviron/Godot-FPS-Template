@@ -6,6 +6,8 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if !is_multiplayer_authority():
+		return
 	# Texture rect will contains weapon icon, define in the weapon_controller script
 	Global.hud_weapon_icon = weapon_icon_container
 	Global.hud_weapon_name = weapon_name_container

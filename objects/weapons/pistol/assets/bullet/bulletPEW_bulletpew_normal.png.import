@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bb0ovftov7vxp"
-path.s3tc="res://.godot/imported/pew_pewfinal_color.png-f5dead019aba1b48f2f7e15ee562e360.s3tc.ctex"
+uid="uid://bggwjnacj5vw4"
+path.s3tc="res://.godot/imported/bulletPEW_bulletpew_normal.png-68d81216c62ab517b12d7d98b4cc424e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "21dc9f97e9057c7018b08f724904f0a2"
+"md5": "a1fb24d82dcf17c16d0cf1ca47507a94"
 }
 
 [deps]
 
-source_file="res://objects/weapons/pistol/assets/pew_pewfinal_color.png"
-dest_files=["res://.godot/imported/pew_pewfinal_color.png-f5dead019aba1b48f2f7e15ee562e360.s3tc.ctex"]
+source_file="res://objects/weapons/pistol/assets/bullet/bulletPEW_bulletpew_normal.png"
+dest_files=["res://.godot/imported/bulletPEW_bulletpew_normal.png-68d81216c62ab517b12d7d98b4cc424e.s3tc.ctex"]
 
 [params]
 
@@ -23,12 +23,12 @@ compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://objects/weapons/pistol/assets/bullet/bulletPEW_bulletpew_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

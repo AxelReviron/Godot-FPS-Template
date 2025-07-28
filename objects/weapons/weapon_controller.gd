@@ -94,12 +94,19 @@ var char_weapon_scale: Vector3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Global.connect("hud_ready", Callable(self, "display_weapon_icon_and_infos"))
 	Global.connect("character_ready", Callable(self, "display_char_weapon"))
+	
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
+	Global.connect("hud_ready", Callable(self, "display_weapon_icon_and_infos"))
 	load_weapon()
 
 
 func display_char_weapon() -> void:
+	# TODO: Test Multi
+	#if !is_multiplayer_authority():
+		#return
 	current_weapon_char_instance = WEAPON_TYPE.char_scene.instantiate()
 	Global.weapon_char_scene.add_child(current_weapon_char_instance)
 	
@@ -109,16 +116,25 @@ func display_char_weapon() -> void:
 
 
 func display_weapon_icon_and_infos() -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	Global.hud_weapon_icon.texture = WEAPON_TYPE.icon_texture
 	Global.hud_weapon_name.text = WEAPON_TYPE.name
 	Global.hud_weapon_ammo.text = "Ammo: " + str(current_ammo) + "/" + str(WEAPON_TYPE.max_ammo)
 
 
 func update_ammo_display() -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	Global.hud_weapon_ammo.text = "Ammo: " + str(current_ammo) + "/" + str(WEAPON_TYPE.max_ammo)
 
 
 func _clean_previous_weapon_instance() -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	# Clean up previous weapon instance (FPS)
 	if current_weapon_instance:
 		current_weapon_instance.queue_free()
@@ -131,6 +147,9 @@ func _clean_previous_weapon_instance() -> void:
 
 
 func load_weapon() -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	_clean_previous_weapon_instance()
 	
 	base_position = WEAPON_TYPE.position
@@ -238,7 +257,7 @@ func sway_weapon(delta: float, isIdle: bool) -> void:
 func get_sway_noise() -> float:
 	var player_position: Vector3 = Vector3(0, 0, 0)
 	
-	if !Engine.is_editor_hint():
+	if !Engine.is_editor_hint() and is_multiplayer_authority() and Global.player:
 		player_position = Global.player.global_position
 		
 	return sway_noise.noise.get_noise_2d(player_position.x, player_position.y)
@@ -253,6 +272,8 @@ func weapon_bob(delta: float, bob_speed: float, h_bob_amount: float, v_bob_amoun
 
 
 func aim(delta: float) -> void:
+	if !is_multiplayer_authority():
+		return
 	can_sway = false
 	# Annule tout tween de position précédent pour éviter les conflits
 	if position_tween:
@@ -272,6 +293,8 @@ func aim(delta: float) -> void:
 
 
 func reset_aim(delta: float) -> void:
+	if !is_multiplayer_authority():
+		return
 	if position_tween:
 		position_tween.kill()
 		position_tween = null

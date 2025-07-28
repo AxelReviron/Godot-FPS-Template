@@ -8,6 +8,9 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if weapon:
 		weapon.weapon_fired.connect(add_muzzle_flash)
 	else:
@@ -15,6 +18,9 @@ func _ready():
 
 
 func add_muzzle_flash() -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	muzzle_flash_light.visible = true
 	muzzle_flash_emitter.emitting = true
 	bullet_trace_emitter.emitting = true

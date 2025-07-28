@@ -4,15 +4,24 @@ var DOUBLE_JUMP: bool = false
 
 
 func enter(previous_state: State) -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	PLAYER.velocity.y += Constants.PLAYER_JUMP_VELOCITY
 	ANIMATION.play("jump_start")
 
 
 func exit() -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	DOUBLE_JUMP = false
 
 
 func update(delta: float):
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_SPRINT_SPEED * Constants.PLAYER_JUMP_INPUT_MULTIPLIER, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()

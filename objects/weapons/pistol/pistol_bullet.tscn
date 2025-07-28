@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7kauilg8frgb"]
+
+[ext_resource type="PackedScene" uid="uid://deuc4t6nodc0h" path="res://objects/weapons/pistol/assets/bullet/bulletPEW.glb" id="1_hnwrr"]
+
+[node name="PistolBullet" instance=ExtResource("1_hnwrr")]

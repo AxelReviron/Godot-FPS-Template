@@ -23,6 +23,7 @@ SignalBus="*res://shared/signal_bus.gd"
 Global="*res://shared/global.gd"
 WeaponDatabase="*res://shared/weapon_database.gd"
 GlobalInput="*res://shared/input.gd"
+NetworkHandler="*res://multiplayer/network_handler.gd"
 
 [display]
 

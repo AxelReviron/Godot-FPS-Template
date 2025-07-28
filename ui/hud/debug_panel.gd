@@ -7,9 +7,14 @@ var debug_properties := {}
 
 func _ready():
 	Global.debug = self
+	if !is_multiplayer_authority():
+		visible = false
 
 
 func _process(delta: float) -> void:
+	# TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	if GlobalInput.is_debug():
 		visible = !visible
 
@@ -17,11 +22,12 @@ func _process(delta: float) -> void:
 		return
 	
 	add_property("FPS", Engine.get_frames_per_second(), 1)
-	#add_property("speed", Global.player.speed, 2)
 
 func add_property(title: String, value, order):
-	var target
-	target = property_container.find_child(title, true, false) # Find existing Label Node by name
+	if !is_multiplayer_authority():
+		return
+	
+	var target = property_container.find_child(title, true, false) # Find existing Label Node by name
 	if !target:# If it doesn't exist yet, create it
 		target = Label.new()
 		property_container.add_child(target)

@@ -5,6 +5,9 @@ class_name SlidingPlayerState extends PlayerMovementState
 
 # TODO: Cancel slide with jump
 func enter(previous_state: State) -> void:
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	PLAYER.slide_start_rotation_y = PLAYER.mouse_rotation.y
 	set_tilt(PLAYER.current_rotation)
 	ANIMATION.get_animation("sliding").track_set_key_value(4, 0, PLAYER.velocity.length())
@@ -13,6 +16,9 @@ func enter(previous_state: State) -> void:
 
 
 func update(delta: float):
+	#TODO: Test Multi
+	if !is_multiplayer_authority():
+		return
 	PLAYER.update_gravity(delta)
 	PLAYER.update_velocity()
 
