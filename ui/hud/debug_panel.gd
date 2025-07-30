@@ -73,7 +73,7 @@ func _process(delta: float) -> void:
 		add_property("gpu_memory", "GPU Memory usage: ", _get_gpu_memory_infos(), 9)
 
 	if Global.player:
-		add_property('player_state', "Player State: ", Global.player.STATE_MACHINE.CURRENT_STATE.name, 12)
+		add_property('player_state', "Movement State: ", Global.player.STATE_MACHINE.CURRENT_STATE.name, 12)
 		add_property('weapon_state', "Weapon State: ", Global.player.WEAPON_CONTROLLER.state_machine.CURRENT_STATE.name, 13)
 
 

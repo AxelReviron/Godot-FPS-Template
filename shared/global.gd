@@ -35,14 +35,14 @@ static func get_screen_center(viewport: Viewport) -> Vector2i:
 ## [param max_distance] [i]The maximum distance the ray can travel.[/i][br]
 ## [br]
 ## [b]Return[/b] A [Dictionary] containing information about the collision if a body was hit, or an empty Dictionary otherwise.
-static func get_forward_ray_hit(camera: Camera3D, viewport: Viewport, max_distance: float) -> Dictionary:
+static func get_forward_ray_hit(camera: Camera3D, viewport: Viewport, max_distance: float, collision_mask: int = 1) -> Dictionary:
 	var screen_center: Vector2i = viewport.size / 2
 	var ray_origin: Vector3 = camera.project_ray_origin(screen_center)
 	var ray_direction: Vector3 = camera.project_ray_normal(screen_center)
 	var ray_end: Vector3 = ray_origin + ray_direction * max_distance
 
 	var space_state: PhysicsDirectSpaceState3D = camera.get_world_3d().direct_space_state
-	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(ray_origin, ray_end, collision_mask)
 	query.collide_with_bodies = true
-
+	query.collide_with_areas = true
 	return space_state.intersect_ray(query)# TODO: intersect_shape for rocket launcher, grenades...

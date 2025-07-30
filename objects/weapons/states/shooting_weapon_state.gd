@@ -25,7 +25,8 @@ func _shoot() -> void:
 	
 	var camera: Camera3D = Global.player.CAMERA_CONTROLLER
 	var viewport: Viewport = get_viewport()
-	var hit = Global.get_forward_ray_hit(camera, get_viewport(), 1000.0)
+	var hit = Global.get_forward_ray_hit(camera, get_viewport(), 1000.0, 2)# Collision Mask 2 (only for shoot)
+	print("HIT: ", hit)
 	
 	if hit:
 		_display_bullet_hole(hit.get("position"), hit.get("normal"))

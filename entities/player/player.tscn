@@ -18,15 +18,6 @@
 [ext_resource type="Script" uid="uid://bs62542u3unhl" path="res://entities/player/sub_viewport.gd" id="12_a1qjk"]
 [ext_resource type="Script" uid="uid://bc7dtu8745goy" path="res://entities/player/weapon_camera.gd" id="13_j3ovn"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sfv1e"]
-radius = 0.2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sfv1e"]
-albedo_color = Color(0.317647, 0.662745, 0.552941, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_symyc"]
-material = SubResource("StandardMaterial3D_sfv1e")
-
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtric"]
 advance_mode = 2
 advance_expression = "char_anim_type_name == \"PISTOL\""
@@ -50,6 +41,15 @@ states/RifleWalk/node = ExtResource("4_we0b7")
 states/RifleWalk/position = Vector2(420, 160)
 transitions = ["Start", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_mtric"), "Start", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_b2kln"), "PistolWalk", "RifleWalk", SubResource("AnimationNodeStateMachineTransition_we0b7"), "RifleWalk", "PistolWalk", SubResource("AnimationNodeStateMachineTransition_eyb6c")]
 graph_offset = Vector2(-203, -21)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sfv1e"]
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sfv1e"]
+albedo_color = Color(0.317647, 0.662745, 0.552941, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_symyc"]
+material = SubResource("StandardMaterial3D_sfv1e")
 
 [sub_resource type="Animation" id="Animation_abrql"]
 length = 0.001
@@ -516,7 +516,7 @@ CAMERA_CONTROLLER = NodePath("CameraController/Recoil/Camera3D")
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
 WEAPON_CONTROLLER = NodePath("CameraController/Recoil/Camera3D/WeaponRig/Weapon")
 spawn_points = Array[Vector3]([Vector3(0, 0, 4.292), Vector3(7.674, 0, 4.292)])
-character_skeleton = NodePath("CollisionShape3D/Character/Skeleton3D")
+character_skeleton = NodePath("Character/Skeleton3D")
 first_person_arms = NodePath("CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene")
 
 [node name="CameraController" type="Node3D" parent="."]
@@ -538,21 +538,14 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
+transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.134, -0.143, -0.261)
 sway_speed = 1.8
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_sfv1e")
-
-[node name="PlaceholderMesh" type="MeshInstance3D" parent="CollisionShape3D"]
-visible = false
-mesh = SubResource("CapsuleMesh_symyc")
-
-[node name="Character" parent="CollisionShape3D" instance=ExtResource("2_yqrof")]
+[node name="Character" parent="." instance=ExtResource("2_yqrof")]
 unique_name_in_owner = true
-transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, -0.863379, 0)
+transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, 0.136621, 0)
 
-[node name="Skeleton3D" parent="CollisionShape3D/Character" index="0"]
+[node name="Skeleton3D" parent="Character" index="0"]
 bones/0/position = Vector3(0.000160575, 101.121, 0.246213)
 bones/0/rotation = Quaternion(0, 0, 0, 1)
 bones/2/rotation = Quaternion(-0.0609327, -4.81724e-07, 7.89114e-06, 0.998142)
@@ -607,57 +600,111 @@ bones/132/rotation = Quaternion(-0.0181426, 0.000108176, -0.00596146, 0.999818)
 bones/135/rotation = Quaternion(0.461782, -0.0162008, 0.00843615, 0.886806)
 bones/138/rotation = Quaternion(0.338735, 0.0272386, -0.00981107, 0.940436)
 
-[node name="Eyes" parent="CollisionShape3D/Character/Skeleton3D" index="0"]
+[node name="Eyes" parent="Character/Skeleton3D" index="0"]
 layers = 4
 
-[node name="default" parent="CollisionShape3D/Character/Skeleton3D" index="1"]
+[node name="default" parent="Character/Skeleton3D" index="1"]
 layers = 4
 
-[node name="Gloves" parent="CollisionShape3D/Character/Skeleton3D" index="2"]
+[node name="Gloves" parent="Character/Skeleton3D" index="2"]
 layers = 4
 
-[node name="Body" parent="CollisionShape3D/Character/Skeleton3D" index="3"]
+[node name="Body" parent="Character/Skeleton3D" index="3"]
 layers = 4
 
-[node name="Eyewear" parent="CollisionShape3D/Character/Skeleton3D" index="4"]
+[node name="Eyewear" parent="Character/Skeleton3D" index="4"]
 layers = 4
 
-[node name="Hats" parent="CollisionShape3D/Character/Skeleton3D" index="5"]
+[node name="Hats" parent="Character/Skeleton3D" index="5"]
 layers = 4
 
-[node name="Shoes" parent="CollisionShape3D/Character/Skeleton3D" index="6"]
+[node name="Shoes" parent="Character/Skeleton3D" index="6"]
 layers = 4
 
-[node name="Tops" parent="CollisionShape3D/Character/Skeleton3D" index="7"]
+[node name="Tops" parent="Character/Skeleton3D" index="7"]
 layers = 4
 
-[node name="Bottoms" parent="CollisionShape3D/Character/Skeleton3D" index="8"]
+[node name="Bottoms" parent="Character/Skeleton3D" index="8"]
 layers = 4
 
-[node name="BoneAttachment3D" parent="CollisionShape3D/Character/Skeleton3D" index="9"]
-transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843588, 0.154718, -73.4252, 142.865, -5.75817)
-
-[node name="CharWeaponScene" parent="CollisionShape3D/Character/Skeleton3D/BoneAttachment3D" index="0"]
-transform = Transform3D(-4.97031, 153.646, 72.5831, 159.318, 29.4692, -51.4715, -59.102, 66.5175, -144.853, 7.65334, 12.2852, 3.70656)
-
-[node name="DebugCameraBone" parent="CollisionShape3D/Character/Skeleton3D" index="10"]
+[node name="DebugCameraBone" parent="Character/Skeleton3D" index="9"]
 transform = Transform3D(1, -1.56943e-05, -1.92332e-06, 1.58117e-05, 0.992574, 0.121639, 0, -0.121639, 0.992574, 4.6363e-05, 110.978, -0.976972)
 
-[node name="DebugCameraSubViewport" parent="CollisionShape3D/Character" index="1"]
+[node name="WeaponAttachment" parent="Character/Skeleton3D" index="10"]
+transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843588, 0.154718, -73.4252, 142.865, -5.75817)
+
+[node name="HeadAttachment" parent="Character/Skeleton3D" index="11"]
+transform = Transform3D(1, -2.03215e-12, 4.54747e-13, 5.47118e-12, 1, -4.47035e-08, -9.09495e-13, 4.47035e-08, 1, -2.78961e-05, 160.999, -0.093473)
+
+[node name="Head" parent="Character/Skeleton3D/HeadAttachment" index="0"]
+transform = Transform3D(0.999985, 0.00039487, 0.00540023, -0.000372376, 0.999991, -0.00415, -0.00540149, 0.00414771, 0.999977, 0.125587, 9.07346, 1.85851)
+
+[node name="TorsoAttachment" parent="Character/Skeleton3D" index="12"]
+transform = Transform3D(1, -1.56943e-05, -1.92332e-06, 1.58117e-05, 0.992574, 0.121639, 0, -0.121639, 0.992574, 4.6363e-05, 110.978, -0.976972)
+
+[node name="Torso" parent="Character/Skeleton3D/TorsoAttachment" index="0"]
+transform = Transform3D(0.999983, -0.00564268, -0.00128928, 0.00564237, 0.999984, -0.000227963, 0.00129026, 0.000220682, 0.999999, 1.61236, 10.219, 2.48349)
+
+[node name="CollisionShape3D" parent="Character/Skeleton3D/TorsoAttachment/Torso" index="0"]
+transform = Transform3D(0.999997, -0.00227661, -8.25524e-06, 0.00227656, 0.999996, -0.00170796, 1.23978e-05, 0.00170792, 0.999999, -0.879965, 3.66813, -0.652694)
+
+[node name="RightArmAttachment" parent="Character/Skeleton3D" index="13"]
+transform = Transform3D(-0.0433152, -0.998072, 0.0444447, -0.197368, -0.0350612, -0.979702, 0.979372, -0.0512079, -0.195469, -18.696, 144.524, -5.90444)
+
+[node name="RightArm" parent="Character/Skeleton3D/RightArmAttachment" index="0"]
+transform = Transform3D(-0.494936, 0.0234341, -0.868613, 0.0125456, -0.999339, -0.0341092, -0.868839, -0.027779, 0.494315, 0.539894, 13.0811, -0.328995)
+
+[node name="CollisionShape3D" parent="Character/Skeleton3D/RightArmAttachment/RightArm" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="RightForearmAttachment" parent="Character/Skeleton3D" index="14"]
+transform = Transform3D(0.0600081, -0.998097, 0.0141681, -0.192691, -0.0255094, -0.980928, 0.979423, 0.0561336, -0.193855, -45.9559, 143.567, -7.30306)
+
+[node name="RightForearm" parent="Character/Skeleton3D/RightForearmAttachment" index="0"]
+transform = Transform3D(0.999084, 0.00026229, -0.0428029, -0.000318319, 0.999999, -0.00128238, 0.0428033, 0.00129362, 0.999083, -0.496761, 13.7959, 0.763649)
+
+[node name="RightHandAttachment" parent="Character/Skeleton3D" index="15"]
+transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843588, 0.154718, -73.4252, 142.865, -5.75817)
+
+[node name="RightHand" parent="Character/Skeleton3D/RightHandAttachment" index="0"]
+transform = Transform3D(0.999985, -0.00217008, -0.00501126, 0.000322633, 0.939528, -0.342473, 0.00545141, 0.342467, 0.939514, 0.120895, 8.33384, 1.75287)
+
+[node name="RightUpLegAttachment" parent="Character/Skeleton3D" index="16"]
+transform = Transform3D(-1, -4.79692e-06, -1.42109e-14, 4.79234e-06, -0.999047, -0.0436505, 2.09388e-07, -0.0436505, 0.999047, -9.09377, 94.5095, 0.191022)
+
+[node name="RightUpLeg" parent="Character/Skeleton3D/RightUpLegAttachment" index="0"]
+transform = Transform3D(0.999724, 0.022367, -0.00714871, -0.0223046, 0.999713, 0.00868466, 0.00734079, -0.00852284, 0.999937, 0.302721, 20.8282, 0.278803)
+
+[node name="RightLegAttachment" parent="Character/Skeleton3D" index="17"]
+transform = Transform3D(-0.999929, 0.0118657, 0.000430826, -0.0118622, -0.996735, -0.0798691, -0.000518286, -0.0798686, 0.996805, -9.09396, 54.2209, -1.56927)
+
+[node name="RightFootAttachment" parent="Character/Skeleton3D" index="18"]
+transform = Transform3D(-0.999279, -0.0227478, -0.0304026, -0.00893892, -0.637249, 0.770607, -0.0369036, 0.770323, 0.636586, -8.59777, 12.5403, -4.90915)
+
+[node name="RightFoot" parent="Character/Skeleton3D/RightFootAttachment" index="0"]
+transform = Transform3D(1, 0, 0, 1.49012e-08, 1, -1.11759e-08, 1.49012e-08, 3.35276e-08, 1, 0.093853, 7.04248, -8.51665)
+
+[node name="CollisionShape3D" parent="Character/Skeleton3D/RightFootAttachment/RightFoot" index="0"]
+transform = Transform3D(0.998548, -0.0341068, 0.0416983, 0.0347538, 0.999285, -0.014889, -0.0411606, 0.0163164, 0.999019, -0.5679, 1.75612, 8.01892)
+
+[node name="RightToeAttachment" parent="Character/Skeleton3D" index="19"]
+transform = Transform3D(-0.999363, 2.73064e-06, 0.0356774, 0.0356774, 0, 0.999364, 2.72319e-06, 1, -5.96046e-08, -8.96979, 2.11856, 7.68889)
+
+[node name="DebugCameraSubViewport" parent="Character" index="1"]
 visible = false
 
-[node name="SubViewport" parent="CollisionShape3D/Character/DebugCameraSubViewport/ExternalCameraDebug" index="0"]
+[node name="SubViewport" parent="Character/DebugCameraSubViewport/ExternalCameraDebug" index="0"]
 render_target_update_mode = 0
 
-[node name="Camera3D" parent="CollisionShape3D/Character/DebugCameraSubViewport/ExternalCameraDebug/SubViewport" index="0"]
+[node name="Camera3D" parent="Character/DebugCameraSubViewport/ExternalCameraDebug/SubViewport" index="0"]
 transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, -0.8518, 1.77901, -1.14811)
 cull_mask = 1048573
 
-[node name="AnimationTree" type="AnimationTree" parent="CollisionShape3D/Character"]
+[node name="AnimationTree" type="AnimationTree" parent="Character"]
 unique_name_in_owner = true
 root_node = NodePath("%AnimationTree/..")
 tree_root = SubResource("AnimationNodeStateMachine_eyb6c")
-advance_expression_base_node = NodePath("../../..")
+advance_expression_base_node = NodePath("../..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/PistolWalk/Jump/blend_amount = 0.0
 parameters/PistolWalk/WalkSides/blend_amount = 0
@@ -665,6 +712,14 @@ parameters/PistolWalk/WalkToward/blend_amount = 0
 parameters/RifleWalk/Jump/blend_amount = 0
 parameters/RifleWalk/WalkSides/blend_amount = 0
 parameters/RifleWalk/WalkToward/blend_amount = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_sfv1e")
+
+[node name="PlaceholderMesh" type="MeshInstance3D" parent="CollisionShape3D"]
+visible = false
+mesh = SubResource("CapsuleMesh_symyc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -732,5 +787,5 @@ replication_config = SubResource("SceneReplicationConfig_b2kln")
 
 [editable path="CameraController/Recoil/Camera3D/WeaponRig/Weapon"]
 [editable path="CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene/MuzzleFlash"]
-[editable path="CollisionShape3D/Character"]
+[editable path="Character"]
 [editable path="UserInterface"]
