@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://bon55llj08wmy"]
+
+[ext_resource type="Script" uid="uid://dwlab7s5klepn" path="res://multiplayer_menu.gd" id="1_bxraa"]
+
+[sub_resource type="Theme" id="Theme_bxraa"]
+Tree/constants/item_margin = 4
+
+[node name="MultiplayerMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bxraa")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ServerTree" type="Tree" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_bxraa")
+columns = 3
+column_titles_visible = true
+hide_root = true
+scroll_horizontal_enabled = false

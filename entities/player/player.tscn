@@ -554,6 +554,7 @@ transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.0
 
 [node name="Skeleton3D" parent="CollisionShape3D/Character" index="0"]
 bones/0/position = Vector3(0.000160575, 101.121, 0.246213)
+bones/0/rotation = Quaternion(0, 0, 0, 1)
 bones/2/rotation = Quaternion(-0.0609327, -4.81724e-07, 7.89114e-06, 0.998142)
 bones/4/rotation = Quaternion(0.000196387, -1.81769e-09, -9.25563e-06, 1)
 bones/5/rotation = Quaternion(-3.46945e-18, 2.11758e-22, -6.2204e-22, 1)
@@ -636,6 +637,9 @@ layers = 4
 [node name="BoneAttachment3D" parent="CollisionShape3D/Character/Skeleton3D" index="9"]
 transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843588, 0.154718, -73.4252, 142.865, -5.75817)
 
+[node name="CharWeaponScene" parent="CollisionShape3D/Character/Skeleton3D/BoneAttachment3D" index="0"]
+transform = Transform3D(-4.97031, 153.646, 72.5831, 159.318, 29.4692, -51.4715, -59.102, 66.5175, -144.853, 7.65334, 12.2852, 3.70656)
+
 [node name="DebugCameraBone" parent="CollisionShape3D/Character/Skeleton3D" index="10"]
 transform = Transform3D(1, -1.56943e-05, -1.92332e-06, 1.58117e-05, 0.992574, 0.121639, 0, -0.121639, 0.992574, 4.6363e-05, 110.978, -0.976972)
 
@@ -646,7 +650,7 @@ visible = false
 render_target_update_mode = 0
 
 [node name="Camera3D" parent="CollisionShape3D/Character/DebugCameraSubViewport/ExternalCameraDebug/SubViewport" index="0"]
-transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, -0.8518, 1.6471, -1.14811)
+transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, -0.8518, 1.77901, -1.14811)
 cull_mask = 1048573
 
 [node name="AnimationTree" type="AnimationTree" parent="CollisionShape3D/Character"]
@@ -692,7 +696,6 @@ script = ExtResource("12_a1qjk")
 
 [node name="WeaponCamera" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("MAIN_CAMERA")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48759, 0)
-visible = false
 cull_mask = 1048570
 script = ExtResource("13_j3ovn")
 MAIN_CAMERA = NodePath("../../../CameraController/Recoil/Camera3D/WeaponRig")

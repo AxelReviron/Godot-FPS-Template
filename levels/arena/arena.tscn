@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=3 uid="uid://b4xuy73ih6tlu"]
 
 [ext_resource type="PackedScene" uid="uid://devdbqxq7swqd" path="res://entities/player/player.tscn" id="1_yjfay"]
-[ext_resource type="Material" uid="uid://icokfqbcyd4j" path="res://levels/main/materials/black_grid_material.tres" id="3_ukd8l"]
-[ext_resource type="Material" uid="uid://2fkdjwykfy0t" path="res://levels/main/materials/red_grid_material.tres" id="4_gyro8"]
-[ext_resource type="Material" uid="uid://b5w8ktf0q8stl" path="res://levels/main/textures/blue_grid_material.tres" id="5_fr2gc"]
-[ext_resource type="PackedScene" uid="uid://bx3i0rt0kiabr" path="res://multiplayer/main_menu.tscn" id="6_8pflp"]
-[ext_resource type="Script" uid="uid://1qjydvrqsx2x" path="res://levels/main/multiplayer_spawner.gd" id="7_2ar3s"]
-[ext_resource type="Material" uid="uid://dnefqwbgohiny" path="res://levels/main/materials/blue_grid_material.tres" id="7_8anx4"]
+[ext_resource type="Material" uid="uid://icokfqbcyd4j" path="res://levels/blocking/materials/black_grid_material.tres" id="3_ukd8l"]
+[ext_resource type="Material" uid="uid://2fkdjwykfy0t" path="res://levels/blocking/materials/red_grid_material.tres" id="4_gyro8"]
+[ext_resource type="Material" uid="uid://b5w8ktf0q8stl" path="res://levels/blocking/textures/blue_grid_material.tres" id="5_fr2gc"]
+[ext_resource type="Script" uid="uid://1qjydvrqsx2x" path="res://levels/arena/multiplayer_spawner.gd" id="7_2ar3s"]
+[ext_resource type="Material" uid="uid://dnefqwbgohiny" path="res://levels/blocking/materials/blue_grid_material.tres" id="7_8anx4"]
+[ext_resource type="PackedScene" uid="uid://bon55llj08wmy" path="res://ui/menus/multiplayer_menu.tscn" id="7_wdi2e"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_0o3xy"]
 
@@ -113,9 +113,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.03252)
 pixel_size = 0.015
 text = "Need to crouch"
 
-[node name="MainMenu" parent="." instance=ExtResource("6_8pflp")]
-
 [node name="Spawns" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.24003, 0, 4.04912)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true
@@ -123,4 +122,6 @@ _spawnable_scenes = PackedStringArray("uid://devdbqxq7swqd")
 spawn_path = NodePath("../Spawns")
 script = ExtResource("7_2ar3s")
 network_player = ExtResource("1_yjfay")
-spawn_points = Array[Vector3]([Vector3(0, 0, 2.514), Vector3(4.514, 0, 2.514)])
+spawn_points = Array[Vector3]([Vector3(0, 0, 2.514), Vector3(4.514, 0, 2.514), Vector3(3.24, 0, 4.049)])
+
+[node name="MultiplayerMenu" parent="." instance=ExtResource("7_wdi2e")]

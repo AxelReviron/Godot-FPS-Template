@@ -69,7 +69,7 @@ func is_interacting() -> bool:
 
 
 func is_debug() -> bool:
-	return Input.is_action_pressed("debug")
+	return Input.is_action_just_pressed("debug")
 
 
 func is_mouse_mode_captured() -> bool:

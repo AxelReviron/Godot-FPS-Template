@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bodhtn0slo2lf"
-path.s3tc="res://.godot/imported/black_grid.png-dec809869f0cf1340d735677ad188e45.s3tc.ctex"
+uid="uid://cmjmp46ww45gr"
+path.s3tc="res://.godot/imported/red_grid.png-f14928cbfe04d0320736a30e765b7e8f.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://levels/main/textures/black_grid.png"
-dest_files=["res://.godot/imported/black_grid.png-dec809869f0cf1340d735677ad188e45.s3tc.ctex"]
+source_file="res://levels/blocking/textures/red_grid.png"
+dest_files=["res://.godot/imported/red_grid.png-f14928cbfe04d0320736a30e765b7e8f.s3tc.ctex"]
 
 [params]
 

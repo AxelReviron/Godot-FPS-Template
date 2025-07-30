@@ -1,7 +1,8 @@
 extends Node
 
 #region Game Features
-var CAN_DOUBLE_JUMP: bool = true
+var CAN_DOUBLE_JUMP: bool = false
+var CAN_SLIDE: bool = true
 #endregion
 
 #region Player

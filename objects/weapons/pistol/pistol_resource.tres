@@ -45,5 +45,5 @@ char_scene = ExtResource("1_btrfu")
 char_anim_type = 0
 char_weapon_position = Vector3(4.41, 17.017, 4.154)
 char_weapon_rotation = Vector3(-13, -179.9, 93)
-char_weapon_scale = Vector3(40, 40, 40)
+char_weapon_scale = Vector3(170, 170, 170)
 metadata/_custom_type_script = "uid://tdc0pwp4voaw"

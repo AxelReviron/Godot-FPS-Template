@@ -227,12 +227,12 @@ func _physics_process(delta):
 	_define_walk_blend_char_animations(delta)
 
 
-func _set_spawn_point():
-	print('_set_spawn_point')
-	var index = Global.connected_peers.size() - 1
-	if index >= spawn_points.size():
-		print("No available spawn point for player ", self.name)
-		index = 0 # fallback
-		
-	var spawn_point: Vector3 = spawn_points[index]
-	global_position = spawn_point
+#func _set_spawn_point():
+	#print('_set_spawn_point')
+	#var index = Global.connected_peers.size() - 1
+	#if index >= spawn_points.size():
+		#print("No available spawn point for player ", self.name)
+		#index = 0 # fallback
+		#
+	#var spawn_point: Vector3 = spawn_points[index]
+	#global_position = spawn_point

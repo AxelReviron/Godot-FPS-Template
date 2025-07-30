@@ -35,7 +35,7 @@ func update(delta: float):
 		transition.emit("WalkingPlayerState")
 	
 	# If player is crouching and has enought velocity he can slide
-	if GlobalInput.is_crouching() and PLAYER.velocity.length() > 6:
+	if Constants.CAN_SLIDE and GlobalInput.is_crouching() and PLAYER.velocity.length() > 6:
 		transition.emit("SlidingPlayerState")
 
 	if GlobalInput.is_jumping() and PLAYER.is_on_floor():

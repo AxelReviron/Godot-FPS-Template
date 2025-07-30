@@ -12,14 +12,6 @@ func _process(delta):
 	# TODO: Test Multi
 	if !is_multiplayer_authority():
 		return
-	
-	var debug_label: String = owner.name + "Current State"
-	Global.debug.add_property(debug_label, CURRENT_STATE.name, 2)
-	
-	var type_int: Weapons.ShootingType = Global.player.WEAPON_CONTROLLER.shooting_type
-	var type_str: String = Weapons.get_shooting_type_name(type_int)
-	Global.debug.add_property("Weapon Shooting Type", type_str, 3)
-
 
 
 func _physics_process(delta):

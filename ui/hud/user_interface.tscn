@@ -54,6 +54,7 @@ points = PackedVector2Array(-5, 0, -15, 0)
 width = 2.0
 
 [node name="DebugPanel" type="PanelContainer" parent="CanvasLayer"]
+visible = false
 custom_minimum_size = Vector2(200, 0)
 offset_left = 10.0
 offset_top = 10.0
