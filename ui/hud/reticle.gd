@@ -10,18 +10,12 @@ extends CenterContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	Global.hud_reticle = reticle
 	queue_redraw()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	if !Global.player:
 		return
 
@@ -33,8 +27,7 @@ func _draw():
 
 
 func _adjust_reticle_lines():
-	#TODO: Test Multi
-	if is_multiplayer_authority() and Global.player:
+	if Global.player:
 		var player_velocity = Global.player.get_real_velocity()
 		var origin = Vector3(0, 0, 0)
 		var position = Vector2(0, 0)

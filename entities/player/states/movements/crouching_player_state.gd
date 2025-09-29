@@ -1,13 +1,10 @@
-class_name CrouchingPlayerState extends PlayerMovementState
+class_name CrouchingPlayerState extends PlayerStateBase
 
 @onready var CROUCH_SHAPECAST: ShapeCast3D = %ShapeCast3D
 
 var RELEASED: bool = false
 
 func enter(previous_state: State) -> void:
-	#TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	ANIMATION.speed_scale = 1.0
 	# If player was not sliding, play crouch aimation as usual
 	if previous_state.name != "SlidingPlayerState":
@@ -18,16 +15,10 @@ func enter(previous_state: State) -> void:
 		ANIMATION.seek(1.0, true)
 
 func exit() -> void:
-	#TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	RELEASED = false
 
 
 func update(delta: float):
-	#TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_CROUCH_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()

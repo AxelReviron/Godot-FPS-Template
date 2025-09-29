@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://vrw4amy1bd1"]
+
+[ext_resource type="Script" uid="uid://5quh1f3aksmu" path="res://entities/player/debug_draw.gd" id="1_vpkkl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nhv0r"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_yve74"]
+
+[node name="DebugDraw" type="Node"]
+script = ExtResource("1_vpkkl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_nhv0r")
+mesh = SubResource("ImmediateMesh_yve74")

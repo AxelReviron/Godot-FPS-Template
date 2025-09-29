@@ -1,6 +1,9 @@
 class_name Player extends CharacterBody3D
 
-@export var STATE_MACHINE: StateMachine
+@export var MOVEMENT_STATE_MACHINE: PlayerMovementStateMachine
+@export var HEALTH_STATE_MACHINE: PlayerHealthStateMachine
+
+@export var DEFAULT_HEALTH: int = 100
 
 @export var TILT_LOWER_LIMIT: float = deg_to_rad(-90.0)
 @export var TILT_UPPER_LIMIT: float = deg_to_rad(90.0)
@@ -10,12 +13,28 @@ class_name Player extends CharacterBody3D
 @export var ANIMATIONPLAYER: AnimationPlayer
 @export var WEAPON_CONTROLLER: WeaponController
 
+
 # Multiplayer
 @export var spawn_points: Array[Vector3]
 
+# AnimationTree
+@export var walk_anim_val = 0
+@export var walk_sides_anim_val = 0
+@export var jump_anim_val = 0
+
+# Character
+#@export var character_collisions: Array[CollisionShape3D]
+@export var character_skeleton: Skeleton3D
+@export var first_person_arms: Node3D
 
 @onready var anim_player: AnimationPlayer = %Character.get_node("AnimationPlayer")
+@onready var anim_tree_player: AnimationTree = %Character.get_node("AnimationTree")
+@onready var character_physical_bone_sim: PhysicalBoneSimulator3D = $Character/Skeleton3D/PhysicalBoneSimulator3D
 
+var health: int
+
+# AnimationTree
+var blend_speed = 20
 
 var mouse_input: bool = false
 var mouse_rotation: Vector3
@@ -29,24 +48,38 @@ var current_rotation: float
 var slide_start_rotation_y: float
 var interact_cast_result: Object
 
-@export var char_anim_type_name: String
+# Character
+var char_anim_type_name: String
+var self_collision_to_exclude: Array = []
 
-#TODO: DEBUG
-var spawn_position_set: bool = false
-var _last_position: Vector3 = Vector3.ZERO
-var _position_debug_enabled: bool = false
+
+# Ideas: Display body_part hit in HUD
+func take_dammage(body_part: String, hit_dammage: float) -> void:
+	print("Player: ", multiplayer.get_unique_id(), " take ", hit_dammage, " dammage in ", body_part)
+	health -= hit_dammage
+
+
+## Collisions of the character's player are gonna be excluded while shooting
+func _exclude_self_collisions(node: Node, depth: int = 0, max_depth: int = 10) -> void:
+	if depth > max_depth or !is_instance_valid(node):
+		return
+	
+	if node is CollisionShape3D:
+		# Reset all layers
+		self_collision_to_exclude.append(node)
+	
+	for child in node.get_children():
+		_exclude_self_collisions(child, depth + 1, max_depth)#
 
 
 func _update_camera(delta):
-	if !is_multiplayer_authority():
-		return
 	current_rotation = rotation_input
 	# Get mouse rotation (limit it on X axis)
 	mouse_rotation.x += tilt_input * delta
 	mouse_rotation.x = clamp(mouse_rotation.x, TILT_LOWER_LIMIT, TILT_UPPER_LIMIT)
 	
 	# If player is sliding his rotation is limit on Y axis
-	if STATE_MACHINE.CURRENT_STATE is SlidingPlayerState:
+	if MOVEMENT_STATE_MACHINE.CURRENT_STATE is SlidingPlayerState:
 		mouse_rotation.y = clamp(mouse_rotation.y, slide_start_rotation_y - SLIDE_ROTATION_LIMIT, slide_start_rotation_y + SLIDE_ROTATION_LIMIT)
 	
 	mouse_rotation.y += rotation_input * delta
@@ -69,14 +102,10 @@ func _update_camera(delta):
 
 
 func update_gravity(delta) -> void:
-	if !is_multiplayer_authority():
-		return
 	velocity += get_gravity() * delta
 
 
 func update_input(speed: float, acceleration: float, deceleration: float) -> void:
-	if !is_multiplayer_authority():
-		return
 	var move_input = GlobalInput.get_move_vector()
 	var direction = (transform.basis * Vector3(move_input.x, 0, move_input.y)).normalized()
 
@@ -89,16 +118,12 @@ func update_input(speed: float, acceleration: float, deceleration: float) -> voi
 
 
 func update_velocity() -> void:
-	if !is_multiplayer_authority():
-		return
 	move_and_slide()
 
 
 ## Project a ray cast from the center of the screen and return the object hit.
 func _interact_cast() :
-	if !is_multiplayer_authority():# Only client can control his player
-		return
-	var hit: Dictionary = Global.get_forward_ray_hit(CAMERA_CONTROLLER, get_viewport(), Constants.INTERACT_DISTANCE)
+	var hit: Dictionary = Global.get_forward_ray_hit(CAMERA_CONTROLLER, get_viewport(), Constants.INTERACT_DISTANCE, 1, false)
 	var object_hit = hit.get("collider")
 	
 	# If it's a different object hit
@@ -118,37 +143,31 @@ func _interact() -> void:
 		interact_cast_result.emit_signal("interacted")
 
 
-var blend_speed = 20
-@export var walk_anim_val = 0
-@export var walk_sides_anim_val = 0
-@export var jump_anim_val = 0
-
-
 func _define_walk_blend_char_animations(delta: float):
-	if is_multiplayer_authority():# Each player update his anim values
-		var move_input = GlobalInput.get_move_vector()
+	var move_input = GlobalInput.get_move_vector()
 
-		if move_input.y < 0:# Walk Forward
-			walk_anim_val = lerpf(walk_anim_val, 1, blend_speed * delta)
+	if move_input.y < 0:# Walk Forward
+		walk_anim_val = lerpf(walk_anim_val, 1, blend_speed * delta)
 
-		if move_input.y > 0:# Walk Backward
-			walk_anim_val = lerpf(walk_anim_val, -1, blend_speed * delta)
+	if move_input.y > 0:# Walk Backward
+		walk_anim_val = lerpf(walk_anim_val, -1, blend_speed * delta)
 		
-		if move_input.x < 0:# Walk Left
-			walk_sides_anim_val = lerpf(walk_sides_anim_val, 1, blend_speed * delta)
+	if move_input.x < 0:# Walk Left
+		walk_sides_anim_val = lerpf(walk_sides_anim_val, 1, blend_speed * delta)
 
-		if move_input.x > 0:# Walk Right
-			walk_sides_anim_val = lerpf(walk_sides_anim_val, -1, blend_speed * delta)
+	if move_input.x > 0:# Walk Right
+		walk_sides_anim_val = lerpf(walk_sides_anim_val, -1, blend_speed * delta)
 		
-		if move_input.y == 0 and move_input.x == 0 and is_on_floor():# Idle
-			walk_anim_val = lerpf(walk_anim_val, 0, blend_speed * delta)
-			walk_sides_anim_val = lerpf(walk_sides_anim_val, 0, blend_speed * delta)
+	if move_input.y == 0 and move_input.x == 0 and is_on_floor():# Idle
+		walk_anim_val = lerpf(walk_anim_val, 0, blend_speed * delta)
+		walk_sides_anim_val = lerpf(walk_sides_anim_val, 0, blend_speed * delta)
 
-		if !is_on_floor():# Idle Jump
-			jump_anim_val = lerpf(jump_anim_val, 1, blend_speed * delta)
-		if is_on_floor():# Idle Jump
-			jump_anim_val = lerpf(jump_anim_val, 0, blend_speed * delta)
+	if !is_on_floor():# Idle Jump
+		jump_anim_val = lerpf(jump_anim_val, 1, blend_speed * delta)
+	if is_on_floor():# Idle Jump
+		jump_anim_val = lerpf(jump_anim_val, 0, blend_speed * delta)
 	
+	#TODO: Only if player is not in PlayerDeadState
 	# All players apply theses values
 	%AnimationTree.set("parameters/PistolWalk/WalkToward/blend_amount", walk_anim_val)
 	%AnimationTree.set("parameters/PistolWalk/WalkSides/blend_amount", walk_sides_anim_val)
@@ -158,22 +177,19 @@ func _define_walk_blend_char_animations(delta: float):
 	%AnimationTree.set("parameters/RifleWalk/WalkSides/blend_amount", walk_sides_anim_val)
 	%AnimationTree.set("parameters/RifleWalk/Jump/blend_amount", jump_anim_val)
 
-@export var character_skeleton: Skeleton3D
-@export var first_person_arms: Node3D
+
 func _setup_camera_layers() -> void:
 	if not character_skeleton:
 		return
 	
 	#TODO: Is Weapon Camera useless ??
-	if is_multiplayer_authority():# Local player
-		set_layer_recursive(character_skeleton, 3)# Hide his character (Layer 3)
-		#if first_person_arms:
-			#set_layer_recursive(first_person_arms, 2)# See his arms and weapons (Layer 2)
-		CAMERA_CONTROLLER.cull_mask = 0b011# See on layers 1 and 2 (not 3)
-	else:# Others players
-		set_layer_recursive(character_skeleton, 1)# Character visible (Layer 1)
+	set_layer_recursive(character_skeleton, 3)# Hide his character (Layer 3)
+	#if first_person_arms:
+		#set_layer_recursive(first_person_arms, 2)# See his arms and weapons (Layer 2)
+	CAMERA_CONTROLLER.cull_mask = 0b011# See on layers 1 and 2 (not 3)
 		#if first_person_arms:
 			#set_layer_recursive(first_person_arms, 3)# Hide others players arms and weapon (Layer 3)
+
 
 func set_layer_recursive(node: Node, layer: int, depth: int = 0, max_depth: int = 10):
 	if depth > max_depth or !is_instance_valid(node):
@@ -191,12 +207,14 @@ func set_layer_recursive(node: Node, layer: int, depth: int = 0, max_depth: int 
 
 
 func _ready():
-	CAMERA_CONTROLLER.current = is_multiplayer_authority()
+	# TODO: Check this
+	#CAMERA_CONTROLLER.current = is_multiplayer_authority()
 	_setup_camera_layers()
 	
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
+	health = DEFAULT_HEALTH
+	
+	#_exclude_self_collisions(character_physical_bone_sim)
+
 	# Define the character weapon animation type for the AnimationTree StateMachine
 	var enum_keys = Weapons.CharAnimType.keys()
 	char_anim_type_name = enum_keys[WEAPON_CONTROLLER.WEAPON_TYPE.char_anim_type]
@@ -206,8 +224,6 @@ func _ready():
 
 
 func _unhandled_input(event):
-	if !is_multiplayer_authority():
-		return
 	mouse_input = event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
 	if mouse_input:
 		rotation_input = -event.relative.x * Settings.MOUSE_SENSITIVITY

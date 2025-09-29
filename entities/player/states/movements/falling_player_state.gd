@@ -1,12 +1,9 @@
-class_name FallingPlayerState extends PlayerMovementState
+class_name FallingPlayerState extends PlayerStateBase
 
 var DOUBLE_JUMP: bool = false
 
 
 func enter(previous_state: State) -> void:
-	#TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	ANIMATION.pause()
 
 
@@ -15,9 +12,6 @@ func exit() -> void:
 
 
 func update(delta: float) -> void:
-	#TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	PLAYER.update_gravity(delta)
 	PLAYER.update_input(Constants.PLAYER_SPEED, Constants.PLAYER_ACCELERATION, Constants.PLAYER_DECELERATION)
 	PLAYER.update_velocity()

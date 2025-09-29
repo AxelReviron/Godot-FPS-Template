@@ -74,9 +74,9 @@ var muzzle_flash_position: Vector3
 var bullet_trace_position: Vector3
 
 # Weapon Shooting Properties
+var dammage: int
 var fire_rate: float
 var shooting_type: Weapons.ShootingType
-#var can_shoot: bool = true
 
 # Ammo
 var max_ammo: int
@@ -108,11 +108,12 @@ func display_char_weapon() -> void:
 	#if !is_multiplayer_authority():
 		#return
 	current_weapon_char_instance = WEAPON_TYPE.char_scene.instantiate()
-	Global.weapon_char_scene.add_child(current_weapon_char_instance)
-	
-	Global.weapon_char_scene.position = WEAPON_TYPE.char_weapon_position
-	Global.weapon_char_scene.rotation_degrees = WEAPON_TYPE.char_weapon_rotation
-	Global.weapon_char_scene.scale = WEAPON_TYPE.char_weapon_scale
+	if Global.weapon_char_scene:
+		Global.weapon_char_scene.add_child(current_weapon_char_instance)
+		
+		Global.weapon_char_scene.position = WEAPON_TYPE.char_weapon_position
+		Global.weapon_char_scene.rotation_degrees = WEAPON_TYPE.char_weapon_rotation
+		Global.weapon_char_scene.scale = WEAPON_TYPE.char_weapon_scale
 
 
 func display_weapon_icon_and_infos() -> void:
@@ -192,6 +193,7 @@ func load_weapon() -> void:
 		muzzle_flash.position = WEAPON_TYPE.muzzle_flash_position
 	
 	fire_rate = WEAPON_TYPE.fire_rate
+	dammage = WEAPON_TYPE.dammage
 	shooting_type = WEAPON_TYPE.shooting_type
 	max_ammo = WEAPON_TYPE.max_ammo
 	current_ammo = max_ammo

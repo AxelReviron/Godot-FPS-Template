@@ -41,8 +41,6 @@ func _get_memory_infos() -> String:
 
 func _ready():
 	Global.debug = self
-	if !is_multiplayer_authority():
-		visible = false
 	
 	add_property("device_header", "---- User Device ----", "", 2)
 	add_property("os", "OS: ", OS.get_distribution_name() + OS.get_version(), 3)
@@ -50,15 +48,11 @@ func _ready():
 	add_property("cpu", "CPU: ", OS.get_processor_name(), 5)
 	add_property("gpu_name", "GPU: ", RenderingServer.get_video_adapter_name(), 7)
 	add_property("gpu_driver", "GPU Drivers: ", OS.get_video_adapter_driver_info(), 8)
-	add_property("separator", "", "", 10)
 	
-	add_property("state_header", "---- Game State ----", "", 11)
+	add_property("state_header", "---- States ----", "", 10)
 
 
 func _process(delta: float) -> void:
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	if GlobalInput.is_debug():
 		visible = !visible
 
@@ -73,14 +67,14 @@ func _process(delta: float) -> void:
 		add_property("gpu_memory", "GPU Memory usage: ", _get_gpu_memory_infos(), 9)
 
 	if Global.player:
-		add_property('player_state', "Movement State: ", Global.player.STATE_MACHINE.CURRENT_STATE.name, 12)
+		add_property('player_movement_state', "Movement State: ", Global.player.MOVEMENT_STATE_MACHINE.CURRENT_STATE.name, 11)
+		add_property('player_health_state', "Health State: ", Global.player.HEALTH_STATE_MACHINE.CURRENT_STATE.name, 12)
 		add_property('weapon_state', "Weapon State: ", Global.player.WEAPON_CONTROLLER.state_machine.CURRENT_STATE.name, 13)
+		add_property("player_properties", "---- Properties ----", "", 14)
+		add_property("health", "Health: ", Global.player.health, 15)
 
 
 func add_property(key: String, label: String, value, order):
-	if !is_multiplayer_authority():
-		return
-	
 	var target: RichTextLabel = property_container.find_child(key, true, false) # Find existing Label Node by key
 	var display_text: String = "[b]" + label + "[/b]" + str(value)
 	
@@ -99,4 +93,6 @@ func add_property(key: String, label: String, value, order):
 		#target.text = display_text
 	
 	target.parse_bbcode(display_text)
-	property_container.move_child(target, order)
+	var max_index = property_container.get_child_count() - 1
+	var new_index = clamp(order - 1, 0, max_index)
+	property_container.move_child(target, new_index)

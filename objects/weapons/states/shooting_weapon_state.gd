@@ -5,12 +5,33 @@ var fade_time: float = 0.4  # secondes
 var fade_timer: float = 0.0
 var is_fading: bool = false
 var can_shoot: bool = true
-#var previous_state_name: StringName
+
+
+# Ideas :
+# Shoot in the hands or the arms -> Impossible to shoot or to aim
+# Shoot in the legs or feet -> Slow movement speed
+func _calculate_hit_dammage_for_body_part(body_part: String) -> float:
+	body_part = body_part.to_lower()
+	var hit_dammage = WEAPON.dammage
+	
+	if body_part == "head":
+		return hit_dammage * 3.4 # 1 Ak bullet need to kill | 2 Pistol bullets need to kill
+	elif body_part == "torso":
+		return hit_dammage * 1.4 # 3 Ak bullets need to kill
+	else:
+		return hit_dammage # 4 AK bullets need to kill 
+
+
+func _find_player_node_from_collider(collider) -> CharacterBody3D:
+	var current = collider
+	while current != null:
+		if current is CharacterBody3D:
+			return current
+		current = current.get_parent()
+	return null
+
 
 func _shoot() -> void:
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	if !can_shoot or WEAPON.current_ammo == 0:
 		return
 	
@@ -25,14 +46,20 @@ func _shoot() -> void:
 	
 	var camera: Camera3D = Global.player.CAMERA_CONTROLLER
 	var viewport: Viewport = get_viewport()
-	var hit = Global.get_forward_ray_hit(camera, get_viewport(), 1000.0, 2)# Collision Mask 2 (only for shoot)
-	print("HIT: ", hit)
+
+	var hit = Global.get_forward_ray_hit(camera, get_viewport(), 1000.0, 2, true, [Global.player.character_physical_bone_sim])# Collision Mask 2 (only for shoot)
+	var collider = hit.get("collider")
+	print(collider)
 	
-	if hit:
+	if collider:
 		_display_bullet_hole(hit.get("position"), hit.get("normal"))
+		print("collider: ", collider.name)
 	
-	if hit.get("collider") is CharacterBody3D:
-		_emit_blood_particles(hit.get("position"), hit.get("normal"))
+		if collider is Area3D:
+			var hit_dammage = _calculate_hit_dammage_for_body_part(collider.name)
+			var player_hit: Player = _find_player_node_from_collider(collider)
+			player_hit.take_dammage.rpc(collider.name, hit_dammage)
+			_emit_blood_particles(hit.get("position"), hit.get("normal"))
 	
 	await get_tree().create_timer(WEAPON.fire_rate).timeout
 	can_shoot = true
@@ -87,9 +114,8 @@ func start_fade_out():
 
 
 func enter(previous_state: State) -> void:
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
+	#_exclude_self_collisions()
+	#print(self_collision_to_exclude)
 	if WEAPON.current_ammo > 0:
 		# Add shoot sound to AudioStream
 		WEAPON.audio_stream_player.stream = WEAPON.shoot_sound
@@ -101,9 +127,6 @@ func enter(previous_state: State) -> void:
 
 
 func update(delta: float):
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	if WEAPON.current_ammo == 0:
 		transition.emit("IdleWeaponState")
 
@@ -128,17 +151,11 @@ func update(delta: float):
 
 
 func _input(event) -> void:# TODO: Move to GlobalInput (also in player.gd)
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	if event is InputEventMouseMotion:
 		WEAPON.mouse_movement = event.relative
 
 
 func _process(delta: float):
-	# TODO: Test Multi
-	if !is_multiplayer_authority():
-		return
 	if is_fading:
 		fade_timer += delta
 		var t = clamp(fade_timer / fade_time, 0.0, 1.0)

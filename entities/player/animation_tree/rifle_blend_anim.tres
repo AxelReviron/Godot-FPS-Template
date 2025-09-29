@@ -26,6 +26,7 @@ animation = &"Rifle/walk_right"
 
 [resource]
 graph_offset = Vector2(-1111.5, 104.163)
+nodes/output/position = Vector2(420, 240)
 nodes/Jump/node = SubResource("AnimationNodeBlend2_3sopc")
 nodes/Jump/position = Vector2(-540, 240)
 nodes/WalkSides/node = SubResource("AnimationNodeBlend3_wypj0")
@@ -36,7 +37,6 @@ nodes/idle/node = SubResource("AnimationNodeAnimation_3wlsy")
 nodes/idle/position = Vector2(-844, 167)
 nodes/idle_jump/node = SubResource("AnimationNodeAnimation_rhmoh")
 nodes/idle_jump/position = Vector2(-840, 380)
-nodes/output/position = Vector2(420, 240)
 nodes/walk_backward/node = SubResource("AnimationNodeAnimation_wypj0")
 nodes/walk_backward/position = Vector2(-540, 20)
 nodes/walk_forward/node = SubResource("AnimationNodeAnimation_sbjuc")
@@ -45,4 +45,4 @@ nodes/walk_left/node = SubResource("AnimationNodeAnimation_3sopc")
 nodes/walk_left/position = Vector2(-140, 520)
 nodes/walk_right/node = SubResource("AnimationNodeAnimation_tn60e")
 nodes/walk_right/position = Vector2(-140, 20)
-node_connections = [&"Jump", 0, &"idle", &"Jump", 1, &"idle_jump", &"WalkSides", 0, &"walk_right", &"WalkSides", 1, &"WalkToward", &"WalkSides", 2, &"walk_left", &"WalkToward", 0, &"walk_backward", &"WalkToward", 1, &"Jump", &"WalkToward", 2, &"walk_forward", &"output", 0, &"WalkSides"]
+node_connections = [&"output", 0, &"WalkSides", &"Jump", 0, &"idle", &"Jump", 1, &"idle_jump", &"WalkSides", 0, &"walk_right", &"WalkSides", 1, &"WalkToward", &"WalkSides", 2, &"walk_left", &"WalkToward", 0, &"walk_backward", &"WalkToward", 1, &"Jump", &"WalkToward", 2, &"walk_forward"]

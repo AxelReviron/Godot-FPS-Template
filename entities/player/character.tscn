@@ -21,38 +21,38 @@
 [ext_resource type="Animation" uid="uid://bbio6oyhlylgu" path="res://entities/player/assets/character/animations/rifle/rifle_idle_aiming.res" id="19_l4qs6"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_l4qs6"]
-radius = 11.9429
+radius = 0.1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l4qs6"]
-radius = 18.0
-height = 70.0
+radius = 0.0586254
+height = 0.35
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kxsmg"]
-radius = 5.0
-height = 30.0
+radius = 0.05
+height = 0.271571
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cehyb"]
-radius = 5.0
-height = 30.0
+radius = 0.05
+height = 0.276158
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_e6tb6"]
-size = Vector3(10, 15, 5)
+size = Vector3(0.144, 0.0305762, 0.0974365)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e6tb6"]
-radius = 8.0
-height = 40.0
+radius = 0.05
+height = 0.4
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h1t0a"]
-radius = 8.0
-height = 40.0
+radius = 0.05
+height = 0.415874
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gl5mq"]
-radius = 5.0
-height = 20.0
+radius = 0.05
+height = 0.167
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ch6nd"]
-radius = 5.0
-height = 15.0
+radius = 0.02
+height = 0.1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_e446b"]
 radius = 5.0
@@ -172,36 +172,8 @@ bones/132/rotation = Quaternion(-0.0181651, 1.97622e-05, -0.00595985, 0.999817)
 bones/135/rotation = Quaternion(0.448301, -0.017268, 0.00596549, 0.893696)
 bones/138/rotation = Quaternion(0.338736, 0.0272386, -0.00981108, 0.940436)
 
-[node name="Eyes" parent="Skeleton3D" index="0"]
-visible = false
-
-[node name="default" parent="Skeleton3D" index="1"]
-visible = false
-
-[node name="Gloves" parent="Skeleton3D" index="2"]
-visible = false
-
-[node name="Body" parent="Skeleton3D" index="3"]
-visible = false
-
-[node name="Eyewear" parent="Skeleton3D" index="4"]
-visible = false
-
-[node name="Hats" parent="Skeleton3D" index="5"]
-visible = false
-
-[node name="Shoes" parent="Skeleton3D" index="6"]
-visible = false
-
-[node name="Tops" parent="Skeleton3D" index="7"]
-visible = false
-
-[node name="Bottoms" parent="Skeleton3D" index="8"]
-visible = false
-
 [node name="DebugCameraBone" type="BoneAttachment3D" parent="Skeleton3D" index="9"]
 transform = Transform3D(0.998789, 0.0291741, 0.0396178, -0.0303227, 0.999128, 0.0287091, -0.0387457, -0.0298756, 0.998802, -0.000256883, 111.097, -1.15881)
-visible = false
 bone_name = "mixamorigSpine"
 bone_idx = 2
 
@@ -313,7 +285,7 @@ bone_name = "mixamorigRightFoot"
 bone_idx = 123
 
 [node name="RightFoot" type="Area3D" parent="Skeleton3D/RightFootAttachment" index="0"]
-transform = Transform3D(1, 0, 0, 1.49012e-08, 1, -1.11759e-08, 1.49012e-08, 3.35276e-08, 1, 0.093853, 7.04248, -8.51665)
+transform = Transform3D(1, 1.11759e-08, 9.31323e-09, 1.49012e-08, 1, 0, 1.49012e-08, -1.19209e-07, 1, 0.122871, 5.02057, -7.95811)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/RightFootAttachment/RightFoot" index="0"]
@@ -325,9 +297,11 @@ transform = Transform3D(-0.999364, 2.06381e-06, 0.0356688, 0.0356384, 0.0413275,
 bone_name = "mixamorigRightToeBase"
 bone_idx = 126
 
-[node name="Area3D" type="Area3D" parent="Skeleton3D/RightToeAttachment" index="0"]
+[node name="RightToe" type="Area3D" parent="Skeleton3D/RightToeAttachment" index="0"]
+transform = Transform3D(1, -1.16415e-10, 4.04543e-09, 1.16415e-10, 1, 3.72529e-09, -3.53248e-09, 0, 1, 0.101963, 0.118239, 2.85677)
+collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/RightToeAttachment/Area3D" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/RightToeAttachment/RightToe" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, -2.79397e-09, 3.72529e-09, 0, 1, 0.00498772, 3.87179, -0.000204086)
 shape = SubResource("CapsuleShape3D_ch6nd")
 
@@ -384,10 +358,10 @@ transform = Transform3D(-0.999983, -0.00584905, 0.000223591, 0.00583068, -0.9987
 bone_name = "mixamorigLeftLeg"
 bone_idx = 132
 
-[node name="Area3D" type="Area3D" parent="Skeleton3D/LeftLegAttachment" index="0"]
+[node name="LeftLeg" type="Area3D" parent="Skeleton3D/LeftLegAttachment" index="0"]
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/LeftLegAttachment/Area3D" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/LeftLegAttachment/LeftLeg" index="0"]
 transform = Transform3D(1, 7.0213e-10, -5.82077e-11, -2.27374e-10, 1, 3.72529e-09, 0, 0, 1, -0.120167, 20.5836, 1.02556)
 shape = SubResource("CapsuleShape3D_qfku4")
 
@@ -397,6 +371,7 @@ bone_name = "mixamorigLeftFoot"
 bone_idx = 135
 
 [node name="LeftFoot" type="Area3D" parent="Skeleton3D/LeftFootAttachment" index="0"]
+transform = Transform3D(1, 0, 7.45058e-09, 0, 1, -2.98023e-08, 0, 0, 1, -0.0465622, -2.33367, 0.222206)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/LeftFootAttachment/LeftFoot" index="0"]
@@ -409,6 +384,7 @@ bone_name = "mixamorigLeftToeBase"
 bone_idx = 138
 
 [node name="LeftToe" type="Area3D" parent="Skeleton3D/LeftToeAttachment" index="0"]
+transform = Transform3D(1, 0, 3.75259e-09, -1.81899e-12, 1, -1.13687e-13, 2.76139e-11, -1.13687e-13, 1, -0.115021, -3.8147e-06, 3.21275)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Skeleton3D/LeftToeAttachment/LeftToe" index="0"]

@@ -36,6 +36,7 @@ aim_recoil_amount_x = 0.02
 aim_recoil_amount_y = 0.01
 muzzle_flash_position = Vector3(0.061, 0.037, 0)
 char_muzzle_flash_position = Vector3(0, 0, 0)
+dammage = 15
 fire_rate = 0.1
 shooting_type = 1
 max_ammo = 15

@@ -44,6 +44,7 @@ class_name Weapons extends Resource
 @export var char_muzzle_flash_position: Vector3
 
 @export_group("Weapon Shooting Properties")
+@export var dammage: int
 @export var fire_rate: float
 enum ShootingType { AUTO, ONCE }
 @export var shooting_type: ShootingType = ShootingType.ONCE

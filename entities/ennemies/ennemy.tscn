@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://lkx6nd7xjuna"]
+[gd_scene load_steps=8 format=3 uid="uid://lkx6nd7xjuna"]
 
 [ext_resource type="Script" uid="uid://ci325f1idrq1b" path="res://entities/ennemies/ennemy_controller.gd" id="1_cb24k"]
+[ext_resource type="PackedScene" uid="uid://dmjenp740172h" path="res://entities/player/character_ragdoll.tscn" id="2_kv7pt"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_h2hoi"]
 
@@ -18,17 +19,19 @@ radius = 0.1
 height = 0.1
 
 [node name="Ennemy" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, 0)
 script = ExtResource("1_cb24k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_h2hoi")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+visible = false
 mesh = SubResource("CapsuleMesh_kv7pt")
 
 [node name="Eye" type="MeshInstance3D" parent="CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.432137, -0.489419)
+visible = false
 mesh = SubResource("SphereMesh_jd7s0")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
@@ -42,3 +45,6 @@ transform = Transform3D(-5.73206e-15, 1.31134e-07, -1, -1, -4.37114e-08, 0, -4.3
 [node name="RayCastHigh" type="RayCast3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 1.00091, 0)
+
+[node name="CharacterRagdoll" parent="." instance=ExtResource("2_kv7pt")]
+transform = Transform3D(-0.01, 0, -8.74228e-10, 0, 0.01, 0, 8.74228e-10, 0, -0.01, 0, -1, 0)

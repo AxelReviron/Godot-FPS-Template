@@ -1,15 +1,16 @@
-[gd_scene load_steps=36 format=3 uid="uid://devdbqxq7swqd"]
+[gd_scene load_steps=41 format=3 uid="uid://devdbqxq7swqd"]
 
 [ext_resource type="Script" uid="uid://c5lomk3h5a1xr" path="res://entities/player/player.gd" id="1_symyc"]
 [ext_resource type="PackedScene" uid="uid://dy1a4pe5wyeeh" path="res://ui/hud/user_interface.tscn" id="2_abrql"]
 [ext_resource type="Script" uid="uid://b6dhrqhmba2xm" path="res://objects/weapons/camera_recoil.gd" id="2_afbqv"]
 [ext_resource type="PackedScene" uid="uid://cw81xctbb6bsy" path="res://objects/weapons/weapon.tscn" id="2_j3ovn"]
-[ext_resource type="PackedScene" uid="uid://dho5eo7kunfv6" path="res://entities/player/character.tscn" id="2_yqrof"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://b7jho6j3vn5f" path="res://entities/player/animation_tree/pistol_blend_anim.tres" id="3_b2kln"]
 [ext_resource type="Script" uid="uid://c563eujybct48" path="res://entities/player/states/movements/idle_player_state.gd" id="4_bls4j"]
+[ext_resource type="Resource" uid="uid://cf6agjg1ardc8" path="res://objects/weapons/pistol/pistol_resource.tres" id="4_t1t22"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://ccn7otlippsq4" path="res://entities/player/animation_tree/rifle_blend_anim.tres" id="4_we0b7"]
-[ext_resource type="Script" uid="uid://coc7tn55g074c" path="res://entities/player/states/player_state_machine.gd" id="5_afbqv"]
+[ext_resource type="Script" uid="uid://coc7tn55g074c" path="res://entities/player/states/player_movement_state_machine.gd" id="5_afbqv"]
 [ext_resource type="Script" uid="uid://0yyhqfbjnuf8" path="res://entities/player/states/movements/walking_player_state.gd" id="5_fkugw"]
+[ext_resource type="PackedScene" uid="uid://dmjenp740172h" path="res://entities/player/character_ragdoll.tscn" id="5_t1t22"]
 [ext_resource type="Script" uid="uid://wl07ju33yxt8" path="res://entities/player/states/movements/sprinting_player_state.gd" id="6_8fjmc"]
 [ext_resource type="Script" uid="uid://cw6gaelpf21rq" path="res://entities/player/states/movements/crouching_player_state.gd" id="7_qiwj3"]
 [ext_resource type="Script" uid="uid://c0dboxoqqmac1" path="res://entities/player/states/movements/sliding_player_state.gd" id="8_26q78"]
@@ -17,6 +18,12 @@
 [ext_resource type="Script" uid="uid://c2yfsfm4rv7wm" path="res://entities/player/states/movements/falling_player_state.gd" id="10_wvtmh"]
 [ext_resource type="Script" uid="uid://bs62542u3unhl" path="res://entities/player/sub_viewport.gd" id="12_a1qjk"]
 [ext_resource type="Script" uid="uid://bc7dtu8745goy" path="res://entities/player/weapon_camera.gd" id="13_j3ovn"]
+[ext_resource type="Script" uid="uid://clgkne6mq32kq" path="res://entities/player/player_health_state_machine.gd" id="18_b2kln"]
+[ext_resource type="Script" uid="uid://bxhp24x52exgl" path="res://entities/player/states/health/alive_player_state.gd" id="19_we0b7"]
+[ext_resource type="Script" uid="uid://gxx1ciowyl7a" path="res://entities/player/states/health/injured_player_state.gd" id="20_221hk"]
+[ext_resource type="Script" uid="uid://eujv45oinc7" path="res://entities/player/states/health/dead_player_state.gd" id="21_ghoj8"]
+[ext_resource type="Script" uid="uid://blqxmoyvvlc7t" path="res://entities/player/states/health/invincible_player_state.gd" id="22_t1t22"]
+[ext_resource type="PackedScene" uid="uid://vrw4amy1bd1" path="res://utils/debug_draw.tscn" id="23_ghoj8"]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mtric"]
 advance_mode = 2
@@ -45,37 +52,31 @@ graph_offset = Vector2(-203, -21)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sfv1e"]
 radius = 0.2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sfv1e"]
-albedo_color = Color(0.317647, 0.662745, 0.552941, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_symyc"]
-material = SubResource("StandardMaterial3D_sfv1e")
-
 [sub_resource type="Animation" id="Animation_abrql"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/path = NodePath("CollisionShape3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [2.0]
+"values": [Vector3(0, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/path = NodePath("CollisionShape3D:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 1, 0)]
+"values": [2.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -100,39 +101,40 @@ tracks/3/keys = {
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
-tracks/4/type = "bezier"
+tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("CameraController:position:y")
+tracks/4/path = NodePath("CollisionShape3D:shape")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1.5, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [SubResource("CapsuleShape3D_sfv1e")]
 }
-tracks/5/type = "bezier"
+tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("CameraController:position:z")
+tracks/5/path = NodePath("CollisionShape3D:shape")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [SubResource("CapsuleShape3D_sfv1e")]
 }
-tracks/6/type = "value"
+tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("CollisionShape3D:shape")
+tracks/6/path = NodePath("CameraController:position:y")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [SubResource("CapsuleShape3D_sfv1e")]
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
 tracks/7/type = "value"
 tracks/7/imported = false
@@ -161,7 +163,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("PlayerStateMachine/SlidingPlayerState:ANIM_SPEED")
+tracks/9/path = NodePath("PlayerMovementStateMachine/SlidingPlayerState:ANIM_SPEED")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -210,26 +212,26 @@ resource_name = "crouching"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/path = NodePath("CollisionShape3D:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [2.0, 1.5]
+"values": [Vector3(0, 1, 0), Vector3(0, 0.75, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/path = NodePath("CollisionShape3D:shape:height")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 1, 0), Vector3(0, 0.75, 0)]
+"values": [2.0, 1.5]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -304,26 +306,26 @@ length = 5.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape3D:shape:height")
+tracks/0/path = NodePath("CollisionShape3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [2.0, 1.5]
+"values": [Vector3(0, 1, 0), Vector3(0, 0.75, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionShape3D:position")
+tracks/1/path = NodePath("CollisionShape3D:shape:height")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 1, 0), Vector3(0, 0.75, 0)]
+"values": [2.0, 1.5]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -364,7 +366,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("PlayerStateMachine/SlidingPlayerState:ANIM_SPEED")
+tracks/5/path = NodePath("PlayerMovementStateMachine/SlidingPlayerState:ANIM_SPEED")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -376,7 +378,7 @@ tracks/5/keys = {
 tracks/6/type = "method"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("PlayerStateMachine/SlidingPlayerState")
+tracks/6/path = NodePath("PlayerMovementStateMachine/SlidingPlayerState")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -509,9 +511,10 @@ properties/5/path = NodePath(".:char_anim_type_name")
 properties/5/spawn = true
 properties/5/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("STATE_MACHINE", "CAMERA_CONTROLLER", "ANIMATIONPLAYER", "WEAPON_CONTROLLER", "character_skeleton", "first_person_arms")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("MOVEMENT_STATE_MACHINE", "HEALTH_STATE_MACHINE", "CAMERA_CONTROLLER", "ANIMATIONPLAYER", "WEAPON_CONTROLLER", "character_skeleton", "first_person_arms")]
 script = ExtResource("1_symyc")
-STATE_MACHINE = NodePath("PlayerStateMachine")
+MOVEMENT_STATE_MACHINE = NodePath("PlayerMovementStateMachine")
+HEALTH_STATE_MACHINE = NodePath("PlayerHealthStateMachine")
 CAMERA_CONTROLLER = NodePath("CameraController/Recoil/Camera3D")
 ANIMATIONPLAYER = NodePath("AnimationPlayer")
 WEAPON_CONTROLLER = NodePath("CameraController/Recoil/Camera3D/WeaponRig/Weapon")
@@ -538,167 +541,166 @@ size = Vector3(100, 100, 100)
 [node name="WeaponRig" type="Node3D" parent="CameraController/Recoil/Camera3D"]
 
 [node name="Weapon" parent="CameraController/Recoil/Camera3D/WeaponRig" instance=ExtResource("2_j3ovn")]
-transform = Transform3D(0.0157074, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0157074, 0.134, -0.143, -0.261)
+transform = Transform3D(-0.240274, 0, 1.98551, 0, 2, 0, -1.98551, 0, -0.240274, 0.155, -0.183, -0.53)
+WEAPON_TYPE = ExtResource("4_t1t22")
 sway_speed = 1.8
 
-[node name="Character" parent="." instance=ExtResource("2_yqrof")]
+[node name="MuzzleFlash" parent="CameraController/Recoil/Camera3D/WeaponRig/Weapon/RecoilPosition/WeaponScene" index="0"]
+transform = Transform3D(1, 0, -2.23517e-08, 0, 1, 0, 2.23517e-08, 0, 1, 0.061, 0.037, 0)
+
+[node name="Character" parent="." instance=ExtResource("5_t1t22")]
 unique_name_in_owner = true
-transform = Transform3D(-0.01, 0, 8.74228e-10, 0, 0.01, 0, -8.74228e-10, 0, -0.01, 0, 0.136621, 0)
+transform = Transform3D(-0.01, 0, -8.74228e-10, 0, 0.01, 0, 8.74228e-10, 0, -0.01, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Character" index="0"]
 bones/0/position = Vector3(0.000160575, 101.121, 0.246213)
-bones/0/rotation = Quaternion(0, 0, 0, 1)
-bones/2/rotation = Quaternion(-0.0609327, -4.81724e-07, 7.89114e-06, 0.998142)
-bones/4/rotation = Quaternion(0.000196387, -1.81769e-09, -9.25563e-06, 1)
+bones/2/rotation = Quaternion(-0.0609327, -4.81725e-07, 7.89116e-06, 0.998142)
+bones/4/rotation = Quaternion(0.000196387, -1.81769e-09, -9.25565e-06, 1)
 bones/5/rotation = Quaternion(-3.46945e-18, 2.11758e-22, -6.2204e-22, 1)
-bones/8/rotation = Quaternion(0.0607367, 1.04596e-06, 1.34708e-06, 0.998154)
-bones/11/rotation = Quaternion(1.54074e-33, 0, 4.4081e-39, 1)
-bones/20/rotation = Quaternion(0.5295, 0.612704, -0.469609, 0.351697)
-bones/22/rotation = Quaternion(-0.0109973, -0.000826494, 0.0749383, 0.997127)
-bones/24/rotation = Quaternion(-0.0151396, -0.000784125, 0.0517177, 0.998547)
-bones/27/rotation = Quaternion(0.0528634, -0.175394, -0.0311951, 0.982583)
+bones/8/rotation = Quaternion(0.0607366, 1.04596e-06, 1.34708e-06, 0.998154)
+bones/11/rotation = Quaternion(1.54075e-33, 0, 4.40811e-39, 1)
+bones/20/rotation = Quaternion(0.5295, 0.612704, -0.46961, 0.351697)
+bones/22/rotation = Quaternion(-0.0109973, -0.000826493, 0.0749382, 0.997127)
+bones/24/rotation = Quaternion(-0.0151396, -0.000784127, 0.0517178, 0.998547)
+bones/27/rotation = Quaternion(0.0528633, -0.175393, -0.0311952, 0.982583)
 bones/30/rotation = Quaternion(-0.039162, -0.00071342, 0.0182001, 0.999067)
-bones/32/rotation = Quaternion(0.0678904, -6.95494e-18, 4.34684e-19, 0.997693)
-bones/34/rotation = Quaternion(-0.00250594, 4.03898e-28, -3.46946e-18, 0.999997)
-bones/37/rotation = Quaternion(0.148611, 0.0426093, 0.272299, 0.949712)
+bones/32/rotation = Quaternion(0.0678901, -6.95494e-18, 4.34682e-19, 0.997693)
+bones/34/rotation = Quaternion(-0.00250594, 1.25208e-26, -3.46946e-18, 0.999997)
+bones/37/rotation = Quaternion(0.148611, 0.0426094, 0.272299, 0.949712)
 bones/40/rotation = Quaternion(0.0344728, -2.08291e-17, -2.77721e-17, 0.999406)
-bones/43/rotation = Quaternion(-0.0332647, 4.33921e-18, 5.55419e-17, 0.999447)
-bones/47/rotation = Quaternion(0.0171877, -7.1926e-05, -0.00418407, 0.999844)
-bones/49/rotation = Quaternion(0.026041, 2.08237e-17, 4.33828e-19, 0.999661)
-bones/51/rotation = Quaternion(0.0231233, 1.38815e-17, 5.85626e-18, 0.999733)
+bones/43/rotation = Quaternion(-0.0332647, 4.33921e-18, 5.55421e-17, 0.999447)
+bones/47/rotation = Quaternion(0.0171877, -7.19259e-05, -0.00418407, 0.999844)
+bones/49/rotation = Quaternion(0.026041, 2.08238e-17, 4.33826e-19, 0.999661)
+bones/51/rotation = Quaternion(0.0231232, 1.38815e-17, 5.85628e-18, 0.999733)
 bones/54/rotation = Quaternion(-0.0328744, 0.000135097, -0.00410722, 0.999451)
-bones/57/rotation = Quaternion(0.0165206, 0, 8.6748e-19, 0.999864)
-bones/59/rotation = Quaternion(0.077493, 1.39196e-17, -3.58866e-18, 0.996993)
+bones/57/rotation = Quaternion(0.0165206, -3.07003e-26, 8.67478e-19, 0.999864)
+bones/59/rotation = Quaternion(0.077493, 1.39197e-17, -3.58866e-18, 0.996993)
 bones/62/rotation = Quaternion(-0.0250157, -0.000559483, 0.0223527, 0.999437)
 bones/64/rotation = Quaternion(0.013263, 3.46975e-17, 1.73488e-18, 0.999912)
-bones/66/rotation = Quaternion(0.00776503, 1.38782e-17, -5.20433e-18, 0.99997)
-bones/69/rotation = Quaternion(-0.529513, 0.612683, -0.469616, -0.351704)
-bones/71/rotation = Quaternion(-0.0109571, 0.000823589, -0.0749489, 0.997127)
-bones/72/rotation = Quaternion(-0.0151519, 0.000784623, -0.0517086, 0.998547)
-bones/75/rotation = Quaternion(0.0528621, 0.175376, 0.0311975, 0.982586)
+bones/66/rotation = Quaternion(0.00776504, 1.38782e-17, -5.20432e-18, 0.99997)
+bones/69/rotation = Quaternion(-0.529513, 0.612684, -0.469616, -0.351704)
+bones/71/rotation = Quaternion(-0.0109571, 0.000823589, -0.0749488, 0.997127)
+bones/72/rotation = Quaternion(-0.0151519, 0.000784626, -0.0517088, 0.998547)
+bones/75/rotation = Quaternion(0.0528622, 0.175376, 0.0311975, 0.982586)
 bones/78/rotation = Quaternion(-0.0391569, 0.000713215, -0.0181973, 0.999067)
-bones/80/rotation = Quaternion(0.0678881, -6.95494e-18, -3.04279e-18, 0.997693)
-bones/82/rotation = Quaternion(-0.002499, -4.85724e-17, -5.20419e-18, 0.999997)
+bones/80/rotation = Quaternion(0.0678881, -6.95491e-18, -3.04279e-18, 0.997693)
+bones/82/rotation = Quaternion(-0.00249899, -4.85724e-17, -5.2042e-18, 0.999997)
 bones/85/rotation = Quaternion(0.148605, -0.0426079, -0.272301, 0.949712)
-bones/88/rotation = Quaternion(0.0344723, 4.55636e-17, -1.3886e-17, 0.999406)
-bones/91/rotation = Quaternion(-0.0332606, -3.90529e-18, 1.38855e-17, 0.999447)
-bones/95/rotation = Quaternion(0.0171774, 7.18659e-05, 0.00418309, 0.999844)
-bones/97/rotation = Quaternion(0.0260575, -1.38825e-17, -1.95223e-18, 0.99966)
-bones/99/rotation = Quaternion(0.0231294, -6.94075e-18, 2.49433e-18, 0.999732)
-bones/102/rotation = Quaternion(-0.0328854, -0.000135115, 0.00410642, 0.999451)
-bones/105/rotation = Quaternion(0.0165428, 1.38797e-17, 8.67481e-19, 0.999863)
-bones/107/rotation = Quaternion(0.0774879, 6.48184e-27, 6.52483e-19, 0.996993)
-bones/110/rotation = Quaternion(-0.0250078, 0.00055934, -0.022354, 0.999437)
-bones/112/rotation = Quaternion(0.0132559, -6.9395e-18, 3.46975e-18, 0.999912)
-bones/114/rotation = Quaternion(0.00775845, -2.77564e-17, 1.73478e-18, 0.99997)
-bones/117/rotation = Quaternion(5.23594e-08, -0.0218304, 0.999762, 2.39789e-06)
-bones/120/rotation = Quaternion(-0.0181449, -0.00010777, 0.0059383, 0.999818)
+bones/88/rotation = Quaternion(0.0344724, 4.55636e-17, -1.3886e-17, 0.999406)
+bones/91/rotation = Quaternion(-0.0332607, -3.90529e-18, 1.38855e-17, 0.999447)
+bones/95/rotation = Quaternion(0.0171774, 7.1866e-05, 0.00418309, 0.999844)
+bones/97/rotation = Quaternion(0.0260574, -1.38825e-17, -1.95223e-18, 0.99966)
+bones/99/rotation = Quaternion(0.0231294, -6.94076e-18, 2.49433e-18, 0.999732)
+bones/102/rotation = Quaternion(-0.0328854, -0.000135116, 0.00410642, 0.999451)
+bones/105/rotation = Quaternion(0.0165428, 1.38797e-17, 8.6748e-19, 0.999863)
+bones/107/rotation = Quaternion(0.077488, 1.94455e-26, 6.52482e-19, 0.996993)
+bones/110/rotation = Quaternion(-0.0250078, 0.000559339, -0.022354, 0.999437)
+bones/112/rotation = Quaternion(0.0132559, -6.93952e-18, 3.46975e-18, 0.999912)
+bones/114/rotation = Quaternion(0.00775843, -2.77564e-17, 1.73477e-18, 0.99997)
+bones/117/rotation = Quaternion(5.23596e-08, -0.0218304, 0.999762, 2.39788e-06)
+bones/120/rotation = Quaternion(-0.0181449, -0.000107769, 0.00593828, 0.999818)
 bones/123/rotation = Quaternion(0.461782, 0.0161906, -0.00843085, 0.886806)
-bones/126/rotation = Quaternion(0.338737, -0.0272382, 0.00981096, 0.940436)
-bones/128/rotation = Quaternion(-1.54108e-06, -0.0218326, 0.999762, -7.05692e-05)
-bones/132/rotation = Quaternion(-0.0181426, 0.000108176, -0.00596146, 0.999818)
+bones/126/rotation = Quaternion(0.338736, -0.0272382, 0.00981094, 0.940436)
+bones/128/rotation = Quaternion(-1.54108e-06, -0.0218326, 0.999762, -7.0569e-05)
+bones/132/rotation = Quaternion(-0.0181426, 0.000108176, -0.00596147, 0.999818)
 bones/135/rotation = Quaternion(0.461782, -0.0162008, 0.00843615, 0.886806)
-bones/138/rotation = Quaternion(0.338735, 0.0272386, -0.00981107, 0.940436)
+bones/138/rotation = Quaternion(0.338736, 0.0272386, -0.00981108, 0.940436)
 
-[node name="Eyes" parent="Character/Skeleton3D" index="0"]
-layers = 4
+[node name="WeaponAttachment" parent="Character/Skeleton3D" index="9"]
+transform = Transform3D(-0.0283342, -0.991516, 0.126861, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843604, 0.154718, -73.4253, 142.865, -5.75821)
 
-[node name="default" parent="Character/Skeleton3D" index="1"]
-layers = 4
+[node name="HeadPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="0"]
+transform = Transform3D(99.9297, -0.8593, 3.65005, -0.0437582, 97.0651, 24.0492, -3.74958, -24.0339, 96.9965, -1.33989, 3.97977, 32.3041)
+joint_offset = Transform3D(1, -4.23516e-22, 0, 4.23516e-22, 1, 1.88079e-37, 0, -1.88079e-37, 1, 0.0248498, 1.60186, 0.0638622)
+body_offset = Transform3D(99.9297, -0.8593, 3.65005, -0.0437576, 97.0651, 24.0492, -3.74958, -24.0339, 96.9965, -1.33986, -157.019, 32.3976)
 
-[node name="Gloves" parent="Character/Skeleton3D" index="2"]
-layers = 4
+[node name="Spine2PhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="1"]
+transform = Transform3D(100, 0.000260436, -0.000161448, -0.000238939, 99.2622, 12.1249, 0.000191835, -12.1249, 99.2622, -9.54152e-05, 135.815, -4.01552)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.46903e-08, 3.62181e-15, -9.53675e-09)
+body_offset = Transform3D(100, -2.11899e-05, 3.09944e-05, 2.11896e-05, 100, -3.91006e-05, -3.09944e-05, 3.91006e-05, 100, 3.46903e-06, 0, 9.53674e-07)
 
-[node name="Body" parent="Character/Skeleton3D" index="3"]
-layers = 4
+[node name="Spine1PhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="2"]
+transform = Transform3D(100, 0.000281924, -0.000183859, -0.000257551, 99.2622, 12.1249, 0.000216686, -12.1249, 99.2622, -9.50695e-05, 135.816, -4.01552)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8147e-08, -1.52588e-07, -3.27418e-15)
+body_offset = Transform3D(100, 2.9765e-07, 8.58304e-06, -2.97941e-07, 100, 0, -8.58307e-06, 0, 100, 3.8147e-06, 1.52588e-05, 0)
 
-[node name="Eyewear" parent="Character/Skeleton3D" index="4"]
-layers = 4
+[node name="SpinePhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="3"]
+transform = Transform3D(100, -0.00153922, -0.000353262, 0.00157076, 99.2574, 12.1639, 0.00016341, -12.1639, 99.2574, 4.6363e-05, 110.978, -0.976967)
+body_offset = Transform3D(100, 3.02104e-05, -0.00016093, -3.02102e-05, 100, 3.8147e-06, 0.00016093, -3.8147e-06, 100, 0, 0, 0)
 
-[node name="Hats" parent="Character/Skeleton3D" index="5"]
-layers = 4
+[node name="HipsPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="4"]
+transform = Transform3D(100, 0, 5.17071e-07, 0, 100, 0, -5.17071e-07, 0, 100, 0.000160575, 101.121, 0.246213)
+body_offset = Transform3D(100, 0, 5.17071e-07, 0, 100, 0, -5.17071e-07, 0, 100, 0, 0, 0)
 
-[node name="Shoes" parent="Character/Skeleton3D" index="6"]
-layers = 4
+[node name="RightShoulderPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="5"]
+transform = Transform3D(-19.1843, -97.9179, 6.63653, -20.3609, -2.6441, -97.8695, 96.0073, -20.1268, -19.4297, -6.08528, 144.865, -3.31231)
+joint_offset = Transform3D(1, 1.49012e-08, -2.98023e-08, -1.49012e-08, 1, 3.72529e-09, 2.98023e-08, -3.72529e-09, 1, -3.05176e-07, -2.14579e-08, 1.04306e-14)
+joint_rotation = Vector3(-3.72529e-09, -2.98023e-08, -1.49012e-08)
+body_offset = Transform3D(100, 7.62939e-05, -2.28882e-05, -6.48499e-05, 100, 9.94205e-05, 9.53674e-06, -8.70228e-05, 100, 3.05176e-05, 2.14577e-06, 0)
 
-[node name="Tops" parent="Character/Skeleton3D" index="7"]
-layers = 4
+[node name="RightArmPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="6"]
+transform = Transform3D(98.9351, -7.82392, -12.2733, 9.5055, 98.5895, 13.7755, 11.0224, -14.7955, 98.2833, 9.7736, 2.70085, 16.9438)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.172039, 1.45431, 0.00575072)
+body_offset = Transform3D(4.63355, -33.6098, 94.0686, -99.6421, 5.10985, 6.73379, -7.06999, -94.044, -33.2528, 49.1352, -24.6123, 135.744)
 
-[node name="Bottoms" parent="Character/Skeleton3D" index="8"]
-layers = 4
+[node name="RightForearmPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="7"]
+transform = Transform3D(99.6312, -8.44129, -1.54199, 8.57481, 98.6195, 14.1656, 0.324944, -14.2456, 98.9796, 11.7818, 1.39335, 15.4958)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.454078, 1.48332, -0.015362)
+body_offset = Transform3D(4.64463, -33.4621, 94.1208, -99.6421, 5.10986, 6.73378, -7.06271, -94.0966, -33.105, 53.19, -52.7214, 135.86)
 
-[node name="DebugCameraBone" parent="Character/Skeleton3D" index="9"]
-transform = Transform3D(1, -1.56943e-05, -1.92332e-06, 1.58117e-05, 0.992574, 0.121639, 0, -0.121639, 0.992574, 4.6363e-05, 110.978, -0.976972)
+[node name="RightHandPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="8"]
+transform = Transform3D(98.3831, -17.689, -2.80377, 17.7281, 93.9595, 29.2801, -2.54494, -29.3037, 95.5762, -73.424, 142.86, -5.7571)
+joint_offset = Transform3D(1, -4.75593e-14, -2.16275e-26, 4.75593e-14, 1, 0, 2.16275e-26, -1.02859e-39, 1, -4.63211e-06, 4.85774e-05, 3.15486e-06)
+joint_rotation = Vector3(-1.4013e-45, -2.16275e-26, 4.75593e-14)
+body_offset = Transform3D(-2.60121, -14.1353, 98.9617, -99.8265, 5.59839, -1.82429, -5.28241, -98.8375, -14.2564, 0.000362396, -0.000728607, 0.00482178)
 
-[node name="WeaponAttachment" parent="Character/Skeleton3D" index="10"]
-transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843588, 0.154718, -73.4252, 142.865, -5.75817)
+[node name="LeftArmPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="9"]
+transform = Transform3D(-99.3377, 10.728, 4.11563, 11.3236, 85.3219, 50.9112, 1.95019, 51.04, -85.9716, -14.1403, 22.3904, -80.8617)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.173258, 1.45988, -0.00910491)
+body_offset = Transform3D(4.63353, -33.61, 94.0686, -99.6421, 5.10982, 6.73375, -7.06995, -94.0439, -33.2529, 50.7257, -24.6622, 135.765)
 
-[node name="HeadAttachment" parent="Character/Skeleton3D" index="11"]
-transform = Transform3D(1, -2.03215e-12, 4.54747e-13, 5.47118e-12, 1, -4.47035e-08, -9.09495e-13, 4.47035e-08, 1, -2.78961e-05, 160.999, -0.093473)
+[node name="LeftForearmPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="10"]
+transform = Transform3D(-99.0748, 4.41955, 12.832, 10.3571, 85.7225, 50.4419, -8.77058, 51.3042, -85.3871, -5.23978, 21.6459, -87.4147)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.451164, 1.47879, -0.00334439)
+body_offset = Transform3D(4.64441, -33.4621, 94.1207, -99.6421, 5.11003, 6.73358, -7.0628, -94.0966, -33.105, 51.8936, -52.4891, 135.852)
 
-[node name="Head" parent="Character/Skeleton3D/HeadAttachment" index="0"]
-transform = Transform3D(0.999985, 0.00039487, 0.00540023, -0.000372376, 0.999991, -0.00415, -0.00540149, 0.00414771, 0.999977, 0.125587, 9.07346, 1.85851)
+[node name="LeftHandPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="11"]
+transform = Transform3D(99.1553, 7.54992, -10.5465, -3.96875, 95.073, 30.7469, 12.3482, -30.0686, 94.5696, -13.2938, 7.79748, 35.1559)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.755695, 1.47267, -0.0630847)
+body_offset = Transform3D(-14.4046, 15.0079, -97.8124, 98.7251, -4.58463, -15.2424, -6.77191, -98.761, -14.1562, -17.3867, -68.816, 149.667)
 
-[node name="TorsoAttachment" parent="Character/Skeleton3D" index="12"]
-transform = Transform3D(1, -1.56943e-05, -1.92332e-06, 1.58117e-05, 0.992574, 0.121639, 0, -0.121639, 0.992574, 4.6363e-05, 110.978, -0.976972)
+[node name="LeftShoulderPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="12"]
+transform = Transform3D(-19.1876, 97.9174, -6.63469, 20.3629, -2.64116, -97.8692, -96.0062, -20.1298, -19.4321, 6.08515, 144.865, -3.31236)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+body_offset = Transform3D(100, 0, 1.33514e-05, -7.62939e-06, 100, -4.33922e-05, -5.72205e-06, 4.81606e-05, 100, 0, 0, 0)
 
-[node name="Torso" parent="Character/Skeleton3D/TorsoAttachment" index="0"]
-transform = Transform3D(0.999983, -0.00564268, -0.00128928, 0.00564237, 0.999984, -0.000227963, 0.00129026, 0.000220682, 0.999999, 1.61236, 10.219, 2.48349)
+[node name="RightUpLegPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="13"]
+transform = Transform3D(-100, -0.000479988, -1.43182e-05, 0.000480155, -99.9047, -4.36505, 6.64718e-06, -4.36505, 99.9047, -9.09377, 94.5093, 0.191022)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.41373e-16, 3.4106e-17, 2.38419e-09)
+body_offset = Transform3D(100, 2.96473e-07, 1.43182e-05, -2.96522e-07, 100, -1.43051e-06, -1.43182e-05, 1.43051e-06, 100, 0, 0, -2.38419e-07)
 
-[node name="CollisionShape3D" parent="Character/Skeleton3D/TorsoAttachment/Torso" index="0"]
-transform = Transform3D(0.999997, -0.00227661, -8.25524e-06, 0.00227656, 0.999996, -0.00170796, 1.23978e-05, 0.00170792, 0.999999, -0.879965, 3.66813, -0.652694)
+[node name="RightLegPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D/RightUpLegPhysicalBone" index="1"]
+collision_layer = 2
 
-[node name="RightArmAttachment" parent="Character/Skeleton3D" index="13"]
-transform = Transform3D(-0.0433152, -0.998072, 0.0444447, -0.197368, -0.0350612, -0.979702, 0.979372, -0.0512079, -0.195469, -18.696, 144.524, -5.90444)
+[node name="RightFootPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D/RightUpLegPhysicalBone/RightLegPhysicalBone" index="1"]
+collision_layer = 2
 
-[node name="RightArm" parent="Character/Skeleton3D/RightArmAttachment" index="0"]
-transform = Transform3D(-0.494936, 0.0234341, -0.868613, 0.0125456, -0.999339, -0.0341092, -0.868839, -0.027779, 0.494315, 0.539894, 13.0811, -0.328995)
+[node name="RightToePhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D/RightUpLegPhysicalBone/RightLegPhysicalBone/RightFootPhysicalBone" index="1"]
+collision_layer = 2
 
-[node name="CollisionShape3D" parent="Character/Skeleton3D/RightArmAttachment/RightArm" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="LeftUpLegPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D" index="14"]
+transform = Transform3D(99.9982, 0.594316, -0.0179011, -0.594586, 99.9526, -3.02106, -6.205e-05, 3.02111, 99.9544, -0.561724, -0.640583, -2.7282)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0909022, 0.952505, 0.000416029)
+body_offset = Transform3D(-99.9982, -0.608432, 0.0177111, 0.608139, -99.9891, -1.34532, 0.0258946, -1.34519, 99.9909, 9.66958, 95.1854, 1.23735)
 
-[node name="RightForearmAttachment" parent="Character/Skeleton3D" index="14"]
-transform = Transform3D(0.0600081, -0.998097, 0.0141681, -0.192691, -0.0255094, -0.980928, 0.979423, 0.0561336, -0.193855, -45.9559, 143.567, -7.30306)
+[node name="LeftLegPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D/LeftUpLegPhysicalBone" index="1"]
+collision_layer = 2
 
-[node name="RightForearm" parent="Character/Skeleton3D/RightForearmAttachment" index="0"]
-transform = Transform3D(0.999084, 0.00026229, -0.0428029, -0.000318319, 0.999999, -0.00128238, 0.0428033, 0.00129362, 0.999083, -0.496761, 13.7959, 0.763649)
+[node name="LeftFootPhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D/LeftUpLegPhysicalBone/LeftLegPhysicalBone" index="1"]
+collision_layer = 2
 
-[node name="RightHandAttachment" parent="Character/Skeleton3D" index="15"]
-transform = Transform3D(-0.0283342, -0.991516, 0.12686, 0.152335, -0.129712, -0.97978, 0.987923, -0.00843588, 0.154718, -73.4252, 142.865, -5.75817)
-
-[node name="RightHand" parent="Character/Skeleton3D/RightHandAttachment" index="0"]
-transform = Transform3D(0.999985, -0.00217008, -0.00501126, 0.000322633, 0.939528, -0.342473, 0.00545141, 0.342467, 0.939514, 0.120895, 8.33384, 1.75287)
-
-[node name="RightUpLegAttachment" parent="Character/Skeleton3D" index="16"]
-transform = Transform3D(-1, -4.79692e-06, -1.42109e-14, 4.79234e-06, -0.999047, -0.0436505, 2.09388e-07, -0.0436505, 0.999047, -9.09377, 94.5095, 0.191022)
-
-[node name="RightUpLeg" parent="Character/Skeleton3D/RightUpLegAttachment" index="0"]
-transform = Transform3D(0.999724, 0.022367, -0.00714871, -0.0223046, 0.999713, 0.00868466, 0.00734079, -0.00852284, 0.999937, 0.302721, 20.8282, 0.278803)
-
-[node name="RightLegAttachment" parent="Character/Skeleton3D" index="17"]
-transform = Transform3D(-0.999929, 0.0118657, 0.000430826, -0.0118622, -0.996735, -0.0798691, -0.000518286, -0.0798686, 0.996805, -9.09396, 54.2209, -1.56927)
-
-[node name="RightFootAttachment" parent="Character/Skeleton3D" index="18"]
-transform = Transform3D(-0.999279, -0.0227478, -0.0304026, -0.00893892, -0.637249, 0.770607, -0.0369036, 0.770323, 0.636586, -8.59777, 12.5403, -4.90915)
-
-[node name="RightFoot" parent="Character/Skeleton3D/RightFootAttachment" index="0"]
-transform = Transform3D(1, 0, 0, 1.49012e-08, 1, -1.11759e-08, 1.49012e-08, 3.35276e-08, 1, 0.093853, 7.04248, -8.51665)
-
-[node name="CollisionShape3D" parent="Character/Skeleton3D/RightFootAttachment/RightFoot" index="0"]
-transform = Transform3D(0.998548, -0.0341068, 0.0416983, 0.0347538, 0.999285, -0.014889, -0.0411606, 0.0163164, 0.999019, -0.5679, 1.75612, 8.01892)
-
-[node name="RightToeAttachment" parent="Character/Skeleton3D" index="19"]
-transform = Transform3D(-0.999363, 2.73064e-06, 0.0356774, 0.0356774, 0, 0.999364, 2.72319e-06, 1, -5.96046e-08, -8.96979, 2.11856, 7.68889)
-
-[node name="DebugCameraSubViewport" parent="Character" index="1"]
-visible = false
-
-[node name="SubViewport" parent="Character/DebugCameraSubViewport/ExternalCameraDebug" index="0"]
-render_target_update_mode = 0
-
-[node name="Camera3D" parent="Character/DebugCameraSubViewport/ExternalCameraDebug/SubViewport" index="0"]
-transform = Transform3D(-0.00841176, 0.00229625, -0.00489587, 0.000146172, 0.0091469, 0.00403892, 0.00540563, 0.00332588, -0.00772771, -0.8518, 1.77901, -1.14811)
-cull_mask = 1048573
+[node name="LeftToePhysicalBone" parent="Character/Skeleton3D/PhysicalBoneSimulator3D/LeftUpLegPhysicalBone/LeftLegPhysicalBone/LeftFootPhysicalBone" index="1"]
+collision_layer = 2
 
 [node name="AnimationTree" type="AnimationTree" parent="Character"]
 unique_name_in_owner = true
@@ -717,10 +719,6 @@ parameters/RifleWalk/WalkToward/blend_amount = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_sfv1e")
 
-[node name="PlaceholderMesh" type="MeshInstance3D" parent="CollisionShape3D"]
-visible = false
-mesh = SubResource("CapsuleMesh_symyc")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_sglur")
@@ -735,7 +733,7 @@ debug_shape_custom_color = Color(0, 1, 0, 1)
 
 [node name="UserInterface" parent="." instance=ExtResource("2_abrql")]
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportWeaponContainer" type="SubViewportContainer" parent="."]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -743,45 +741,63 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportWeaponContainer"]
 transparent_bg = true
 handle_input_locally = false
 render_target_update_mode = 0
 script = ExtResource("12_a1qjk")
 
-[node name="WeaponCamera" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("MAIN_CAMERA")]
+[node name="WeaponCamera" type="Camera3D" parent="SubViewportWeaponContainer/SubViewport" node_paths=PackedStringArray("MAIN_CAMERA")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48759, 0)
 cull_mask = 1048570
 script = ExtResource("13_j3ovn")
 MAIN_CAMERA = NodePath("../../../CameraController/Recoil/Camera3D/WeaponRig")
 
-[node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
+[node name="PlayerMovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
 script = ExtResource("5_afbqv")
 CURRENT_STATE = NodePath("IdlePlayerState")
 
-[node name="IdlePlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="IdlePlayerState" type="Node" parent="PlayerMovementStateMachine"]
 script = ExtResource("4_bls4j")
 
-[node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="WalkingPlayerState" type="Node" parent="PlayerMovementStateMachine"]
 script = ExtResource("5_fkugw")
 
-[node name="SprintingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="SprintingPlayerState" type="Node" parent="PlayerMovementStateMachine"]
 script = ExtResource("6_8fjmc")
 
-[node name="CrouchingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="CrouchingPlayerState" type="Node" parent="PlayerMovementStateMachine"]
 script = ExtResource("7_qiwj3")
 
-[node name="SlidingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="SlidingPlayerState" type="Node" parent="PlayerMovementStateMachine"]
 script = ExtResource("8_26q78")
 
-[node name="JumpingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="JumpingPlayerState" type="Node" parent="PlayerMovementStateMachine"]
 script = ExtResource("9_bectd")
 
-[node name="FallingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="FallingPlayerState" type="Node" parent="PlayerMovementStateMachine"]
 script = ExtResource("10_wvtmh")
+
+[node name="PlayerHealthStateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
+script = ExtResource("18_b2kln")
+CURRENT_STATE = NodePath("AlivePlayerState")
+
+[node name="AlivePlayerState" type="Node" parent="PlayerHealthStateMachine"]
+script = ExtResource("19_we0b7")
+
+[node name="InjuredPlayerState" type="Node" parent="PlayerHealthStateMachine"]
+script = ExtResource("20_221hk")
+
+[node name="DeadPlayerState" type="Node" parent="PlayerHealthStateMachine"]
+script = ExtResource("21_ghoj8")
+
+[node name="InvinciblePlayerState" type="Node" parent="PlayerHealthStateMachine"]
+script = ExtResource("22_t1t22")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_b2kln")
+
+[node name="DebugDraw" parent="." instance=ExtResource("23_ghoj8")]
 
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
 

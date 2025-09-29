@@ -12,16 +12,12 @@ func reset() -> void:
 
 ## Update text and image on the ContextComponent 
 func update(text: String, image: Texture2D = null) -> void:
-	if !is_multiplayer_authority():
-		return
 	icon.texture = image if image else default_icon
 	context.text = text
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if !is_multiplayer_authority():
-		return
 	SignalBus.interacton_focused.connect(update)
 	SignalBus.interacton_unfocused.connect(reset)
 	default_icon = GlobalInput.get_interact_icon_texture()
